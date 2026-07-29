@@ -135,7 +135,7 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
 .version-badge:hover{border-color:var(--ac)!important;color:var(--ac)!important}
 
 /* ═══ ONBOARDING ═══ */
-.onb-wrap{flex:1;display:flex;flex-direction:column;padding:env(safe-area-inset-top,20px) 20px 24px;min-height:100vh}
+.onb-wrap{flex:1;display:flex;flex-direction:column;padding:env(safe-area-inset-top,20px) 20px 24px}
 .onb-dots{display:flex;gap:6px;justify-content:center;margin-bottom:22px}
 .onb-dot{width:8px;height:8px;border-radius:50%;background:var(--bg4);transition:all .2s}
 .onb-dot.on{background:var(--ac);width:22px;border-radius:4px}
@@ -545,7 +545,7 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
 <!-- ONBOARDING -->
 <div class="screen" id="sc-onboarding" style="position:relative">
   <button class="onb-skip" onclick="onbFinish(true)">Saltar</button>
-  <div class="onb-wrap" id="onb-wrap"></div>
+  <div class="onb-wrap" id="onb-wrap" style="padding-bottom:50px"></div>
   <button onclick="cerrarSesionApp()" style="position:absolute;bottom:14px;left:0;right:0;margin:0 auto;width:fit-content;background:none;border:none;color:var(--txt3);font-size:12px;padding:8px;cursor:pointer">🚪 Cerrar sesión</button>
 </div>
 
