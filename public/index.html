@@ -1426,14 +1426,24 @@ function limpiarTimersActivos(){
   });
   serieTimers={};
 }
+ipt
 function guardarTandaFin(){
   pararTimerT();if(!getSesionHoy()){crearSesion();iniciarCrono();}
-  DB.sesionHoy.tandas.push({ejercicios:tandaActual.ejercicios.map(e=>{
+  const ejerciciosGuardar = tandaActual.ejercicios.map(e=>{
     if(e.esTiempo){
-      return {nombre:e.nombre,grupo:e.grupo,esTiempo:true,segs:e.segs,series:e.seriesData.map(s=>({segs:e.segs,completada:s.completada?1:0}))};
+      return {nombre:e.nombre,grupo:e.grupo,esTiempo:true,segs:e.segs,
+        series:e.seriesData.filter(s=>s.completada).map(s=>({segs:e.segs,completada:1}))};
     }
-    return {nombre:e.nombre,grupo:e.grupo,series:e.seriesData.map(s=>({reps:parseInt(s.repsReal||e.reps)||e.reps,peso:parseFloat(s.peso)||0}))};
-  })});
+    return {nombre:e.nombre,grupo:e.grupo,
+      series:e.seriesData.filter(s=>s.completada).map(s=>({reps:parseInt(s.repsReal||e.reps)||e.reps,peso:parseFloat(s.peso)||0}))};
+  }).filter(e=>e.series.length>0); // se descarta el ejercicio entero si no tildaste ninguna serie
+
+  if(!ejerciciosGuardar.length){
+    toast('No tildaste ninguna serie como hecha');
+    return;
+  }
+
+  DB.sesionHoy.tandas.push({ejercicios: ejerciciosGuardar});
   limpiarTimersActivos();
   guardarDB();clearTanda();timerTStart=null;toast('¡Tanda guardada! 💪');setTimeout(()=>goHome(),800);
 }
