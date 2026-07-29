@@ -519,8 +519,26 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
       </div>
     </div>
     <button class="btn btn-p" id="login-btn-principal" style="font-size:16px;padding:15px;margin-top:14px" onclick="intentarLogin()">Ingresar</button>
+    <div style="display:flex;align-items:center;gap:10px;margin:16px 0"><div style="flex:1;height:1px;background:var(--brd)"></div><span style="font-size:11px;color:var(--txt3)">O</span><div style="flex:1;height:1px;background:var(--brd)"></div></div>
+    <button class="btn btn-s" id="login-btn-google" onclick="intentarLoginGoogle()" style="display:flex;align-items:center;justify-content:center;gap:10px">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 3l6-6C34.1 5.1 29.3 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21 21-9.4 21-21c0-1.4-.1-2.7-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.9 18.9 13 24 13c3.1 0 5.8 1.1 8 3l6-6C34.1 5.1 29.3 3 24 3 15.9 3 8.9 7.6 6.3 14.7z"/><path fill="#4CAF50" d="M24 45c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 36.6 26.7 37.5 24 37.5c-5.3 0-9.7-3.4-11.3-8.1l-6.5 5C9.1 40.4 16 45 24 45z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.2 5.7l6.2 5.2C40.5 36.4 45 30.7 45 24c0-1.4-.1-2.7-.4-3.5z"/></svg>
+      Continuar con Google
+    </button>
     <button class="btn btn-s" id="login-btn-toggle" style="margin-top:8px" onclick="toggleModoLogin()">¿No tenés cuenta? Registrate</button>
     <p id="login-loading" style="display:none;text-align:center;color:var(--txt3);font-size:13px;margin-top:14px">Conectando…</p>
+  </div>
+</div>
+
+<!-- ROL PENDIENTE (usuarios nuevos por Google, que no eligieron rol en un formulario) -->
+<div class="screen" id="sc-rol-pendiente">
+  <div class="onb-wrap" style="justify-content:center">
+    <p class="onb-title">¡Ya casi! ¿Cómo vas a usar la app?</p>
+    <p class="onb-sub">Elegí tu rol para terminar de crear tu cuenta</p>
+    <div class="onb-opt" id="rolp-alumno" onclick="elegirRolPendiente('alumno')"><span class="onb-opt-ic">🏋️</span><div class="onb-opt-txt"><strong>Alumno</strong><span>Entreno y sigo mi progreso</span></div></div>
+    <div class="onb-opt" id="rolp-profesor" onclick="elegirRolPendiente('profesor')"><span class="onb-opt-ic">📋</span><div class="onb-opt-txt"><strong>Profesor</strong><span>Armo rutinas para mis alumnos</span></div></div>
+    <div class="onb-nav">
+      <button class="btn btn-p" id="rolp-btn" style="flex:1" onclick="confirmarRolPendiente()" disabled>Confirmar</button>
+    </div>
   </div>
 </div>
 
@@ -1853,7 +1871,9 @@ function traducirErrorFirebase(err){
     'auth/email-already-in-use':'Ya existe una cuenta con ese email.',
     'auth/weak-password':'La contraseña debe tener al menos 6 caracteres.',
     'auth/network-request-failed':'Sin conexión. Revisá tu internet e intentá de nuevo.',
-    'auth/too-many-requests':'Demasiados intentos. Esperá un minuto e intentá de nuevo.'
+    'auth/too-many-requests':'Demasiados intentos. Esperá un minuto e intentá de nuevo.',
+    'auth/popup-blocked':'El navegador bloqueó la ventana de Google. Habilitá los pop-ups para este sitio.',
+    'auth/account-exists-with-different-credential':'Ese email ya está registrado con otro método de acceso.'
   };
   return map[c]||('Ocurrió un error. Intentá de nuevo.'+(c?' ('+c+')':''));
 }
@@ -1884,6 +1904,53 @@ function cerrarSesionApp(){
   if(window.fbLogout)window.fbLogout().catch(e=>console.error(e));
 }
 // Llamada por el módulo Firebase cada vez que cambia el estado de sesión.
+async function intentarLoginGoogle(){
+  document.getElementById('login-error').style.display='none';
+  if(!window.fbLoginGoogle){mostrarErrorLogin('Conectando con el servidor, esperá un segundo e intentá de nuevo…');return;}
+  document.getElementById('login-loading').style.display='block';
+  document.getElementById('login-btn-google').disabled=true;
+  try{
+    await window.fbLoginGoogle();
+    // manejarEstadoAuth() se dispara solo desde onAuthStateChanged y decide qué pantalla mostrar
+  }catch(err){
+    console.error('Login con Google error:',err);
+    if(err&&err.code!=='auth/popup-closed-by-user'&&err.code!=='auth/cancelled-popup-request'){
+      mostrarErrorLogin(traducirErrorFirebase(err));
+    }
+  }finally{
+    document.getElementById('login-loading').style.display='none';
+    document.getElementById('login-btn-google').disabled=false;
+  }
+}
+let usuarioPendienteRol=null,rolPendienteElegido=null;
+function mostrarSelectorRolPendiente(user){
+  usuarioPendienteRol=user;rolPendienteElegido=null;
+  document.getElementById('rolp-alumno').classList.remove('sel');
+  document.getElementById('rolp-profesor').classList.remove('sel');
+  document.getElementById('rolp-btn').disabled=true;
+  document.getElementById('rolp-btn').textContent='Confirmar';
+  document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
+  document.getElementById('sc-rol-pendiente').classList.add('active');
+}
+function elegirRolPendiente(rol){
+  rolPendienteElegido=rol;
+  document.getElementById('rolp-alumno').classList.toggle('sel',rol==='alumno');
+  document.getElementById('rolp-profesor').classList.toggle('sel',rol==='profesor');
+  document.getElementById('rolp-btn').disabled=false;
+}
+async function confirmarRolPendiente(){
+  if(!rolPendienteElegido||!usuarioPendienteRol)return;
+  const btn=document.getElementById('rolp-btn');btn.disabled=true;btn.textContent='Guardando…';
+  try{
+    await window.fbCrearUsuarioConRol(usuarioPendienteRol.uid,usuarioPendienteRol.email||'',rolPendienteElegido);
+    await manejarEstadoAuth(usuarioPendienteRol);
+  }catch(e){
+    console.error('No se pudo guardar el rol:',e);
+    toast('No se pudo guardar. Probá de nuevo.');
+    btn.disabled=false;btn.textContent='Confirmar';
+  }
+}
+// Llamada por el módulo Firebase cada vez que cambia el estado de sesión.
 async function manejarEstadoAuth(user){
   usuarioActual=user;
   if(!user){
@@ -1892,16 +1959,32 @@ async function manejarEstadoAuth(user){
     return;
   }
   document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
+  let perfilRemoto=null,lecturaFallo=false;
   try{
-    if(window.fbLeerPerfil){
-      const perfilRemoto=await window.fbLeerPerfil(user.uid);
-      if(perfilRemoto){DB.perfil=perfilRemoto;guardarDB();}
-    }
+    if(window.fbLeerPerfil)perfilRemoto=await window.fbLeerPerfil(user.uid);
   }catch(e){
-    console.error('No se pudo leer el perfil remoto, sigo con el local si existe:',e);
+    console.error('No se pudo leer el perfil remoto:',e);
+    lecturaFallo=true;
   }
-  if(!DB.perfil)abrirOnboarding();
-  else goHome();
+  if(lecturaFallo&&DB.perfil){
+    // Sin conexión pero ya había un perfil guardado localmente: seguimos offline-first.
+    goHome();
+    return;
+  }
+  if(!perfilRemoto||!perfilRemoto.rol){
+    // Usuario nuevo sin rol asignado (típico de "Continuar con Google", que no
+    // pasa por el formulario de registro): hay que elegirlo antes de seguir.
+    mostrarSelectorRolPendiente(user);
+    return;
+  }
+  if(perfilRemoto.objetivo){
+    // Tiene rol Y ya completó el wizard de onboarding.
+    DB.perfil=perfilRemoto;guardarDB();
+    goHome();
+  } else {
+    // Tiene rol pero todavía no completó el wizard (objetivo/nivel/días/equipo).
+    abrirOnboarding();
+  }
 }
 
 const ONB_STEPS=[
@@ -2306,7 +2389,8 @@ if(DB.historial.length === 0 && DB.pesoCorporal.length === 0){
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
   import {
     getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
-    signOut, onAuthStateChanged, setPersistence, browserLocalPersistence
+    signOut, onAuthStateChanged, setPersistence, browserLocalPersistence,
+    GoogleAuthProvider, signInWithPopup
   } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
   import {
     getFirestore, doc, setDoc, getDoc, enableIndexedDbPersistence
@@ -2315,12 +2399,13 @@ if(DB.historial.length === 0 && DB.pesoCorporal.length === 0){
   // ═══ TODO: reemplazá esto con la config de TU proyecto ═══
   // Firebase Console → ⚙️ Configuración del proyecto → Tus apps → Config del SDK
   const firebaseConfig = {
-    apiKey: "TU_API_KEY",
-    authDomain: "TU_PROYECTO.firebaseapp.com",
-    projectId: "TU_PROYECTO",
-    storageBucket: "TU_PROYECTO.appspot.com",
-    messagingSenderId: "TU_SENDER_ID",
-    appId: "TU_APP_ID"
+    apiKey: "AIzaSyAXxOvqJzdryqODOJhTr2qr_v_gQjNv6xE",
+    authDomain: "entrenando-8a141.firebaseapp.com",
+    projectId: "entrenando-8a141",
+    storageBucket: "entrenando-8a141.firebasestorage.app",
+    messagingSenderId: "872343715857",
+    appId: "1:872343715857:web:b2c60279b943426872b1b0",
+    measurementId: "G-2GF163E16M"
   };
 
   const app = initializeApp(firebaseConfig);
@@ -2347,6 +2432,19 @@ if(DB.historial.length === 0 && DB.pesoCorporal.length === 0){
     return cred.user;
   };
   window.fbLogout = function(){ return signOut(auth); };
+
+  // Google Sign-In: el popup no permite preguntar el rol antes de autenticar,
+  // por eso el rol se completa después (ver sc-rol-pendiente en la app).
+  const googleProvider = new GoogleAuthProvider();
+  window.fbLoginGoogle = async function(){
+    const cred = await signInWithPopup(auth, googleProvider);
+    return cred.user;
+  };
+  window.fbCrearUsuarioConRol = async function(uid, email, rol){
+    await setDoc(doc(db, 'usuarios', uid), {
+      email, rol, profesorId: null, creadoEn: new Date().toISOString()
+    }, { merge: true });
+  };
 
   window.fbLeerPerfil = async function(uid){
     const snap = await getDoc(doc(db, 'usuarios', uid));
