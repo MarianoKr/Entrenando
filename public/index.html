@@ -192,6 +192,7 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
 <div class="screen" id="sc-home">
   <div class="topbar"><h2>GymWork 💪</h2></div>
   <div class="body">
+    <div id="home-alumno-content" style="display:flex;flex-direction:column;gap:13px">
     <div class="fecha-btn" onclick="abrirModal('modal-fecha')">
       <span style="font-size:22px">📅</span>
       <div style="flex:1"><div style="font-size:15px;font-weight:700;color:var(--txt)" id="home-fecha-txt">–</div><div style="font-size:11px;color:var(--txt2)">Tocá para cambiar la fecha</div></div>
@@ -216,6 +217,10 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
       <div style="flex:1"><p style="font-size:14px;font-weight:800;color:var(--txt)">Rutinas y Estaciones</p><p style="font-size:11px;color:var(--txt2)">Plantillas, variantes con IA y circuitos funcionales</p></div>
       <span style="color:var(--txt3)">›</span>
     </div>
+    <div id="banner-vincular-profesor" style="display:none;background:linear-gradient(135deg,#221b15,#2c2116);border:1px solid var(--ac);border-radius:14px;padding:14px 16px;cursor:pointer" onclick="goTo('vincular-profesor')">
+      <div class="row-b"><p style="font-size:13px;font-weight:800;color:var(--txt)">👨‍🏫 Vinculate con tu profesor</p><span style="color:var(--txt3)">›</span></div>
+      <p style="font-size:11px;color:var(--txt2);margin-top:2px">Así puede armarte y seguir tu rutina</p>
+    </div>
     <div id="sec-rapido" style="display:none"><p class="sec">⚡ Recientes</p><div class="quick-scroll" id="quick-list"></div></div>
     <p class="sec">📋 Últimas sesiones</p>
     <div id="home-hist"></div>
@@ -230,12 +235,14 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
         FORJA v2.5 — ¿Qué hay de nuevo?
       </span>
     </div>
+    </div>
+    <div id="home-profesor-content" style="display:none"></div>
   </div>
   <div class="bottomnav">
     <button class="bnav active" onclick="goHome()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Inicio</button>
     <button class="bnav" onclick="goTo('historial')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Historial</button>
-    <button class="bnav" onclick="goTo('ia')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>IA</button>
-    <button class="bnav" onclick="goTo('stats')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Progreso</button>
+    <button class="bnav" onclick="goTo('ia')" data-slot="ia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>IA</button>
+    <button class="bnav" onclick="goTo('stats')" data-slot="stats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Progreso</button>
     <button class="bnav" onclick="goTo('rutinas')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6.5 6.5 17.5 17.5"/><path d="M4 8l2-2 2 2-2 2z"/><path d="M20 16l-2 2-2-2 2-2z"/><path d="M14.5 4.5l2 2M17.5 6.5l1-1M4.5 14.5l2 2M6.5 17.5l1-1"/></svg>Rutinas</button>
     <button class="bnav" onclick="goTo('libreria')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>Ejercicios</button>
   </div>
@@ -254,13 +261,13 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
     <div id="resumen-hoy-nueva" style="display:none"></div>
     <p class="sec">Ejercicios de esta tanda</p>
     <div id="lista-rut"></div>
-    <button class="btn btn-s" onclick="goTo('agregar')">+ Agregar ejercicio</button>
+    <button class="btn btn-s" onclick="destinoAgregar='tanda';goTo('agregar')">+ Agregar ejercicio</button>
   </div>
 </div>
 
 <!-- AGREGAR -->
 <div class="screen" id="sc-agregar">
-  <div class="topbar"><button class="back" onclick="goTo('nueva')">←</button><h2>Elegir ejercicio</h2></div>
+  <div class="topbar"><button class="back" onclick="volverDeAgregar()">←</button><h2>Elegir ejercicio</h2></div>
   <div class="body">
     <input type="text" id="buscador" placeholder="🔍 Buscar o crear nuevo..." oninput="filtrar(this.value)">
     <div class="chips" id="chips-grupo">
@@ -366,7 +373,7 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
     <button class="bnav" onclick="goHome()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Inicio</button>
     <button class="bnav" onclick="goTo('historial')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Historial</button>
     <button class="bnav active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>IA</button>
-    <button class="bnav" onclick="goTo('stats')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Progreso</button>
+    <button class="bnav" onclick="goTo('stats')" data-slot="stats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Progreso</button>
     <button class="bnav" onclick="goTo('rutinas')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6.5 6.5 17.5 17.5"/><path d="M4 8l2-2 2 2-2 2z"/><path d="M20 16l-2 2-2-2 2-2z"/><path d="M14.5 4.5l2 2M17.5 6.5l1-1M4.5 14.5l2 2M6.5 17.5l1-1"/></svg>Rutinas</button>
     <button class="bnav" onclick="goTo('libreria')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>Ejercicios</button>
   </div>
@@ -379,8 +386,8 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
   <div class="bottomnav">
     <button class="bnav" onclick="goHome()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Inicio</button>
     <button class="bnav active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Historial</button>
-    <button class="bnav" onclick="goTo('ia')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>IA</button>
-    <button class="bnav" onclick="goTo('stats')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Progreso</button>
+    <button class="bnav" onclick="goTo('ia')" data-slot="ia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>IA</button>
+    <button class="bnav" onclick="goTo('stats')" data-slot="stats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Progreso</button>
     <button class="bnav" onclick="goTo('rutinas')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6.5 6.5 17.5 17.5"/><path d="M4 8l2-2 2 2-2 2z"/><path d="M20 16l-2 2-2-2 2-2z"/><path d="M14.5 4.5l2 2M17.5 6.5l1-1M4.5 14.5l2 2M6.5 17.5l1-1"/></svg>Rutinas</button>
     <button class="bnav" onclick="goTo('libreria')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>Ejercicios</button>
   </div>
@@ -393,7 +400,7 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
   <div class="bottomnav">
     <button class="bnav" onclick="goHome()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Inicio</button>
     <button class="bnav" onclick="goTo('historial')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Historial</button>
-    <button class="bnav" onclick="goTo('ia')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>IA</button>
+    <button class="bnav" onclick="goTo('ia')" data-slot="ia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>IA</button>
     <button class="bnav active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Progreso</button>
     <button class="bnav" onclick="goTo('rutinas')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6.5 6.5 17.5 17.5"/><path d="M4 8l2-2 2 2-2 2z"/><path d="M20 16l-2 2-2-2 2-2z"/><path d="M14.5 4.5l2 2M17.5 6.5l1-1M4.5 14.5l2 2M6.5 17.5l1-1"/></svg>Rutinas</button>
     <button class="bnav" onclick="goTo('libreria')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>Ejercicios</button>
@@ -407,8 +414,8 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
   <div class="bottomnav">
     <button class="bnav" onclick="goHome()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Inicio</button>
     <button class="bnav" onclick="goTo('historial')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Historial</button>
-    <button class="bnav" onclick="goTo('ia')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>IA</button>
-    <button class="bnav" onclick="goTo('stats')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Progreso</button>
+    <button class="bnav" onclick="goTo('ia')" data-slot="ia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>IA</button>
+    <button class="bnav" onclick="goTo('stats')" data-slot="stats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Progreso</button>
     <button class="bnav" onclick="goTo('rutinas')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6.5 6.5 17.5 17.5"/><path d="M4 8l2-2 2 2-2 2z"/><path d="M20 16l-2 2-2-2 2-2z"/><path d="M14.5 4.5l2 2M17.5 6.5l1-1M4.5 14.5l2 2M6.5 17.5l1-1"/></svg>Rutinas</button>
     <button class="bnav active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>Ejercicios</button>
   </div>
@@ -554,6 +561,7 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
   <div class="topbar"><h2>Entrená</h2><button class="back" onclick="goTo('onboarding')" title="Editar perfil" style="font-size:18px">⚙️</button></div>
   <div class="body">
     <div class="cfg-tabs" style="border-radius:12px;overflow:hidden;border:1px solid var(--brd)">
+      <button class="cfg-tab" id="rt-tab-mia" onclick="setRutinasTab('mia')">⭐ Mi rutina</button>
       <button class="cfg-tab" id="rt-tab-plantillas" onclick="setRutinasTab('plantillas')">📋 Rutinas</button>
       <button class="cfg-tab" id="rt-tab-estaciones" onclick="setRutinasTab('estaciones')">⏱ Estaciones</button>
     </div>
@@ -562,8 +570,8 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
   <div class="bottomnav">
     <button class="bnav" onclick="goHome()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Inicio</button>
     <button class="bnav" onclick="goTo('historial')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Historial</button>
-    <button class="bnav" onclick="goTo('ia')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>IA</button>
-    <button class="bnav" onclick="goTo('stats')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Progreso</button>
+    <button class="bnav" onclick="goTo('ia')" data-slot="ia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>IA</button>
+    <button class="bnav" onclick="goTo('stats')" data-slot="stats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Progreso</button>
     <button class="bnav active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6.5 6.5 17.5 17.5"/><path d="M4 8l2-2 2 2-2 2z"/><path d="M20 16l-2 2-2-2 2-2z"/><path d="M14.5 4.5l2 2M17.5 6.5l1-1M4.5 14.5l2 2M6.5 17.5l1-1"/></svg>Rutinas</button>
   </div>
 </div>
@@ -601,6 +609,40 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
 <div class="screen" id="sc-estacion-run">
   <div class="topbar"><button class="back" onclick="salirEstacion()">←</button><h2>Estación</h2><span id="est-run-ronda" style="font-size:13px;font-weight:700;color:var(--ac)"></span></div>
   <div class="station-run" id="est-run-body"></div>
+</div>
+
+<!-- VINCULAR PROFESOR (alumno) -->
+<div class="screen" id="sc-vincular-profesor">
+  <div class="topbar"><button class="back" onclick="goHome()">←</button><h2>Tu profesor</h2></div>
+  <div class="body" id="vincular-profesor-body"></div>
+</div>
+
+<!-- MIS ALUMNOS (profesor) -->
+<div class="screen" id="sc-mis-alumnos">
+  <div class="topbar"><h2>👥 Mis alumnos</h2></div>
+  <div class="body" id="mis-alumnos-body"></div>
+  <div class="bottomnav">
+    <button class="bnav" onclick="goHome()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Inicio</button>
+    <button class="bnav" onclick="goTo('historial')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Historial</button>
+    <button class="bnav active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Alumnos</button>
+    <button class="bnav" onclick="goTo('mis-gimnasios')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2v20M18 2v20M2 7h4M2 12h4M2 17h4M18 7h4M18 12h4M18 17h4M6 12h12"/></svg>Gimnasios</button>
+    <button class="bnav" onclick="goTo('rutinas')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6.5 6.5 17.5 17.5"/><path d="M4 8l2-2 2 2-2 2z"/><path d="M20 16l-2 2-2-2 2-2z"/><path d="M14.5 4.5l2 2M17.5 6.5l1-1M4.5 14.5l2 2M6.5 17.5l1-1"/></svg>Rutinas</button>
+    <button class="bnav" onclick="goTo('libreria')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>Ejercicios</button>
+  </div>
+</div>
+
+<!-- MIS GIMNASIOS (profesor) -->
+<div class="screen" id="sc-mis-gimnasios">
+  <div class="topbar"><h2>🏢 Mis gimnasios</h2></div>
+  <div class="body" id="mis-gimnasios-body"></div>
+  <div class="bottomnav">
+    <button class="bnav" onclick="goHome()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Inicio</button>
+    <button class="bnav" onclick="goTo('historial')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Historial</button>
+    <button class="bnav" onclick="goTo('mis-alumnos')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Alumnos</button>
+    <button class="bnav active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2v20M18 2v20M2 7h4M2 12h4M2 17h4M18 7h4M18 12h4M18 17h4M6 12h12"/></svg>Gimnasios</button>
+    <button class="bnav" onclick="goTo('rutinas')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6.5 6.5 17.5 17.5"/><path d="M4 8l2-2 2 2-2 2z"/><path d="M20 16l-2 2-2-2 2-2z"/><path d="M14.5 4.5l2 2M17.5 6.5l1-1M4.5 14.5l2 2M6.5 17.5l1-1"/></svg>Rutinas</button>
+    <button class="bnav" onclick="goTo('libreria')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>Ejercicios</button>
+  </div>
 </div>
 
 </div>
@@ -930,7 +972,7 @@ function _dbDefault(){
     {id:15,nombre:'Remo barra',grupo:'espalda'},{id:16,nombre:'Fondos',grupo:'triceps'},
     {id:17,nombre:'Crunches',grupo:'core'},{id:18,nombre:'Plancha',grupo:'core'},
     {id:19,nombre:'Press militar',grupo:'hombro'},{id:20,nombre:'Zancadas',grupo:'piernas'},
-  ],historial:[],sesionHoy:null,pesoCorporal:[],fechaActual:new Date().toISOString().slice(0,10),nextId:21,perfil:null};
+  ],historial:[],sesionHoy:null,pesoCorporal:[],fechaActual:new Date().toISOString().slice(0,10),nextId:21,perfil:null,rutinaPropia:null};
 }
 function cargarDB(){
   if(_checkStorage()){
@@ -1060,6 +1102,9 @@ function goTo(s){
   if(s==='ia')renderIA();
   if(s==='rutinas')renderRutinas();
   if(s==='resumen-dia')renderResumenDia();
+  if(s==='mis-alumnos')renderMisAlumnos();
+  if(s==='mis-gimnasios')renderMisGimnasios();
+  if(s==='vincular-profesor')renderVincularProfesor();
   if(s==='cerrar-dia'){
     // Update crono display
     var ses2=getSesionHoy();
@@ -1073,6 +1118,17 @@ function goHome(){
   document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
   document.getElementById('sc-home').classList.add('active');
   window.scrollTo(0,0);
+  const esProfesor=DB.perfil&&DB.perfil.rol==='profesor';
+  document.getElementById('home-alumno-content').style.display=esProfesor?'none':'flex';
+  document.getElementById('home-profesor-content').style.display=esProfesor?'flex':'none';
+  if(esProfesor){
+    document.querySelector('#sc-home .topbar h2').textContent='Panel del profesor';
+    renderHomeProfesor();
+    return;
+  }
+  document.querySelector('#sc-home .topbar h2').textContent='GymWork 💪';
+  const bv=document.getElementById('banner-vincular-profesor');
+  if(bv)bv.style.display=(DB.perfil&&!DB.perfil.profesorId)?'block':'none';
   renderFechaHome();renderBannerHoy();renderHomeHist();renderQuick();
   const ses=getSesionHoy(),cw=document.getElementById('crono-dia-wrap');
   if(ses&&ses.startMs){cw.style.display='block';iniciarCrono();}else{cw.style.display='none';pararCrono();}
@@ -1359,6 +1415,27 @@ function crearNuevo(){const n=document.getElementById('buscador').value.trim();i
 function confirmarConfig(){
   const s=parseInt(document.getElementById('cfg-series').value)||3;
   const b=barraActiva?(parseFloat(document.getElementById('cfg-barra').value)||0):0;
+  if(destinoAgregar==='rutinaPropia'){
+    let nuevoEj;
+    if(ejTiempo){
+      const segs=parseInt(document.getElementById('cfg-segs').value)||0;
+      if(!segs){toast('Seleccioná la duración');return;}
+      nuevoEj={nombre:exEnConfig.nombre,grupo:exEnConfig.grupo,series:s,reps:0,esTiempo:true,segs:segs};
+    } else {
+      const r=document.getElementById('cfg-reps').value;
+      if(!r){toast('Ingresá las repeticiones');return;}
+      nuevoEj={nombre:exEnConfig.nombre,grupo:exEnConfig.grupo,series:s,reps:parseInt(r),esTiempo:false,segs:0};
+    }
+    if(!rutinaVista)rutinaVista={nombre:'Mi rutina',origen:'propia',ejercicios:[]};
+    if(!rutinaVista.ejercicios)rutinaVista.ejercicios=[];
+    rutinaVista.ejercicios.push(nuevoEj);
+    rutinaVista.actualizadoEn=new Date().toISOString();
+    guardarRutinaVista();
+    destinoAgregar='tanda';
+    toast(nuevoEj.nombre+' agregado a la rutina ✓');
+    goTo('rutinas');setRutinasTab('mia');
+    return;
+  }
   if(ejTiempo){
     // Time-based exercise
     const segs=parseInt(document.getElementById('cfg-segs').value)||0;
@@ -1426,24 +1503,14 @@ function limpiarTimersActivos(){
   });
   serieTimers={};
 }
-ipt
 function guardarTandaFin(){
   pararTimerT();if(!getSesionHoy()){crearSesion();iniciarCrono();}
-  const ejerciciosGuardar = tandaActual.ejercicios.map(e=>{
+  DB.sesionHoy.tandas.push({ejercicios:tandaActual.ejercicios.map(e=>{
     if(e.esTiempo){
-      return {nombre:e.nombre,grupo:e.grupo,esTiempo:true,segs:e.segs,
-        series:e.seriesData.filter(s=>s.completada).map(s=>({segs:e.segs,completada:1}))};
+      return {nombre:e.nombre,grupo:e.grupo,esTiempo:true,segs:e.segs,series:e.seriesData.map(s=>({segs:e.segs,completada:s.completada?1:0}))};
     }
-    return {nombre:e.nombre,grupo:e.grupo,
-      series:e.seriesData.filter(s=>s.completada).map(s=>({reps:parseInt(s.repsReal||e.reps)||e.reps,peso:parseFloat(s.peso)||0}))};
-  }).filter(e=>e.series.length>0); // se descarta el ejercicio entero si no tildaste ninguna serie
-
-  if(!ejerciciosGuardar.length){
-    toast('No tildaste ninguna serie como hecha');
-    return;
-  }
-
-  DB.sesionHoy.tandas.push({ejercicios: ejerciciosGuardar});
+    return {nombre:e.nombre,grupo:e.grupo,series:e.seriesData.map(s=>({reps:parseInt(s.repsReal||e.reps)||e.reps,peso:parseFloat(s.peso)||0}))};
+  })});
   limpiarTimersActivos();
   guardarDB();clearTanda();timerTStart=null;toast('¡Tanda guardada! 💪');setTimeout(()=>goHome(),800);
 }
@@ -1978,6 +2045,7 @@ async function manejarEstadoAuth(user){
   }
   if(lecturaFallo&&DB.perfil){
     // Sin conexión pero ya había un perfil guardado localmente: seguimos offline-first.
+    aplicarNavSegunRol();
     goHome();
     return;
   }
@@ -1990,9 +2058,12 @@ async function manejarEstadoAuth(user){
   if(perfilRemoto.objetivo){
     // Tiene rol Y ya completó el wizard de onboarding.
     DB.perfil=perfilRemoto;guardarDB();
+    aplicarNavSegunRol();
     goHome();
   } else {
     // Tiene rol pero todavía no completó el wizard (objetivo/nivel/días/equipo).
+    DB.perfil=perfilRemoto;guardarDB();
+    aplicarNavSegunRol();
     abrirOnboarding();
   }
 }
@@ -2049,12 +2120,14 @@ function onbNext(){
 }
 function onbBack(){if(onbIdx>0){onbIdx--;renderOnboarding();}}
 function onbFinish(skip){
-  if(skip){DB.perfil=DB.perfil||{nombre:'',objetivo:'hipertrofia',nivel:'principiante',dias:'3',equipo:'gym'};}
-  else{DB.perfil={nombre:onbData.nombre||'',objetivo:onbData.objetivo||'hipertrofia',nivel:onbData.nivel||'principiante',dias:onbData.dias||'3',equipo:onbData.equipo||'gym'};}
+  const base=DB.perfil||{};
+  if(skip){DB.perfil=Object.assign({},base,{objetivo:base.objetivo||'hipertrofia',nivel:base.nivel||'principiante',dias:base.dias||'3',equipo:base.equipo||'gym'});}
+  else{DB.perfil=Object.assign({},base,{nombre:onbData.nombre||base.nombre||'',objetivo:onbData.objetivo||'hipertrofia',nivel:onbData.nivel||'principiante',dias:onbData.dias||'3',equipo:onbData.equipo||'gym'});}
   guardarDB();
   if(usuarioActual&&window.fbGuardarPerfil){
     window.fbGuardarPerfil(usuarioActual.uid,DB.perfil).catch(e=>console.error('No se pudo guardar el perfil en la nube (queda guardado localmente):',e));
   }
+  aplicarNavSegunRol();
   goHome();
   toast(DB.perfil.nombre?'¡Listo, '+DB.perfil.nombre+'! 💪':'¡Perfil guardado! 💪');
 }
@@ -2097,11 +2170,18 @@ const RUTINAS_BASE=[
 ];
 const OBJ_LABEL={fuerza:'Fuerza',hipertrofia:'Hipertrofia',funcional:'Funcional',perdida:'Bajar de grasa'};
 const NIV_LABEL={principiante:'Principiante',intermedio:'Intermedio',avanzado:'Avanzado'};
-let rutinasTab='plantillas';
-function setRutinasTab(t){rutinasTab=t;document.getElementById('rt-tab-plantillas').classList.toggle('active',t==='plantillas');document.getElementById('rt-tab-estaciones').classList.toggle('active',t==='estaciones');renderRutinasBody();}
+let rutinasTab='mia';
+function setRutinasTab(t){
+  rutinasTab=t;
+  document.getElementById('rt-tab-mia').classList.toggle('active',t==='mia');
+  document.getElementById('rt-tab-plantillas').classList.toggle('active',t==='plantillas');
+  document.getElementById('rt-tab-estaciones').classList.toggle('active',t==='estaciones');
+  renderRutinasBody();
+}
 function renderRutinas(){setRutinasTab(rutinasTab);}
 function renderRutinasBody(){
   const b=document.getElementById('rutinas-body');
+  if(rutinasTab==='mia'){renderMiRutinaTab();return;}
   if(rutinasTab==='plantillas'){
     const perfil=DB.perfil;
     let lista=RUTINAS_BASE.slice();
@@ -2130,6 +2210,284 @@ function renderRutinasBody(){
   }
 }
 let rutinaActualBase=null,rutinaActualLista=null;
+// ═══ MI RUTINA (compartida entre alumno y su profesor) ═══
+let rutinaVista=null,rutinaTargetUid=null,rutinaTargetNombre=null,alumnosDelProfesor=null;
+function guardarRutinaVista(){
+  const uid=rutinaTargetUid||(usuarioActual&&usuarioActual.uid);
+  if(!rutinaTargetUid){DB.rutinaPropia=rutinaVista;guardarDB();}
+  if(uid&&window.fbGuardarRutinaPropia){
+    window.fbGuardarRutinaPropia(uid,rutinaVista).catch(e=>console.error('No se pudo sincronizar la rutina con la nube (queda guardada localmente):',e));
+  }
+}
+async function renderMiRutinaTab(){
+  const b=document.getElementById('rutinas-body');
+  const esProfesor=DB.perfil&&DB.perfil.rol==='profesor';
+  if(esProfesor&&!rutinaTargetUid){
+    b.innerHTML='<div class="empty"><div style="font-size:40px">👥</div><p style="color:var(--txt2);font-size:13px">Cargando tus alumnos…</p></div>';
+    try{
+      if(!alumnosDelProfesor)alumnosDelProfesor=await window.fbListarAlumnos(usuarioActual.uid);
+    }catch(e){console.error('No se pudo cargar la lista de alumnos:',e);alumnosDelProfesor=[];}
+    renderListaAlumnos();
+    return;
+  }
+  b.innerHTML='<div class="empty"><div style="font-size:40px">⭐</div><p style="color:var(--txt2);font-size:13px">Cargando tu rutina…</p></div>';
+  if(!rutinaVista)rutinaVista=DB.rutinaPropia;
+  renderMiRutinaEditor();
+  // Refresco silencioso desde la nube (por si se editó desde otro dispositivo/el profesor)
+  const uid=rutinaTargetUid||(usuarioActual&&usuarioActual.uid);
+  if(uid&&window.fbLeerRutinaPropia){
+    try{
+      const remota=await window.fbLeerRutinaPropia(uid);
+      if(remota){
+        rutinaVista=remota;
+        if(!rutinaTargetUid){DB.rutinaPropia=remota;guardarDB();}
+        renderMiRutinaEditor();
+      }
+    }catch(e){console.error('No se pudo traer la rutina desde la nube, muestro la local:',e);}
+  }
+}
+function renderListaAlumnos(){
+  const b=document.getElementById('rutinas-body');
+  if(!alumnosDelProfesor||!alumnosDelProfesor.length){
+    b.innerHTML='<div class="empty"><div style="font-size:40px">👥</div><p style="color:var(--txt2);font-size:13px">Todavía no tenés alumnos vinculados a tu cuenta.</p></div>';
+    return;
+  }
+  b.innerHTML='<p class="sec">Tus alumnos</p>'+alumnosDelProfesor.map(a=>`<div class="rutina-card tag-fuerza" style="cursor:pointer" onclick="abrirRutinaDeAlumno('${a.uid}','${(a.nombre||a.email||'Alumno').replace(/'/g,"\\'")}')">
+    <div class="row-b"><p style="font-weight:800;font-size:15px;color:var(--txt)">${a.nombre||a.email||'Alumno'}</p><span style="color:var(--txt3)">›</span></div>
+    <p style="font-size:11px;color:var(--txt3)">${a.email||''}</p>
+  </div>`).join('');
+}
+async function abrirRutinaDeAlumno(uid,nombre){
+  rutinaTargetUid=uid;rutinaTargetNombre=nombre;rutinaVista=null;
+  renderMiRutinaTab();
+}
+function volverAMisAlumnos(){rutinaTargetUid=null;rutinaTargetNombre=null;rutinaVista=null;renderMiRutinaTab();}
+function renderMiRutinaEditor(){
+  const b=document.getElementById('rutinas-body');
+  const encabezado=rutinaTargetUid?`<div class="row-b" style="margin-top:12px"><button class="btn btn-s" style="padding:8px 12px;font-size:12px" onclick="volverAMisAlumnos()">← Mis alumnos</button><span style="font-size:13px;font-weight:700;color:var(--txt2)">Rutina de ${rutinaTargetNombre||'tu alumno'}</span></div>`:'<div style="height:12px"></div>';
+  if(!rutinaVista||!rutinaVista.ejercicios||!rutinaVista.ejercicios.length){
+    b.innerHTML=encabezado+`<div class="empty"><div style="font-size:40px">⭐</div><p style="font-weight:700;color:var(--txt)">Todavía no ${rutinaTargetUid?'tiene':'tenés'} una rutina propia</p><p style="font-size:12px;color:var(--txt2);margin-bottom:12px">Armala desde cero o elegí una plantilla y copiala como ${rutinaTargetUid?'la suya':'la tuya'}.</p>
+      <button class="btn btn-p" onclick="abrirAgregarParaRutinaPropia()">➕ Agregar ejercicio</button>
+      <button class="btn btn-s" onclick="setRutinasTab('plantillas')" style="margin-top:8px">📋 Ver plantillas</button>
+    </div>`;
+    return;
+  }
+  const origenTxt={propia:'Armada a mano',plantilla:'Copiada de una plantilla',profesor:'Asignada por tu profesor'}[rutinaVista.origen]||'';
+  b.innerHTML=encabezado+`
+    <div class="rutina-card tag-hipertrofia" style="margin-top:8px">
+      <div class="row-b"><p style="font-weight:800;font-size:16px;color:var(--txt)">${rutinaVista.nombre||'Mi rutina'}</p>${origenTxt?`<span class="tag">${origenTxt}</span>`:''}</div>
+    </div>
+    ${rutinaVista.ejercicios.map((e,i)=>`<div class="ex-card">${gifImg(e,'44px')}<div style="flex:1"><p style="font-weight:700;font-size:14px;color:var(--txt)">${e.nombre}</p><p style="font-size:12px;color:var(--txt2)">${e.esTiempo?e.series+'×'+e.segs+'s':e.series+'×'+e.reps+' reps'}</p></div><button onclick="quitarDeMiRutina(${i})" style="background:none;border:none;color:var(--err);font-size:20px;cursor:pointer;padding:2px 6px">×</button></div>`).join('')}
+    <button class="btn btn-s" onclick="abrirAgregarParaRutinaPropia()">➕ Agregar ejercicio</button>
+    <button class="btn btn-p" style="font-size:16px;padding:15px" onclick="empezarDesdeRutinaPropia()">▶ Empezar a entrenar con esta rutina</button>`;
+}
+function quitarDeMiRutina(i){
+  rutinaVista.ejercicios.splice(i,1);
+  rutinaVista.actualizadoEn=new Date().toISOString();
+  guardarRutinaVista();
+  renderMiRutinaEditor();
+}
+let destinoAgregar='tanda';
+function volverDeAgregar(){
+  if(destinoAgregar==='rutinaPropia'){destinoAgregar='tanda';goTo('rutinas');setRutinasTab('mia');}
+  else goTo('nueva');
+}
+function abrirAgregarParaRutinaPropia(){destinoAgregar='rutinaPropia';goTo('agregar');}
+function empezarDesdeRutinaPropia(){
+  rutinaActualLista=rutinaVista.ejercicios.map(e=>Object.assign({},e));
+  rutinaActualBase={nombre:rutinaVista.nombre||'Mi rutina',objetivo:(DB.perfil&&DB.perfil.objetivo)||'hipertrofia',nivel:(DB.perfil&&DB.perfil.nivel)||'principiante'};
+  empezarRutina();
+}
+
+// ═══════════════════════════════════════════
+// ═══ NAVEGACIÓN SEGÚN ROL (alumno vs profesor) ═══
+// ═══════════════════════════════════════════
+function aplicarNavSegunRol(){
+  const esProfesor=DB.perfil&&DB.perfil.rol==='profesor';
+  document.querySelectorAll('[data-slot="ia"]').forEach(btn=>{
+    if(esProfesor){
+      btn.setAttribute('onclick',"goTo('mis-alumnos')");
+      btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Alumnos';
+    } else {
+      btn.setAttribute('onclick',"goTo('ia')");
+      btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>IA';
+    }
+  });
+  document.querySelectorAll('[data-slot="stats"]').forEach(btn=>{
+    if(esProfesor){
+      btn.setAttribute('onclick',"goTo('mis-gimnasios')");
+      btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2v20M18 2v20M2 7h4M2 12h4M2 17h4M18 7h4M18 12h4M18 17h4M6 12h12"/></svg>Gimnasios';
+    } else {
+      btn.setAttribute('onclick',"goTo('stats')");
+      btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Progreso';
+    }
+  });
+}
+
+// ═══ HOME DEL PROFESOR ═══
+async function renderHomeProfesor(){
+  const b=document.getElementById('home-profesor-content');
+  b.innerHTML=`<div class="empty"><div style="font-size:40px">📋</div><p style="color:var(--txt2);font-size:13px">Cargando tu panel…</p></div>`;
+  try{
+    if(!alumnosDelProfesor)alumnosDelProfesor=await window.fbListarAlumnos(usuarioActual.uid);
+  }catch(e){console.error('No se pudo cargar alumnos:',e);alumnosDelProfesor=alumnosDelProfesor||[];}
+  try{
+    if(!misGimnasios)misGimnasios=await window.fbListarGimnasios(usuarioActual.uid);
+  }catch(e){console.error('No se pudo cargar gimnasios:',e);misGimnasios=misGimnasios||[];}
+  const codigo=(DB.perfil&&DB.perfil.codigo)||(usuarioActual.uid||'').slice(0,6).toUpperCase();
+  b.innerHTML=`
+    <div class="card" style="background:linear-gradient(135deg,#b23a2e,#e8622c);border:none">
+      <p style="color:#fff;font-size:13px;font-weight:700;margin-bottom:4px">Tu código para alumnos</p>
+      <div class="row-b"><p style="color:#fff;font-size:28px;font-weight:800;letter-spacing:3px">${codigo}</p><button onclick="copiarCodigoProfesor('${codigo}')" style="background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:8px;padding:8px 12px;font-size:12px;cursor:pointer">Copiar</button></div>
+      <p style="color:rgba(255,255,255,.85);font-size:11px;margin-top:6px">Compartiselo a tus alumnos para que se vinculen con vos</p>
+    </div>
+    <div style="display:flex;gap:10px">
+      <div class="card" style="flex:1;text-align:center;cursor:pointer" onclick="goTo('mis-alumnos')"><p style="font-size:26px;font-weight:800;color:var(--txt)">${alumnosDelProfesor.length}</p><p style="font-size:11px;color:var(--txt2)">👥 Alumnos</p></div>
+      <div class="card" style="flex:1;text-align:center;cursor:pointer" onclick="goTo('mis-gimnasios')"><p style="font-size:26px;font-weight:800;color:var(--txt)">${misGimnasios.length}</p><p style="font-size:11px;color:var(--txt2)">🏢 Gimnasios</p></div>
+    </div>
+    <div class="card" style="cursor:pointer" onclick="goTo('mis-alumnos')"><div class="row-b"><p style="font-weight:700;color:var(--txt);font-size:14px">👥 Ver mis alumnos</p><span style="color:var(--txt3)">›</span></div></div>
+    <div class="card" style="cursor:pointer" onclick="goTo('mis-gimnasios')"><div class="row-b"><p style="font-weight:700;color:var(--txt);font-size:14px">🏢 Administrar gimnasios</p><span style="color:var(--txt3)">›</span></div></div>
+    <div class="card" style="cursor:pointer" onclick="goTo('rutinas')"><div class="row-b"><p style="font-weight:700;color:var(--txt);font-size:14px">📋 Plantillas de rutina</p><span style="color:var(--txt3)">›</span></div></div>
+    <button onclick="cerrarSesionApp()" style="background:none;border:none;color:var(--txt3);font-size:12px;text-align:center;padding:8px;cursor:pointer;width:100%">🚪 Cerrar sesión</button>`;
+}
+function copiarCodigoProfesor(codigo){
+  if(navigator.clipboard)navigator.clipboard.writeText(codigo).then(()=>toast('Código copiado ✓')).catch(()=>toast('Código: '+codigo));
+  else toast('Código: '+codigo);
+}
+
+// ═══ MIS ALUMNOS (pantalla completa del profesor) ═══
+async function renderMisAlumnos(){
+  const b=document.getElementById('mis-alumnos-body');
+  b.innerHTML='<div class="empty"><div style="font-size:40px">👥</div><p style="color:var(--txt2);font-size:13px">Cargando…</p></div>';
+  try{
+    alumnosDelProfesor=await window.fbListarAlumnos(usuarioActual.uid);
+  }catch(e){console.error('No se pudo cargar la lista de alumnos:',e);alumnosDelProfesor=alumnosDelProfesor||[];}
+  try{
+    if(!misGimnasios)misGimnasios=await window.fbListarGimnasios(usuarioActual.uid);
+  }catch(e){console.error('No se pudo cargar gimnasios:',e);misGimnasios=misGimnasios||[];}
+  if(!alumnosDelProfesor.length){
+    b.innerHTML=`<div class="empty"><div style="font-size:40px">👥</div><p style="font-weight:700;color:var(--txt)">Todavía no tenés alumnos</p><p style="font-size:12px;color:var(--txt2)">Compartí tu código desde Inicio para que se vinculen con vos.</p></div>`;
+    return;
+  }
+  b.innerHTML=alumnosDelProfesor.map(a=>`<div class="rutina-card tag-fuerza" style="margin-bottom:10px">
+    <p style="font-weight:800;font-size:15px;color:var(--txt)">${a.nombre||a.email||'Alumno'}</p>
+    <p style="font-size:11px;color:var(--txt3);margin-bottom:10px">${a.email||''}</p>
+    <div class="field" style="margin-bottom:10px"><label>Gimnasio asignado</label>
+      <select onchange="asignarGimnasioAlumno('${a.uid}',this.value)">
+        <option value="">Sin asignar</option>
+        ${misGimnasios.map(g=>`<option value="${g.id}" ${a.gimnasioId===g.id?'selected':''}>${g.nombre}</option>`).join('')}
+      </select>
+    </div>
+    <button class="btn btn-p" style="padding:10px;font-size:13px" onclick="abrirRutinaDeAlumno('${a.uid}','${(a.nombre||a.email||'Alumno').replace(/'/g,"\\'")}');goTo('rutinas');setRutinasTab('mia')">📋 Ver / editar su rutina</button>
+  </div>`).join('');
+}
+async function asignarGimnasioAlumno(alumnoUid,gimnasioId){
+  try{
+    await window.fbAsignarGimnasioAlumno(alumnoUid,gimnasioId||null);
+    const a=alumnosDelProfesor.find(x=>x.uid===alumnoUid);if(a)a.gimnasioId=gimnasioId||null;
+    toast('Gimnasio actualizado ✓');
+  }catch(e){console.error('No se pudo asignar el gimnasio:',e);toast('No se pudo guardar. Probá de nuevo.');}
+}
+
+// ═══ MIS GIMNASIOS ═══
+let misGimnasios=null;
+async function renderMisGimnasios(){
+  const b=document.getElementById('mis-gimnasios-body');
+  b.innerHTML='<div class="empty"><div style="font-size:40px">🏢</div><p style="color:var(--txt2);font-size:13px">Cargando…</p></div>';
+  try{
+    misGimnasios=await window.fbListarGimnasios(usuarioActual.uid);
+  }catch(e){console.error('No se pudo cargar gimnasios:',e);misGimnasios=misGimnasios||[];}
+  b.innerHTML=`
+    <div class="card">
+      <p class="sec" style="margin-top:0">+ Nuevo gimnasio</p>
+      <input type="text" id="gim-nombre" placeholder="Nombre (ej: Sede Centro)" style="margin-bottom:8px">
+      <textarea id="gim-equipo" placeholder="Equipamiento, separado por comas (ej: Mancuernas, Barra olímpica, Prensa)" rows="2" style="width:100%;background:var(--bg3);border:1px solid var(--brd);border-radius:10px;color:var(--txt);padding:10px;font-size:13px;margin-bottom:10px;resize:vertical"></textarea>
+      <button class="btn btn-ok" onclick="crearGimnasio()">➕ Crear gimnasio</button>
+    </div>
+    ${misGimnasios.length?'<p class="sec">Tus gimnasios</p>':''}
+    ${misGimnasios.map(g=>`<div class="rutina-card tag-funcional" style="margin-bottom:10px">
+      <div class="row-b"><p style="font-weight:800;font-size:15px;color:var(--txt)">${g.nombre}</p><button onclick="eliminarGimnasio('${g.id}')" style="background:none;border:none;color:var(--err);font-size:20px;cursor:pointer;padding:2px 6px">×</button></div>
+      <p style="font-size:12px;color:var(--txt2);margin-top:4px">${(g.equipamiento||[]).join(' · ')||'Sin equipamiento cargado'}</p>
+    </div>`).join('')}`;
+}
+async function crearGimnasio(){
+  const nombre=document.getElementById('gim-nombre').value.trim();
+  if(!nombre){toast('Ponele un nombre al gimnasio');return;}
+  const equipo=document.getElementById('gim-equipo').value.split(',').map(s=>s.trim()).filter(Boolean);
+  try{
+    await window.fbCrearGimnasio(usuarioActual.uid,{nombre,equipamiento:equipo,creadoEn:new Date().toISOString()});
+    toast('Gimnasio creado ✓');
+    misGimnasios=null;
+    renderMisGimnasios();
+  }catch(e){console.error('No se pudo crear el gimnasio:',e);toast('No se pudo crear. Probá de nuevo.');}
+}
+async function eliminarGimnasio(id){
+  if(!confirm('¿Eliminar este gimnasio?'))return;
+  try{
+    await window.fbEliminarGimnasio(usuarioActual.uid,id);
+    misGimnasios=misGimnasios.filter(g=>g.id!==id);
+    renderMisGimnasios();
+  }catch(e){console.error('No se pudo eliminar el gimnasio:',e);toast('No se pudo eliminar. Probá de nuevo.');}
+}
+
+// ═══ VINCULAR CON UN PROFESOR (alumno) ═══
+async function renderVincularProfesor(){
+  const b=document.getElementById('vincular-profesor-body');
+  if(DB.perfil&&DB.perfil.profesorId){
+    b.innerHTML=`<div class="card" style="text-align:center">
+      <p style="font-size:14px;color:var(--txt2);margin-bottom:10px">Ya estás vinculado con un profesor.</p>
+      <button class="btn btn-err" onclick="desvincularProfesor()">Desvincular</button>
+    </div>`;
+    return;
+  }
+  b.innerHTML='<div class="empty"><div style="font-size:40px">👥</div><p style="color:var(--txt2);font-size:13px">Cargando profesores…</p></div>';
+  b.innerHTML=`
+    <div class="card">
+      <p class="sec" style="margin-top:0">Tengo un código</p>
+      <div style="display:flex;gap:8px">
+        <input type="text" id="codigo-profesor" placeholder="Ej: AB12CD" style="flex:1;text-transform:uppercase">
+        <button class="btn btn-p" style="width:auto;padding:10px 16px" onclick="vincularConCodigo()">Vincular</button>
+      </div>
+    </div>
+    <p class="sec">O elegí de la lista</p>
+    <div id="lista-profesores"><div class="empty"><div style="font-size:30px">⏳</div></div></div>`;
+  try{
+    const profes=await window.fbListarProfesores();
+    document.getElementById('lista-profesores').innerHTML=profes.length?profes.map(p=>`<div class="rutina-card tag-fuerza" style="cursor:pointer;margin-bottom:10px" onclick="vincularConProfesor('${p.uid}')">
+      <p style="font-weight:800;font-size:15px;color:var(--txt)">${p.nombre||'Profesor'}</p>
+      <p style="font-size:11px;color:var(--txt3)">Código: ${p.codigo}</p>
+    </div>`).join(''):'<div class="empty"><p style="font-size:12px;color:var(--txt2)">Todavía no hay profesores disponibles.</p></div>';
+  }catch(e){
+    console.error('No se pudo cargar la lista de profesores:',e);
+    document.getElementById('lista-profesores').innerHTML='<div class="empty"><p style="font-size:12px;color:var(--txt2)">No se pudo cargar la lista. Probá con el código.</p></div>';
+  }
+}
+async function vincularConCodigo(){
+  const cod=document.getElementById('codigo-profesor').value.trim().toUpperCase();
+  if(!cod){toast('Ingresá un código');return;}
+  try{
+    const prof=await window.fbBuscarProfesorPorCodigo(cod);
+    if(!prof){toast('No encontramos ese código');return;}
+    await vincularConProfesor(prof.uid);
+  }catch(e){console.error('Error al buscar el código:',e);toast('No se pudo vincular. Probá de nuevo.');}
+}
+async function vincularConProfesor(profesorUid){
+  try{
+    await window.fbGuardarPerfil(usuarioActual.uid,{profesorId:profesorUid});
+    DB.perfil.profesorId=profesorUid;guardarDB();
+    toast('¡Vinculado con tu profesor! 💪');
+    goHome();
+  }catch(e){console.error('No se pudo vincular:',e);toast('No se pudo vincular. Probá de nuevo.');}
+}
+async function desvincularProfesor(){
+  if(!confirm('¿Desvincularte de tu profesor?'))return;
+  try{
+    await window.fbGuardarPerfil(usuarioActual.uid,{profesorId:null});
+    DB.perfil.profesorId=null;guardarDB();
+    renderVincularProfesor();
+    toast('Desvinculado');
+  }catch(e){console.error('No se pudo desvincular:',e);toast('No se pudo desvincular. Probá de nuevo.');}
+}
 function generarVarianteLista(ejercicios){
   return ejercicios.map(e=>{
     const alternativas=DB.ejercicios.filter(x=>x.grupo===e.grupo&&x.nombre!==e.nombre);
@@ -2154,7 +2512,16 @@ function renderRutinaDetalle(){
     <p class="sec">Ejercicios</p>
     ${rutinaActualLista.map(e=>`<div class="ex-card">${gifImg(e,'48px')}<div style="flex:1"><p style="font-weight:700;font-size:14px;color:var(--txt)">${e.nombre}${e.esVariante?' <span style="color:var(--ac);font-size:10px;font-weight:700">· variante</span>':''}</p><p style="font-size:12px;color:var(--txt2)">${e.esTiempo?e.series+'×'+e.segs+'s':e.series+'×'+e.reps+' reps'}</p></div></div>`).join('')}
     <button class="btn btn-s" onclick="otraVariante()">🔀 Generar otra variante (IA)</button>
+    <button class="btn btn-ok" onclick="usarComoMiRutina()">📌 Usar como mi rutina</button>
     <button class="btn btn-p" style="font-size:16px;padding:15px" onclick="empezarRutina()">▶ Empezar esta rutina</button>`;
+}
+function usarComoMiRutina(){
+  const destinoNombre=rutinaTargetUid?(rutinaTargetNombre||'tu alumno'):'vos';
+  if(rutinaVista&&rutinaVista.ejercicios&&rutinaVista.ejercicios.length&&!confirm('Esto va a reemplazar la rutina propia de '+destinoNombre+'. ¿Continuar?'))return;
+  rutinaVista={nombre:rutinaActualBase.nombre,origen:'plantilla',plantillaId:rutinaActualBase.id,ejercicios:rutinaActualLista.map(e=>({nombre:e.nombre,grupo:e.grupo,series:e.series,reps:e.reps||0,esTiempo:!!e.esTiempo,segs:e.segs||0})),actualizadoEn:new Date().toISOString()};
+  guardarRutinaVista();
+  toast('📌 Copiada como '+(rutinaTargetUid?'la rutina de '+destinoNombre:'tu rutina')+' ✓');
+  goTo('rutinas');setRutinasTab('mia');
 }
 function empezarRutina(){
   if(tandaActual.ejercicios.length&&!confirm('Tenés una tanda sin guardar. ¿Reemplazarla por esta rutina?'))return;
@@ -2403,7 +2770,8 @@ if(DB.historial.length === 0 && DB.pesoCorporal.length === 0){
     GoogleAuthProvider, signInWithPopup
   } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
   import {
-    getFirestore, doc, setDoc, getDoc, enableIndexedDbPersistence
+    getFirestore, doc, setDoc, getDoc, enableIndexedDbPersistence,
+    collection, query, where, getDocs, deleteDoc, addDoc
   } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
   // ═══ TODO: reemplazá esto con la config de TU proyecto ═══
@@ -2428,13 +2796,22 @@ if(DB.historial.length === 0 && DB.pesoCorporal.length === 0){
   window.fbAuth = auth;
   window.fbDb = db;
 
+  function generarCodigoProfesor(uid){ return uid.slice(0,6).toUpperCase(); }
+  async function asegurarPerfilPublicoProfesor(uid, email, nombre){
+    const codigo = generarCodigoProfesor(uid);
+    await setDoc(doc(db, 'profesoresPublicos', uid), {
+      nombre: nombre || email || 'Profesor', codigo, creadoEn: new Date().toISOString()
+    }, { merge: true });
+    return codigo;
+  }
+
   // Registro: crea la cuenta y el documento usuarios/{uid} con su rol.
   // El rol se confirma también server-side (custom claim) vía Cloud Function — ver /functions.
   window.fbRegistrar = async function(email, pass, rol){
     const cred = await createUserWithEmailAndPassword(auth, email, pass);
-    await setDoc(doc(db, 'usuarios', cred.user.uid), {
-      email, rol, profesorId: null, creadoEn: new Date().toISOString()
-    });
+    const datos = { email, rol, profesorId: null, gimnasioId: null, creadoEn: new Date().toISOString() };
+    if (rol === 'profesor') datos.codigo = await asegurarPerfilPublicoProfesor(cred.user.uid, email, '');
+    await setDoc(doc(db, 'usuarios', cred.user.uid), datos);
     return cred.user;
   };
   window.fbLogin = async function(email, pass){
@@ -2451,9 +2828,9 @@ if(DB.historial.length === 0 && DB.pesoCorporal.length === 0){
     return cred.user;
   };
   window.fbCrearUsuarioConRol = async function(uid, email, rol){
-    await setDoc(doc(db, 'usuarios', uid), {
-      email, rol, profesorId: null, creadoEn: new Date().toISOString()
-    }, { merge: true });
+    const datos = { email, rol, profesorId: null, gimnasioId: null, creadoEn: new Date().toISOString() };
+    if (rol === 'profesor') datos.codigo = await asegurarPerfilPublicoProfesor(uid, email, '');
+    await setDoc(doc(db, 'usuarios', uid), datos, { merge: true });
   };
 
   window.fbLeerPerfil = async function(uid){
@@ -2462,6 +2839,57 @@ if(DB.historial.length === 0 && DB.pesoCorporal.length === 0){
   };
   window.fbGuardarPerfil = async function(uid, perfil){
     await setDoc(doc(db, 'usuarios', uid), perfil, { merge: true });
+    if (perfil.rol === 'profesor' && perfil.nombre) {
+      setDoc(doc(db, 'profesoresPublicos', uid), { nombre: perfil.nombre }, { merge: true }).catch(()=>{});
+    }
+  };
+
+  // "Mi rutina" — un único documento compartido entre el alumno dueño y su
+  // profesor asignado (ver firestore.rules: ambos tienen permiso de lectura/escritura).
+  window.fbLeerRutinaPropia = async function(uid){
+    const snap = await getDoc(doc(db, 'usuarios', uid, 'rutina', 'actual'));
+    return snap.exists() ? snap.data() : null;
+  };
+  window.fbGuardarRutinaPropia = async function(uid, rutina){
+    await setDoc(doc(db, 'usuarios', uid, 'rutina', 'actual'), rutina);
+  };
+
+  // Lista de alumnos de un profesor (requiere el índice compuesto profesorId+rol).
+  window.fbListarAlumnos = async function(profesorUid){
+    const q = query(
+      collection(db, 'usuarios'),
+      where('profesorId', '==', profesorUid),
+      where('rol', '==', 'alumno')
+    );
+    const snap = await getDocs(q);
+    return snap.docs.map(d => ({ uid: d.id, ...d.data() }));
+  };
+  window.fbAsignarGimnasioAlumno = async function(alumnoUid, gimnasioId){
+    await setDoc(doc(db, 'usuarios', alumnoUid), { gimnasioId: gimnasioId || null }, { merge: true });
+  };
+
+  // Gimnasios del profesor (con su equipamiento) — solo él puede leer/escribir los suyos.
+  window.fbListarGimnasios = async function(profesorUid){
+    const snap = await getDocs(collection(db, 'usuarios', profesorUid, 'gimnasios'));
+    return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  };
+  window.fbCrearGimnasio = async function(profesorUid, datos){
+    const ref = await addDoc(collection(db, 'usuarios', profesorUid, 'gimnasios'), datos);
+    return ref.id;
+  };
+  window.fbEliminarGimnasio = async function(profesorUid, gimnasioId){
+    await deleteDoc(doc(db, 'usuarios', profesorUid, 'gimnasios', gimnasioId));
+  };
+
+  // Descubrir profesores (para que un alumno se vincule).
+  window.fbListarProfesores = async function(){
+    const snap = await getDocs(collection(db, 'profesoresPublicos'));
+    return snap.docs.map(d => ({ uid: d.id, ...d.data() }));
+  };
+  window.fbBuscarProfesorPorCodigo = async function(codigo){
+    const q = query(collection(db, 'profesoresPublicos'), where('codigo', '==', codigo));
+    const snap = await getDocs(q);
+    return snap.empty ? null : { uid: snap.docs[0].id, ...snap.docs[0].data() };
   };
 
   onAuthStateChanged(auth, (user) => {
