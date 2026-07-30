@@ -12,41 +12,49 @@ service cloud.firestore {
     }
 
     match /usuarios/{uid} {
-  allow read:  if esDueno(uid) || esSuProfesor(uid) || esAdmin();
-  // El campo "rol" no se puede auto-modificar desde el cliente una vez creado:
-  // eso lo controla la Cloud Function asignarRol (custom claims).
-  allow create: if esDueno(uid);
-  allow update: if esDueno(uid) && (
-    // Caso normal: el rol no cambia.
-    request.resource.data.rol == resource.data.rol
-    // Caso login con Google (fbCrearUsuarioConRol): el doc ya existía
-    // sin rol asignado todavía, se permite fijarlo UNA sola vez
-    // (nunca a 'admin' desde el cliente).
-    || (
-      !('rol' in resource.data)
-      && request.resource.data.rol in ['alumno', 'profesor']
-    )
-  );
-  allow delete: if esAdmin();
+      allow read:  if esDueno(uid) || esSuProfesor(uid) || esAdmin();
+      // El campo "rol" no se puede auto-modificar desde el cliente una vez creado:
+      // eso lo controla la Cloud Function asignarRol (custom claims).
+      allow create: if esDueno(uid);
+      // El dueno puede editar su propio doc (menos el rol). Su profesor SOLO
+      // puede tocar el campo gimnasioId (para asignarle un gimnasio), nada mas.
+      allow update: if (esDueno(uid) && request.resource.data.rol == resource.data.rol)
+        || (esSuProfesor(uid) && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['gimnasioId']));
+      allow delete: if esAdmin();
 
-  match /historial/{doc} {
-    allow read:  if esDueno(uid) || esSuProfesor(uid) || esAdmin();
-    allow write: if esDueno(uid) || esAdmin();
-  }
-  match /ejerciciosPersonalizados/{doc} {
-    allow read, write: if esDueno(uid) || esAdmin();
-  }
-  match /pesoCorporal/{doc} {
-    allow read, write: if esDueno(uid) || esAdmin();
-  }
-  match /fcmTokens/{doc} {
-    allow read, write: if esDueno(uid) || esAdmin();
-  }
-  match /rutinasAsignadas/{doc} {
-    allow read:  if esDueno(uid) || esSuProfesor(uid) || esAdmin();
-    allow write: if esSuProfesor(uid) || esAdmin();
-  }
-}
+      match /historial/{doc} {
+        allow read:  if esDueno(uid) || esSuProfesor(uid) || esAdmin();
+        allow write: if esDueno(uid) || esAdmin();
+      }
+      match /ejerciciosPersonalizados/{doc} {
+        allow read, write: if esDueno(uid) || esAdmin();
+      }
+      match /pesoCorporal/{doc} {
+        allow read, write: if esDueno(uid) || esAdmin();
+      }
+      match /fcmTokens/{doc} {
+        allow read, write: if esDueno(uid) || esAdmin();
+      }
+      // "Mi rutina": un unico documento vivo (usuarios/{uid}/rutina/actual),
+      // editable tanto por el alumno dueno como por su profesor asignado -
+      // ambos ven y modifican la MISMA rutina, no hay copias separadas.
+      match /rutina/{doc} {
+        allow read, write: if esDueno(uid) || esSuProfesor(uid) || esAdmin();
+      }
+      // Gimnasios que administra un profesor (nombre + equipamiento). Son
+      // suyos: por ahora solo el (y admin) los lee/escribe.
+      match /gimnasios/{doc} {
+        allow read, write: if esDueno(uid) || esAdmin();
+      }
+    }
+
+    // Directorio publico minimo de profesores, para que un alumno pueda
+    // buscarlos por nombre o por codigo al vincularse. Cada profesor solo
+    // puede escribir su propia entrada.
+    match /profesoresPublicos/{uid} {
+      allow read: if estaLogueado();
+      allow write: if esDueno(uid) || esAdmin();
+    }
 
     match /ejerciciosGlobales/{doc} {
       allow read: if estaLogueado();
