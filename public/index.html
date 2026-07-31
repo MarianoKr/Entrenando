@@ -229,18 +229,17 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
       <button onclick="document.getElementById('import-file').click()" style="flex:1;background:var(--bg3);border:1px solid var(--brd);color:var(--txt2);font-size:11px;padding:8px;border-radius:8px;cursor:pointer">📂 Importar datos</button>
     </div>
     <input type="file" id="import-file" accept=".json" style="display:none" onchange="importarDatos(this)">
-    <button onclick="resetearEmergencia()" style="background:none;border:none;color:var(--txt3);font-size:11px;text-align:center;padding:4px;cursor:pointer;width:100%">⚙️ ¿App trabada? Tocá aquí</button>
     <div style="text-align:center;padding:2px 0 4px;cursor:pointer" onclick="abrirModal('modal-changelog')">
       <span class="version-badge" style="background:var(--bg3);border:1px solid var(--brd);border-radius:20px;padding:4px 12px;font-size:10px;font-weight:700;color:var(--txt3)">
-        FORJA v2.5 — ¿Qué hay de nuevo?
+        FORJA v2.7 — ¿Qué hay de nuevo?
       </span>
     </div>
     </div>
-    <div id="home-profesor-content" style="display:none"></div>
+    <div id="home-profesor-content" style="display:none;flex-direction:column;gap:13px"></div>
   </div>
   <div class="bottomnav">
     <button class="bnav active" onclick="goHome()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Inicio</button>
-    <button class="bnav" onclick="goTo('historial')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Historial</button>
+    <button class="bnav" onclick="goTo('historial')" data-slot="historial"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Historial</button>
     <button class="bnav" onclick="goTo('ia')" data-slot="ia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>IA</button>
     <button class="bnav" onclick="goTo('stats')" data-slot="stats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Progreso</button>
     <button class="bnav" onclick="goTo('rutinas')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6.5 6.5 17.5 17.5"/><path d="M4 8l2-2 2 2-2 2z"/><path d="M20 16l-2 2-2-2 2-2z"/><path d="M14.5 4.5l2 2M17.5 6.5l1-1M4.5 14.5l2 2M6.5 17.5l1-1"/></svg>Rutinas</button>
@@ -371,7 +370,7 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
   </div>
   <div class="bottomnav">
     <button class="bnav" onclick="goHome()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Inicio</button>
-    <button class="bnav" onclick="goTo('historial')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Historial</button>
+    <button class="bnav" onclick="goTo('historial')" data-slot="historial"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Historial</button>
     <button class="bnav active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>IA</button>
     <button class="bnav" onclick="goTo('stats')" data-slot="stats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Progreso</button>
     <button class="bnav" onclick="goTo('rutinas')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6.5 6.5 17.5 17.5"/><path d="M4 8l2-2 2 2-2 2z"/><path d="M20 16l-2 2-2-2 2-2z"/><path d="M14.5 4.5l2 2M17.5 6.5l1-1M4.5 14.5l2 2M6.5 17.5l1-1"/></svg>Rutinas</button>
@@ -399,7 +398,7 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
   <div class="body" id="stats-body"></div>
   <div class="bottomnav">
     <button class="bnav" onclick="goHome()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Inicio</button>
-    <button class="bnav" onclick="goTo('historial')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Historial</button>
+    <button class="bnav" onclick="goTo('historial')" data-slot="historial"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Historial</button>
     <button class="bnav" onclick="goTo('ia')" data-slot="ia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>IA</button>
     <button class="bnav active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Progreso</button>
     <button class="bnav" onclick="goTo('rutinas')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6.5 6.5 17.5 17.5"/><path d="M4 8l2-2 2 2-2 2z"/><path d="M20 16l-2 2-2-2 2-2z"/><path d="M14.5 4.5l2 2M17.5 6.5l1-1M4.5 14.5l2 2M6.5 17.5l1-1"/></svg>Rutinas</button>
@@ -413,7 +412,7 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
   <div class="body" id="lib-body"></div>
   <div class="bottomnav">
     <button class="bnav" onclick="goHome()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Inicio</button>
-    <button class="bnav" onclick="goTo('historial')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Historial</button>
+    <button class="bnav" onclick="goTo('historial')" data-slot="historial"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Historial</button>
     <button class="bnav" onclick="goTo('ia')" data-slot="ia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>IA</button>
     <button class="bnav" onclick="goTo('stats')" data-slot="stats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Progreso</button>
     <button class="bnav" onclick="goTo('rutinas')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6.5 6.5 17.5 17.5"/><path d="M4 8l2-2 2 2-2 2z"/><path d="M20 16l-2 2-2-2 2-2z"/><path d="M14.5 4.5l2 2M17.5 6.5l1-1M4.5 14.5l2 2M6.5 17.5l1-1"/></svg>Rutinas</button>
@@ -452,7 +451,21 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
     <button class="btn btn-s" onclick="cerrarModal('modal-edit-ex')">Cancelar</button>
   </div>
 </div>
-<!-- ═══ CERRAR DÍA (pantalla completa - sin problemas de teclado) ═══ -->
+<div class="modal-overlay" id="modal-edit-dia-ej" style="display:none" onclick="clickOverlay(event,'modal-edit-dia-ej')">
+  <div class="modal"><h3 id="edit-dia-ej-nombre">Ejercicio</h3>
+    <p class="sec">Series</p>
+    <input type="number" id="edit-dia-ej-series" min="1" style="width:100%">
+    <div id="edit-dia-ej-reps-wrap"><p class="sec">Repeticiones</p><input type="number" id="edit-dia-ej-reps" min="1" style="width:100%"></div>
+    <div id="edit-dia-ej-segs-wrap"><p class="sec">Segundos por serie</p><input type="number" id="edit-dia-ej-segs" min="1" style="width:100%"></div>
+    <div style="display:flex;gap:10px;margin-top:16px"><button class="btn btn-s" style="flex:1" onclick="cerrarModal('modal-edit-dia-ej')">Cancelar</button><button class="btn btn-ok" style="flex:1" onclick="guardarEdicionEjDia()">Guardar</button></div>
+  </div>
+</div>
+  <div class="modal"><h3>📤 Compartir rutina</h3>
+    <p style="font-size:12px;color:var(--txt2);margin-bottom:12px">Elegí a qué alumnos les asignás esta rutina. Se reemplaza la rutina actual de cada uno.</p>
+    <div id="compartir-rutina-lista" style="display:flex;flex-direction:column;gap:8px;max-height:280px;overflow-y:auto;margin-bottom:6px"></div>
+    <div style="display:flex;gap:10px;margin-top:16px"><button class="btn btn-s" style="flex:1" onclick="cerrarModal('modal-compartir-rutina')">Cancelar</button><button class="btn btn-ok" style="flex:1" onclick="compartirRutinaConSeleccionados()">Compartir</button></div>
+  </div>
+</div>
 <div class="screen" id="sc-cerrar-dia">
   <div class="topbar">
     <button class="back" onclick="volverDesdeCerrar()">←</button>
@@ -526,6 +539,7 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
       </div>
     </div>
     <button class="btn btn-p" id="login-btn-principal" style="font-size:16px;padding:15px;margin-top:14px" onclick="intentarLogin()">Ingresar</button>
+    <button id="login-btn-olvide" onclick="olvideContrasena()" style="background:none;border:none;color:var(--txt3);font-size:12px;text-align:center;padding:8px;cursor:pointer;width:100%">¿Olvidaste tu contraseña?</button>
     <div style="display:flex;align-items:center;gap:10px;margin:16px 0"><div style="flex:1;height:1px;background:var(--brd)"></div><span style="font-size:11px;color:var(--txt3)">O</span><div style="flex:1;height:1px;background:var(--brd)"></div></div>
     <button class="btn btn-s" id="login-btn-google" onclick="intentarLoginGoogle()" style="display:flex;align-items:center;justify-content:center;gap:10px">
       <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 3l6-6C34.1 5.1 29.3 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21 21-9.4 21-21c0-1.4-.1-2.7-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.9 18.9 13 24 13c3.1 0 5.8 1.1 8 3l6-6C34.1 5.1 29.3 3 24 3 15.9 3 8.9 7.6 6.3 14.7z"/><path fill="#4CAF50" d="M24 45c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 36.6 26.7 37.5 24 37.5c-5.3 0-9.7-3.4-11.3-8.1l-6.5 5C9.1 40.4 16 45 24 45z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.2 5.7l6.2 5.2C40.5 36.4 45 30.7 45 24c0-1.4-.1-2.7-.4-3.5z"/></svg>
@@ -553,12 +567,13 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
 <div class="screen" id="sc-onboarding" style="position:relative">
   <button class="onb-skip" onclick="onbFinish(true)">Saltar</button>
   <div class="onb-wrap" id="onb-wrap" style="padding-bottom:50px"></div>
+  <button onclick="resetearEmergencia()" style="position:absolute;bottom:44px;left:0;right:0;margin:0 auto;width:fit-content;background:none;border:none;color:var(--txt3);font-size:11px;padding:4px;cursor:pointer">⚙️ ¿App trabada? Tocá aquí</button>
   <button onclick="cerrarSesionApp()" style="position:absolute;bottom:14px;left:0;right:0;margin:0 auto;width:fit-content;background:none;border:none;color:var(--txt3);font-size:12px;padding:8px;cursor:pointer">🚪 Cerrar sesión</button>
 </div>
 
 <!-- RUTINAS / ESTACIONES -->
 <div class="screen" id="sc-rutinas">
-  <div class="topbar"><h2>Entrená</h2><button class="back" onclick="goTo('onboarding')" title="Editar perfil" style="font-size:18px">⚙️</button></div>
+  <div class="topbar"><h2>Entrená</h2></div>
   <div class="body">
     <div class="cfg-tabs" style="border-radius:12px;overflow:hidden;border:1px solid var(--brd)">
       <button class="cfg-tab" id="rt-tab-mia" onclick="setRutinasTab('mia')">⭐ Mi rutina</button>
@@ -569,7 +584,7 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
   </div>
   <div class="bottomnav">
     <button class="bnav" onclick="goHome()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Inicio</button>
-    <button class="bnav" onclick="goTo('historial')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Historial</button>
+    <button class="bnav" onclick="goTo('historial')" data-slot="historial"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Historial</button>
     <button class="bnav" onclick="goTo('ia')" data-slot="ia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>IA</button>
     <button class="bnav" onclick="goTo('stats')" data-slot="stats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Progreso</button>
     <button class="bnav active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6.5 6.5 17.5 17.5"/><path d="M4 8l2-2 2 2-2 2z"/><path d="M20 16l-2 2-2-2 2-2z"/><path d="M14.5 4.5l2 2M17.5 6.5l1-1M4.5 14.5l2 2M6.5 17.5l1-1"/></svg>Rutinas</button>
@@ -593,6 +608,8 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
     <input type="text" id="est-buscador" placeholder="🔍 Buscar ejercicio..." oninput="renderEstacionPicker(this.value)">
     <div id="est-picker" style="display:flex;flex-direction:column;gap:8px"></div>
     <div id="est-seleccionados" style="display:none"></div>
+    <p class="sec">Nombre (opcional, para guardarla y repetirla)</p>
+    <input type="text" id="est-nombre" placeholder='Ej: "Estación cardio"'>
     <p class="sec">3. Descansos</p>
     <div class="card" style="display:flex;flex-direction:column;gap:14px">
       <div class="field"><label>Rondas</label><div class="stepper"><button onclick="stepEst('rondas',-1)">−</button><span class="stepper-val" id="est-rondas-val">3</span><button onclick="stepEst('rondas',1)">+</button></div></div>
@@ -623,7 +640,7 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
   <div class="body" id="mis-alumnos-body"></div>
   <div class="bottomnav">
     <button class="bnav" onclick="goHome()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Inicio</button>
-    <button class="bnav" onclick="goTo('historial')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Historial</button>
+    <button class="bnav" onclick="goTo('historial')" data-slot="historial"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Historial</button>
     <button class="bnav active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Alumnos</button>
     <button class="bnav" onclick="goTo('mis-gimnasios')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2v20M18 2v20M2 7h4M2 12h4M2 17h4M18 7h4M18 12h4M18 17h4M6 12h12"/></svg>Gimnasios</button>
     <button class="bnav" onclick="goTo('rutinas')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6.5 6.5 17.5 17.5"/><path d="M4 8l2-2 2 2-2 2z"/><path d="M20 16l-2 2-2-2 2-2z"/><path d="M14.5 4.5l2 2M17.5 6.5l1-1M4.5 14.5l2 2M6.5 17.5l1-1"/></svg>Rutinas</button>
@@ -637,7 +654,7 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
   <div class="body" id="mis-gimnasios-body"></div>
   <div class="bottomnav">
     <button class="bnav" onclick="goHome()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Inicio</button>
-    <button class="bnav" onclick="goTo('historial')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Historial</button>
+    <button class="bnav" onclick="goTo('historial')" data-slot="historial"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Historial</button>
     <button class="bnav" onclick="goTo('mis-alumnos')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Alumnos</button>
     <button class="bnav active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2v20M18 2v20M2 7h4M2 12h4M2 17h4M18 7h4M18 12h4M18 17h4M6 12h12"/></svg>Gimnasios</button>
     <button class="bnav" onclick="goTo('rutinas')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6.5 6.5 17.5 17.5"/><path d="M4 8l2-2 2 2-2 2z"/><path d="M20 16l-2 2-2-2 2-2z"/><path d="M14.5 4.5l2 2M17.5 6.5l1-1M4.5 14.5l2 2M6.5 17.5l1-1"/></svg>Rutinas</button>
@@ -654,8 +671,20 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
     <div style="display:flex;flex-direction:column;gap:10px">
       <div style="background:var(--bg3);border-radius:10px;padding:10px 13px;border:1px solid var(--ac)">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">
-          <span style="font-size:12px;font-weight:800;color:var(--ac)">v2.5</span>
+          <span style="font-size:12px;font-weight:800;color:var(--ac)">v2.7</span>
           <span style="background:var(--ac);color:var(--ink,#15110d);border-radius:10px;padding:1px 7px;font-size:9px;font-weight:700">ACTUAL</span>
+        </div>
+        <p style="font-size:12px;color:var(--txt2)">Se arregló que el cronómetro siguiera corriendo al cancelar una tanda, código de profesor más chico, y edición de series/reps y combinación de ejercicios (superseries) dentro de cada día</p>
+      </div>
+      <div style="background:var(--bg3);border-radius:10px;padding:10px 13px;border:1px solid var(--brd)">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">
+          <span style="font-size:12px;font-weight:800;color:var(--txt3)">v2.6</span>
+        </div>
+        <p style="font-size:12px;color:var(--txt2)">Rutinas por día para alumnos, plantillas y estaciones propias del profesor, recuperar contraseña, y varios arreglos del panel del profesor</p>
+      </div>
+      <div style="background:var(--bg3);border-radius:10px;padding:10px 13px;border:1px solid var(--brd)">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">
+          <span style="font-size:12px;font-weight:800;color:var(--txt3)">v2.5</span>
         </div>
         <p style="font-size:12px;color:var(--txt2)">Diseño FORJA, búsqueda de técnica en YouTube, diagrama muscular más claro, IA reconectada</p>
       </div>
@@ -1166,7 +1195,7 @@ function renderBannerHoy(){
   } else {banner.style.display='none';hero.style.display='block';}
 }
 function continuarTanda(){if(!tandaActual.ejercicios.length)return;timerTStart=Date.now();iniciarTimerT();renderEntrenar();goTo('entrenar');}
-function descartarTanda(){if(!confirm('¿Descartar tanda?'))return;clearTanda();goHome();}
+function descartarTanda(){if(!confirm('¿Descartar tanda?'))return;pararTodosLosTimers();clearTanda();goHome();}
 function abrirCerrarDia(){
   let ses=getSesionHoy();
   if(!ses && DB.sesionHoy && DB.sesionHoy.tandas && DB.sesionHoy.tandas.length>0){
@@ -1415,6 +1444,24 @@ function crearNuevo(){const n=document.getElementById('buscador').value.trim();i
 function confirmarConfig(){
   const s=parseInt(document.getElementById('cfg-series').value)||3;
   const b=barraActiva?(parseFloat(document.getElementById('cfg-barra').value)||0):0;
+  if(destinoAgregar==='plantillaPropia'){
+    let nuevoEj;
+    if(ejTiempo){
+      const segs=parseInt(document.getElementById('cfg-segs').value)||0;
+      if(!segs){toast('Seleccioná la duración');return;}
+      nuevoEj={nombre:exEnConfig.nombre,grupo:exEnConfig.grupo,series:s,reps:0,esTiempo:true,segs:segs};
+    } else {
+      const r=document.getElementById('cfg-reps').value;
+      if(!r){toast('Ingresá las repeticiones');return;}
+      nuevoEj={nombre:exEnConfig.nombre,grupo:exEnConfig.grupo,series:s,reps:parseInt(r),esTiempo:false,segs:0};
+    }
+    rutinaActualLista.push(nuevoEj);
+    destinoAgregar='tanda';
+    toast(nuevoEj.nombre+' agregado ✓');
+    goTo('rutina-detalle');
+    renderRutinaDetalle();
+    return;
+  }
   if(destinoAgregar==='rutinaPropia'){
     let nuevoEj;
     if(ejTiempo){
@@ -1426,10 +1473,10 @@ function confirmarConfig(){
       if(!r){toast('Ingresá las repeticiones');return;}
       nuevoEj={nombre:exEnConfig.nombre,grupo:exEnConfig.grupo,series:s,reps:parseInt(r),esTiempo:false,segs:0};
     }
-    if(!rutinaVista)rutinaVista={nombre:'Mi rutina',origen:'propia',ejercicios:[]};
-    if(!rutinaVista.ejercicios)rutinaVista.ejercicios=[];
-    rutinaVista.ejercicios.push(nuevoEj);
-    rutinaVista.actualizadoEn=new Date().toISOString();
+    if(!rutinaVista)rutinaVista={nombre:'Mi rutina',origen:'propia',dias:diasDeRutina(null)};
+    const dias=diasDeRutina(rutinaVista);
+    dias[rutinaDiaActivo].ejercicios.push(nuevoEj);
+    rutinaVista={nombre:rutinaVista.nombre||'Mi rutina',origen:rutinaVista.origen||'propia',dias,actualizadoEn:new Date().toISOString()};
     guardarRutinaVista();
     destinoAgregar='tanda';
     toast(nuevoEj.nombre+' agregado a la rutina ✓');
@@ -1514,7 +1561,14 @@ function guardarTandaFin(){
   limpiarTimersActivos();
   guardarDB();clearTanda();timerTStart=null;toast('¡Tanda guardada! 💪');setTimeout(()=>goHome(),800);
 }
-function salirEntrenar(){pararTimerT();timerTStart=null;goHome();}
+function pararTodosLosTimers(){
+  pararTimerT();
+  timerTStart=null;
+  Object.keys(serieTimers).forEach(k=>{
+    if(serieTimers[k]&&serieTimers[k].iv){clearInterval(serieTimers[k].iv);serieTimers[k].iv=null;serieTimers[k].running=false;}
+  });
+}
+function salirEntrenar(){pararTodosLosTimers();goHome();}
 
 // ==========================================
 // ═══ SISTEMA IA CON MEMORIA LOCAL ACTIVA ═══
@@ -1930,6 +1984,7 @@ function toggleModoLogin(){
   document.getElementById('login-rol-wrap').style.display=modoLogin==='registro'?'block':'none';
   document.getElementById('login-btn-principal').textContent=modoLogin==='registro'?'Crear cuenta':'Ingresar';
   document.getElementById('login-btn-toggle').textContent=modoLogin==='registro'?'¿Ya tenés cuenta? Ingresá':'¿No tenés cuenta? Registrate';
+  document.getElementById('login-btn-olvide').style.display=modoLogin==='registro'?'none':'block';
   document.getElementById('login-error').style.display='none';
 }
 function seleccionarRolRegistro(rol){
@@ -1974,6 +2029,19 @@ async function intentarLogin(){
   }finally{
     document.getElementById('login-loading').style.display='none';
     document.getElementById('login-btn-principal').disabled=false;
+  }
+}
+async function olvideContrasena(){
+  const email=document.getElementById('login-email').value.trim();
+  document.getElementById('login-error').style.display='none';
+  if(!email){mostrarErrorLogin('Escribí tu email arriba y volvé a tocar "¿Olvidaste tu contraseña?"');return;}
+  if(!window.fbRecuperarContrasena){mostrarErrorLogin('Conectando con el servidor, esperá un segundo e intentá de nuevo…');return;}
+  try{
+    await window.fbRecuperarContrasena(email);
+    toast('Te enviamos un email para restablecer tu contraseña ✓');
+  }catch(err){
+    console.error('Recuperar contraseña error:',err);
+    mostrarErrorLogin(traducirErrorFirebase(err));
   }
 }
 function cerrarSesionApp(){
@@ -2170,6 +2238,21 @@ const RUTINAS_BASE=[
 ];
 const OBJ_LABEL={fuerza:'Fuerza',hipertrofia:'Hipertrofia',funcional:'Funcional',perdida:'Bajar de grasa'};
 const NIV_LABEL={principiante:'Principiante',intermedio:'Intermedio',avanzado:'Avanzado'};
+const CANT_DIAS=6;
+// Normaliza cualquier rutina guardada (incluso el formato viejo con un solo
+// array "ejercicios") a la forma { dias:[{id,nombre,ejercicios},...] } con
+// exactamente CANT_DIAS días, clonando los ejercicios para no mutar el original.
+function diasDeRutina(rutina){
+  if(rutina&&Array.isArray(rutina.dias)&&rutina.dias.length){
+    const d=rutina.dias.map((x,i)=>({id:x.id||('d'+(i+1)),nombre:x.nombre||('Día '+(i+1)),ejercicios:(x.ejercicios||[]).map(e=>Object.assign({},e))}));
+    while(d.length<CANT_DIAS)d.push({id:'d'+(d.length+1),nombre:'Día '+(d.length+1),ejercicios:[]});
+    return d;
+  }
+  const base=(rutina&&rutina.ejercicios)||[];
+  const dias=[{id:'d1',nombre:'Día 1',ejercicios:base.map(e=>Object.assign({},e))}];
+  for(let i=2;i<=CANT_DIAS;i++)dias.push({id:'d'+i,nombre:'Día '+i,ejercicios:[]});
+  return dias;
+}
 let rutinasTab='mia';
 function setRutinasTab(t){
   rutinasTab=t;
@@ -2184,9 +2267,12 @@ function renderRutinasBody(){
   if(rutinasTab==='mia'){renderMiRutinaTab();return;}
   if(rutinasTab==='plantillas'){
     const perfil=DB.perfil;
+    const esProfesor=perfil&&perfil.rol==='profesor';
     let lista=RUTINAS_BASE.slice();
     if(perfil&&perfil.objetivo){lista.sort((a,b2)=>(a.objetivo===perfil.objetivo?0:1)-(b2.objetivo===perfil.objetivo?0:1));}
-    b.innerHTML=(perfil?`<div class="card" style="background:var(--acl);border-color:var(--ac);margin-top:12px"><p style="font-size:12px;color:var(--txt)">🎯 Sugerencias para vos: <b>${OBJ_LABEL[perfil.objetivo]||'—'}</b> · ${NIV_LABEL[perfil.nivel]||'—'}</p></div>`:'<div style="height:12px"></div>')
+    b.innerHTML=(esProfesor?'<div id="mis-plantillas-propias"><div class="empty" style="padding:20px"><p style="font-size:12px;color:var(--txt2)">Cargando tus plantillas…</p></div></div>':'')
+    +(perfil?`<div class="card" style="background:var(--acl);border-color:var(--ac);margin-top:12px"><p style="font-size:12px;color:var(--txt)">🎯 Sugerencias para vos: <b>${OBJ_LABEL[perfil.objetivo]||'—'}</b> · ${NIV_LABEL[perfil.nivel]||'—'}</p></div>`:'<div style="height:12px"></div>')
+    +(esProfesor?'<p class="sec" style="margin-top:16px">Plantillas de FORJA</p>':'')
     +lista.map(r=>`<div class="rutina-card tag-${r.objetivo}" style="margin-top:12px">
         <div class="row-b" style="margin-bottom:6px">
           <p style="font-weight:800;font-size:16px;color:var(--txt)">${r.nombre}</p>
@@ -2199,6 +2285,7 @@ function renderRutinasBody(){
           <button class="btn btn-s" style="flex:1;padding:10px;font-size:13px" onclick="abrirRutinaDetalle('${r.id}',true)">🔀 Variante</button>
         </div>
       </div>`).join('');
+    if(esProfesor)renderMisPlantillasPropias();
   } else {
     const circuitos=DB.historial.filter(r=>r.tipo==='circuito');
     b.innerHTML=`<div class="card" style="background:linear-gradient(135deg,#0f2515,#0d2010);border-color:var(--ok);margin-top:12px">
@@ -2206,8 +2293,39 @@ function renderRutinasBody(){
       <p style="font-size:12px;color:var(--txt2);margin-bottom:12px">Armá una secuencia de ejercicios por tiempo con rondas de trabajo y descanso — ideal para funcional, no aburrirte y entrenar en poco tiempo.</p>
       <button class="btn btn-ok" onclick="abrirEstacionConfig()">+ Crear nueva estación</button>
     </div>
+    <div id="mis-estaciones-propias"><div class="empty" style="padding:20px"><p style="font-size:12px;color:var(--txt2)">Cargando tus estaciones…</p></div></div>
     ${circuitos.length?`<p class="sec" style="margin-top:16px">Historial de estaciones</p>${circuitos.map(r=>`<div class="card" style="margin-bottom:10px"><div class="row-b"><p style="font-weight:700;font-size:14px;color:var(--txt)">${fechaStr(r.fecha).split(',')[0]}</p><span class="badge-ok">${fechaCorta(r.fecha)}</span></div><p style="font-size:12px;color:var(--txt2);margin-top:4px">${r.ejercicios.map(e=>e.nombre).join(' · ')}</p>${r.duracionMin?`<p style="font-size:11px;color:var(--txt3);margin-top:4px">⏱ ${r.duracionMin}min</p>`:''}</div>`).join('')}`:''}`;
+    renderMisEstacionesPropias();
   }
+}
+let misEstacionesPropias=null;
+async function renderMisEstacionesPropias(){
+  const cont=document.getElementById('mis-estaciones-propias');
+  if(!cont||!usuarioActual)return;
+  try{
+    if(!misEstacionesPropias)misEstacionesPropias=await window.fbListarMisEstaciones(usuarioActual.uid);
+  }catch(e){console.error('No se pudieron cargar tus estaciones:',e);misEstacionesPropias=misEstacionesPropias||[];}
+  if(!misEstacionesPropias.length){cont.innerHTML='';return;}
+  cont.innerHTML=`<p class="sec" style="margin-top:16px">Tus estaciones guardadas</p>${misEstacionesPropias.map(e=>`<div class="card" style="margin-bottom:10px">
+    <div class="row-b"><p style="font-weight:700;font-size:14px;color:var(--txt)">${e.nombre}</p><button onclick="eliminarMiEstacionPropia('${e.id}')" style="background:none;border:none;color:var(--err);font-size:18px;cursor:pointer;padding:2px 6px">×</button></div>
+    <p style="font-size:12px;color:var(--txt2);margin-top:4px">${(e.ejercicios||[]).map(x=>x.nombre).join(' · ')}</p>
+    <button class="btn btn-p" style="width:100%;margin-top:10px;padding:9px;font-size:13px" onclick="empezarMiEstacionPropia('${e.id}')">▶ Empezar</button>
+  </div>`).join('')}`;
+}
+function empezarMiEstacionPropia(id){
+  const e=(misEstacionesPropias||[]).find(x=>x.id===id);if(!e)return;
+  estPickerSel=(e.ejercicios||[]).slice();
+  estConfig={rondas:e.rondas||3,trabajo:e.trabajo||40,descanso:e.descanso||15,descansoRonda:e.descansoRonda||60};
+  document.getElementById('est-nombre').value='';
+  generarEstacion();
+}
+async function eliminarMiEstacionPropia(id){
+  if(!confirm('¿Eliminar esta estación guardada?'))return;
+  try{
+    await window.fbEliminarMiEstacion(usuarioActual.uid,id);
+    misEstacionesPropias=(misEstacionesPropias||[]).filter(e=>e.id!==id);
+    renderMisEstacionesPropias();
+  }catch(e){console.error('No se pudo eliminar la estación:',e);toast('No se pudo eliminar'+(e&&e.code?' ('+e.code+')':'')+'.');}
 }
 let rutinaActualBase=null,rutinaActualLista=null;
 // ═══ MI RUTINA (compartida entre alumno y su profesor) ═══
@@ -2258,44 +2376,120 @@ function renderListaAlumnos(){
   </div>`).join('');
 }
 async function abrirRutinaDeAlumno(uid,nombre){
-  rutinaTargetUid=uid;rutinaTargetNombre=nombre;rutinaVista=null;
+  rutinaTargetUid=uid;rutinaTargetNombre=nombre;rutinaVista=null;rutinaDiaActivo=0;
   renderMiRutinaTab();
 }
-function volverAMisAlumnos(){rutinaTargetUid=null;rutinaTargetNombre=null;rutinaVista=null;renderMiRutinaTab();}
+function volverAMisAlumnos(){rutinaTargetUid=null;rutinaTargetNombre=null;rutinaVista=null;rutinaDiaActivo=0;renderMiRutinaTab();}
+let rutinaDiaActivo=0;
+function setRutinaDiaActivo(i){rutinaDiaActivo=i;renderMiRutinaEditor();}
 function renderMiRutinaEditor(){
   const b=document.getElementById('rutinas-body');
+  const esProfesor=DB.perfil&&DB.perfil.rol==='profesor';
   const encabezado=rutinaTargetUid?`<div class="row-b" style="margin-top:12px"><button class="btn btn-s" style="padding:8px 12px;font-size:12px" onclick="volverAMisAlumnos()">← Mis alumnos</button><span style="font-size:13px;font-weight:700;color:var(--txt2)">Rutina de ${rutinaTargetNombre||'tu alumno'}</span></div>`:'<div style="height:12px"></div>';
-  if(!rutinaVista||!rutinaVista.ejercicios||!rutinaVista.ejercicios.length){
-    b.innerHTML=encabezado+`<div class="empty"><div style="font-size:40px">⭐</div><p style="font-weight:700;color:var(--txt)">Todavía no ${rutinaTargetUid?'tiene':'tenés'} una rutina propia</p><p style="font-size:12px;color:var(--txt2);margin-bottom:12px">Armala desde cero o elegí una plantilla y copiala como ${rutinaTargetUid?'la suya':'la tuya'}.</p>
-      <button class="btn btn-p" onclick="abrirAgregarParaRutinaPropia()">➕ Agregar ejercicio</button>
-      <button class="btn btn-s" onclick="setRutinasTab('plantillas')" style="margin-top:8px">📋 Ver plantillas</button>
-    </div>`;
-    return;
+  const dias=diasDeRutina(rutinaVista);
+  if(rutinaDiaActivo>=dias.length)rutinaDiaActivo=0;
+  const dia=dias[rutinaDiaActivo];
+  const origenTxt={propia:'Armada a mano',plantilla:'Copiada de una plantilla',profesor:'Asignada por tu profesor'}[rutinaVista&&rutinaVista.origen]||'';
+  // Arma bloques: los ejercicios con combinadoConSiguiente=true quedan agrupados
+  // visualmente con el/los siguientes (superserie de 2 o 3).
+  const bloques=[];
+  for(let i=0;i<dia.ejercicios.length;i++){
+    if(bloques.length&&bloques[bloques.length-1].abierto){bloques[bloques.length-1].idxs.push(i);bloques[bloques.length-1].abierto=!!dia.ejercicios[i].combinadoConSiguiente;}
+    else bloques.push({idxs:[i],abierto:!!dia.ejercicios[i].combinadoConSiguiente});
   }
-  const origenTxt={propia:'Armada a mano',plantilla:'Copiada de una plantilla',profesor:'Asignada por tu profesor'}[rutinaVista.origen]||'';
+  function tarjetaEj(e,i){
+    return `<div class="ex-card">${gifImg(e,'40px')}<div style="flex:1"><p style="font-weight:700;font-size:14px;color:var(--txt)">${e.nombre}</p><p style="font-size:12px;color:var(--txt2)">${e.esTiempo?e.series+'×'+e.segs+'s':e.series+'×'+e.reps+' reps'}</p></div>
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <button onclick="moverEjDia(${i},-1)" ${i===0?'disabled style="opacity:.25;background:none;border:none;color:var(--txt2);font-size:13px;padding:1px 5px"':'style="background:none;border:none;color:var(--txt2);font-size:13px;cursor:pointer;padding:1px 5px"'}>▲</button>
+        <button onclick="moverEjDia(${i},1)" ${i===dia.ejercicios.length-1?'disabled style="opacity:.25;background:none;border:none;color:var(--txt2);font-size:13px;padding:1px 5px"':'style="background:none;border:none;color:var(--txt2);font-size:13px;cursor:pointer;padding:1px 5px"'}>▼</button>
+      </div>
+      <button onclick="abrirEditarEjDia(${i})" style="background:none;border:none;color:var(--ac);font-size:15px;cursor:pointer;padding:2px 6px">✎</button>
+      <button onclick="quitarDeMiRutina(${i})" style="background:none;border:none;color:var(--err);font-size:20px;cursor:pointer;padding:2px 6px">×</button>
+    </div>`;
+  }
+  const listaHtml=bloques.map(bl=>{
+    const combinado=bl.idxs.length>1;
+    const cuerpo=bl.idxs.map(i=>tarjetaEj(dia.ejercicios[i],i)).join('');
+    const ultimo=bl.idxs[bl.idxs.length-1];
+    const puedeCombinar=ultimo<dia.ejercicios.length-1;
+    const linkBtn=puedeCombinar?`<button class="btn btn-s" style="padding:7px;font-size:11px;margin-top:${combinado?'0':'-4px'};margin-bottom:6px" onclick="toggleCombinarEjDia(${ultimo})">${combinado&&dia.ejercicios[ultimo].combinadoConSiguiente?'🔗 Combinada — tocá para separar del próximo':'🔗 Combinar con el próximo ejercicio'}</button>`:'';
+    return combinado
+      ? `<div style="border:1.5px dashed var(--ac);border-radius:12px;padding:8px 4px;margin-bottom:4px"><p style="font-size:10px;font-weight:800;color:var(--ac);text-align:center;margin-bottom:4px">🔗 SUPERSERIE</p>${cuerpo}${linkBtn}</div>`
+      : `${cuerpo}${linkBtn}`;
+  }).join('');
   b.innerHTML=encabezado+`
-    <div class="rutina-card tag-hipertrofia" style="margin-top:8px">
-      <div class="row-b"><p style="font-weight:800;font-size:16px;color:var(--txt)">${rutinaVista.nombre||'Mi rutina'}</p>${origenTxt?`<span class="tag">${origenTxt}</span>`:''}</div>
-    </div>
-    ${rutinaVista.ejercicios.map((e,i)=>`<div class="ex-card">${gifImg(e,'44px')}<div style="flex:1"><p style="font-weight:700;font-size:14px;color:var(--txt)">${e.nombre}</p><p style="font-size:12px;color:var(--txt2)">${e.esTiempo?e.series+'×'+e.segs+'s':e.series+'×'+e.reps+' reps'}</p></div><button onclick="quitarDeMiRutina(${i})" style="background:none;border:none;color:var(--err);font-size:20px;cursor:pointer;padding:2px 6px">×</button></div>`).join('')}
-    <button class="btn btn-s" onclick="abrirAgregarParaRutinaPropia()">➕ Agregar ejercicio</button>
-    <button class="btn btn-p" style="font-size:16px;padding:15px" onclick="empezarDesdeRutinaPropia()">▶ Empezar a entrenar con esta rutina</button>`;
+    ${(rutinaVista&&rutinaVista.nombre)?`<div class="rutina-card tag-hipertrofia" style="margin-top:8px"><div class="row-b"><p style="font-weight:800;font-size:16px;color:var(--txt)">${rutinaVista.nombre}</p>${origenTxt?`<span class="tag">${origenTxt}</span>`:''}</div></div>`:'<div style="height:4px"></div>'}
+    <div class="chips" style="margin-top:10px">${dias.map((d,i)=>`<button class="chip${i===rutinaDiaActivo?' sel':''}" onclick="setRutinaDiaActivo(${i})">${d.nombre}${d.ejercicios.length?' · '+d.ejercicios.length:''}</button>`).join('')}</div>
+    ${dia.ejercicios.length?listaHtml
+      :`<div class="empty" style="padding:24px 20px"><div style="font-size:34px">⭐</div><p style="font-size:12px;color:var(--txt2)">${dia.nombre} todavía no tiene ejercicios</p></div>`}
+    <button class="btn btn-s" onclick="abrirAgregarParaRutinaPropia()">➕ Agregar ejercicio a ${dia.nombre}</button>
+    ${!esProfesor?`<button class="btn btn-p" style="font-size:16px;padding:15px" onclick="empezarDesdeRutinaPropia()">▶ Empezar a entrenar con ${dia.nombre}</button>`:''}
+    <button class="btn btn-s" onclick="setRutinasTab('plantillas')" style="margin-top:2px">📋 Elegir de una plantilla</button>`;
 }
 function quitarDeMiRutina(i){
-  rutinaVista.ejercicios.splice(i,1);
-  rutinaVista.actualizadoEn=new Date().toISOString();
+  const dias=diasDeRutina(rutinaVista);
+  dias[rutinaDiaActivo].ejercicios.splice(i,1);
+  rutinaVista={nombre:(rutinaVista&&rutinaVista.nombre)||'Mi rutina',dias,actualizadoEn:new Date().toISOString()};
   guardarRutinaVista();
+  renderMiRutinaEditor();
+}
+function moverEjDia(i,dir){
+  const dias=diasDeRutina(rutinaVista);
+  const arr=dias[rutinaDiaActivo].ejercicios;
+  const j=i+dir;
+  if(j<0||j>=arr.length)return;
+  [arr[i],arr[j]]=[arr[j],arr[i]];
+  rutinaVista={nombre:(rutinaVista&&rutinaVista.nombre)||'Mi rutina',dias,actualizadoEn:new Date().toISOString()};
+  guardarRutinaVista();
+  renderMiRutinaEditor();
+}
+function toggleCombinarEjDia(i){
+  const dias=diasDeRutina(rutinaVista);
+  const arr=dias[rutinaDiaActivo].ejercicios;
+  arr[i].combinadoConSiguiente=!arr[i].combinadoConSiguiente;
+  rutinaVista={nombre:(rutinaVista&&rutinaVista.nombre)||'Mi rutina',dias,actualizadoEn:new Date().toISOString()};
+  guardarRutinaVista();
+  renderMiRutinaEditor();
+}
+let editDiaEjIndex=null;
+function abrirEditarEjDia(i){
+  const dias=diasDeRutina(rutinaVista);
+  const e=dias[rutinaDiaActivo].ejercicios[i];
+  if(!e)return;
+  editDiaEjIndex=i;
+  document.getElementById('edit-dia-ej-nombre').textContent=e.nombre;
+  document.getElementById('edit-dia-ej-series').value=e.series;
+  const wrapReps=document.getElementById('edit-dia-ej-reps-wrap'),wrapSegs=document.getElementById('edit-dia-ej-segs-wrap');
+  if(e.esTiempo){wrapReps.style.display='none';wrapSegs.style.display='block';document.getElementById('edit-dia-ej-segs').value=e.segs;}
+  else{wrapReps.style.display='block';wrapSegs.style.display='none';document.getElementById('edit-dia-ej-reps').value=e.reps;}
+  abrirModal('modal-edit-dia-ej');
+}
+function guardarEdicionEjDia(){
+  const dias=diasDeRutina(rutinaVista);
+  const e=dias[rutinaDiaActivo].ejercicios[editDiaEjIndex];
+  if(!e)return;
+  const series=parseInt(document.getElementById('edit-dia-ej-series').value)||1;
+  e.series=series;
+  if(e.esTiempo)e.segs=parseInt(document.getElementById('edit-dia-ej-segs').value)||e.segs;
+  else e.reps=parseInt(document.getElementById('edit-dia-ej-reps').value)||e.reps;
+  rutinaVista={nombre:(rutinaVista&&rutinaVista.nombre)||'Mi rutina',dias,actualizadoEn:new Date().toISOString()};
+  guardarRutinaVista();
+  cerrarModal('modal-edit-dia-ej');
   renderMiRutinaEditor();
 }
 let destinoAgregar='tanda';
 function volverDeAgregar(){
   if(destinoAgregar==='rutinaPropia'){destinoAgregar='tanda';goTo('rutinas');setRutinasTab('mia');}
+  else if(destinoAgregar==='plantillaPropia'){destinoAgregar='tanda';goTo('rutina-detalle');renderRutinaDetalle();}
   else goTo('nueva');
 }
 function abrirAgregarParaRutinaPropia(){destinoAgregar='rutinaPropia';goTo('agregar');}
 function empezarDesdeRutinaPropia(){
-  rutinaActualLista=rutinaVista.ejercicios.map(e=>Object.assign({},e));
-  rutinaActualBase={nombre:rutinaVista.nombre||'Mi rutina',objetivo:(DB.perfil&&DB.perfil.objetivo)||'hipertrofia',nivel:(DB.perfil&&DB.perfil.nivel)||'principiante'};
+  const dias=diasDeRutina(rutinaVista);
+  const dia=dias[rutinaDiaActivo];
+  if(!dia.ejercicios.length){toast('Ese día todavía no tiene ejercicios');return;}
+  rutinaActualLista=dia.ejercicios.map(e=>Object.assign({},e));
+  rutinaActualBase={nombre:(rutinaVista&&rutinaVista.nombre)||dia.nombre,objetivo:(DB.perfil&&DB.perfil.objetivo)||'hipertrofia',nivel:(DB.perfil&&DB.perfil.nivel)||'principiante'};
   empezarRutina();
 }
 
@@ -2322,6 +2516,12 @@ function aplicarNavSegunRol(){
       btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Progreso';
     }
   });
+  // "Historial" es el registro de entrenamientos propios: no tiene sentido para
+  // un profesor (no entrena desde esta cuenta), así que se oculta y sus vecinos
+  // ocupan el espacio libre.
+  document.querySelectorAll('[data-slot="historial"]').forEach(btn=>{
+    btn.style.display = esProfesor ? 'none' : '';
+  });
 }
 
 // ═══ HOME DEL PROFESOR ═══
@@ -2334,12 +2534,19 @@ async function renderHomeProfesor(){
   try{
     if(!misGimnasios)misGimnasios=await window.fbListarGimnasios(usuarioActual.uid);
   }catch(e){console.error('No se pudo cargar gimnasios:',e);misGimnasios=misGimnasios||[];}
-  const codigo=(DB.perfil&&DB.perfil.codigo)||(usuarioActual.uid||'').slice(0,6).toUpperCase();
+  const codigo=(DB.perfil&&DB.perfil.codigo)||(usuarioActual.uid||'').slice(0,4).toUpperCase();
   b.innerHTML=`
-    <div class="card" style="background:linear-gradient(135deg,#b23a2e,#e8622c);border:none">
-      <p style="color:#fff;font-size:13px;font-weight:700;margin-bottom:4px">Tu código para alumnos</p>
-      <div class="row-b"><p style="color:#fff;font-size:28px;font-weight:800;letter-spacing:3px">${codigo}</p><button onclick="copiarCodigoProfesor('${codigo}')" style="background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:8px;padding:8px 12px;font-size:12px;cursor:pointer">Copiar</button></div>
-      <p style="color:rgba(255,255,255,.85);font-size:11px;margin-top:6px">Compartiselo a tus alumnos para que se vinculen con vos</p>
+    <div class="card" style="background:linear-gradient(135deg,#b23a2e,#e8622c);border:none;padding:12px 14px">
+      <div class="row-b">
+        <div>
+          <p style="color:#fff;font-size:11px;font-weight:700;margin-bottom:2px">Tu código para alumnos</p>
+          <p style="color:rgba(255,255,255,.8);font-size:10px">Compartiselo para que se vinculen</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="background:rgba(255,255,255,.18);border-radius:8px;padding:6px 10px;color:#fff;font-size:17px;font-weight:800;letter-spacing:2px">${codigo}</span>
+          <button onclick="copiarCodigoProfesor('${codigo}')" style="background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:8px;padding:6px 10px;font-size:11px;cursor:pointer">Copiar</button>
+        </div>
+      </div>
     </div>
     <div style="display:flex;gap:10px">
       <div class="card" style="flex:1;text-align:center;cursor:pointer" onclick="goTo('mis-alumnos')"><p style="font-size:26px;font-weight:800;color:var(--txt)">${alumnosDelProfesor.length}</p><p style="font-size:11px;color:var(--txt2)">👥 Alumnos</p></div>
@@ -2396,7 +2603,11 @@ async function renderMisGimnasios(){
   b.innerHTML='<div class="empty"><div style="font-size:40px">🏢</div><p style="color:var(--txt2);font-size:13px">Cargando…</p></div>';
   try{
     misGimnasios=await window.fbListarGimnasios(usuarioActual.uid);
-  }catch(e){console.error('No se pudo cargar gimnasios:',e);misGimnasios=misGimnasios||[];}
+  }catch(e){
+    console.error('No se pudo cargar gimnasios:',e);
+    misGimnasios=misGimnasios||[];
+    toast('No se pudieron cargar tus gimnasios'+(e&&e.code?' ('+e.code+')':'')+'.');
+  }
   b.innerHTML=`
     <div class="card">
       <p class="sec" style="margin-top:0">+ Nuevo gimnasio</p>
@@ -2419,7 +2630,14 @@ async function crearGimnasio(){
     toast('Gimnasio creado ✓');
     misGimnasios=null;
     renderMisGimnasios();
-  }catch(e){console.error('No se pudo crear el gimnasio:',e);toast('No se pudo crear. Probá de nuevo.');}
+  }catch(e){
+    console.error('No se pudo crear el gimnasio:',e);
+    if(e && e.code === 'permission-denied'){
+      toast('Sin permiso para crear gimnasios. Revisá las reglas de Firestore.');
+    } else {
+      toast('No se pudo crear'+(e&&e.code?' ('+e.code+')':'')+'. Probá de nuevo.');
+    }
+  }
 }
 async function eliminarGimnasio(id){
   if(!confirm('¿Eliminar este gimnasio?'))return;
@@ -2427,7 +2645,7 @@ async function eliminarGimnasio(id){
     await window.fbEliminarGimnasio(usuarioActual.uid,id);
     misGimnasios=misGimnasios.filter(g=>g.id!==id);
     renderMisGimnasios();
-  }catch(e){console.error('No se pudo eliminar el gimnasio:',e);toast('No se pudo eliminar. Probá de nuevo.');}
+  }catch(e){console.error('No se pudo eliminar el gimnasio:',e);toast('No se pudo eliminar'+(e&&e.code?' ('+e.code+')':'')+'. Probá de nuevo.');}
 }
 
 // ═══ VINCULAR CON UN PROFESOR (alumno) ═══
@@ -2504,23 +2722,136 @@ function abrirRutinaDetalle(id,variante){
   goTo('rutina-detalle');
 }
 function otraVariante(){rutinaActualLista=generarVarianteLista(rutinaActualBase.ejercicios);renderRutinaDetalle();toast('Nueva variante generada 🔀');}
+// ═══ Plantillas propias (creadas y guardadas por el dueño de la cuenta) ═══
+let misPlantillasPropias=null;
+async function renderMisPlantillasPropias(){
+  const cont=document.getElementById('mis-plantillas-propias');
+  if(!cont)return;
+  try{
+    if(!misPlantillasPropias)misPlantillasPropias=await window.fbListarMisRutinas(usuarioActual.uid);
+  }catch(e){console.error('No se pudieron cargar tus plantillas:',e);misPlantillasPropias=misPlantillasPropias||[];}
+  cont.innerHTML=`<p class="sec" style="margin-top:12px">Tus plantillas</p>
+    <button class="btn btn-ok" onclick="crearPlantillaPropiaNueva()" style="margin-bottom:10px">➕ Crear plantilla propia</button>
+    ${misPlantillasPropias.map(r=>`<div class="rutina-card tag-funcional" style="margin-bottom:10px">
+      <div class="row-b" style="margin-bottom:6px"><p style="font-weight:800;font-size:15px;color:var(--txt)">${r.nombre}</p><button onclick="eliminarMiPlantillaPropia('${r.id}')" style="background:none;border:none;color:var(--err);font-size:18px;cursor:pointer;padding:2px 6px">×</button></div>
+      <p style="font-size:11px;color:var(--txt3);margin-bottom:8px">${(r.ejercicios||[]).length} ejercicios</p>
+      <p class="rutina-ex-mini">${(r.ejercicios||[]).map(e=>e.nombre).join(' · ')}</p>
+      <button class="btn btn-p" style="width:100%;margin-top:10px;padding:10px;font-size:13px" onclick="abrirPlantillaPropiaDetalle('${r.id}')">Ver / usar</button>
+    </div>`).join('')}`;
+}
+function crearPlantillaPropiaNueva(){
+  const nombre=prompt('Nombre de la plantilla (ej: "Empuje avanzado"):');
+  if(!nombre||!nombre.trim())return;
+  plantillaPropiaEnEdicion=true;
+  rutinaActualBase={id:null,nombre:nombre.trim(),objetivo:'fuerza',nivel:'intermedio',ejercicios:[]};
+  rutinaActualLista=[];
+  renderRutinaDetalle();
+  goTo('rutina-detalle');
+}
+function abrirPlantillaPropiaDetalle(id){
+  const r=(misPlantillasPropias||[]).find(x=>x.id===id);if(!r)return;
+  plantillaPropiaEnEdicion=false;
+  rutinaActualBase={id:r.id,nombre:r.nombre,objetivo:r.objetivo||'fuerza',nivel:r.nivel||'intermedio',ejercicios:r.ejercicios||[]};
+  rutinaActualLista=(r.ejercicios||[]).map(e=>Object.assign({},e));
+  renderRutinaDetalle();
+  goTo('rutina-detalle');
+}
+async function eliminarMiPlantillaPropia(id){
+  if(!confirm('¿Eliminar esta plantilla?'))return;
+  try{
+    await window.fbEliminarMiRutina(usuarioActual.uid,id);
+    misPlantillasPropias=(misPlantillasPropias||[]).filter(r=>r.id!==id);
+    renderMisPlantillasPropias();
+  }catch(e){console.error('No se pudo eliminar la plantilla:',e);toast('No se pudo eliminar'+(e&&e.code?' ('+e.code+')':'')+'.');}
+}
+function abrirAgregarParaPlantillaPropia(){destinoAgregar='plantillaPropia';goTo('agregar');}
+function quitarDePlantillaPropiaEnEdicion(i){rutinaActualLista.splice(i,1);renderRutinaDetalle();}
+function cancelarPlantillaPropiaEnEdicion(){plantillaPropiaEnEdicion=false;goTo('rutinas');setRutinasTab('plantillas');}
+async function guardarPlantillaPropiaNueva(){
+  if(!rutinaActualLista.length){toast('Agregá al menos un ejercicio');return;}
+  try{
+    const datos={nombre:rutinaActualBase.nombre,objetivo:rutinaActualBase.objetivo||'fuerza',nivel:rutinaActualBase.nivel||'intermedio',ejercicios:rutinaActualLista.map(e=>({nombre:e.nombre,grupo:e.grupo,series:e.series,reps:e.reps||0,esTiempo:!!e.esTiempo,segs:e.segs||0})),creadoEn:new Date().toISOString()};
+    await window.fbCrearMiRutina(usuarioActual.uid,datos);
+    misPlantillasPropias=null;
+    plantillaPropiaEnEdicion=false;
+    toast('Plantilla guardada ✓');
+    goTo('rutinas');setRutinasTab('plantillas');
+  }catch(e){console.error('No se pudo guardar la plantilla:',e);toast('No se pudo guardar'+(e&&e.code?' ('+e.code+')':'')+'.');}
+}
+let plantillaPropiaEnEdicion=false;
 function renderRutinaDetalle(){
   const r=rutinaActualBase;
+  const esProfesor=DB.perfil&&DB.perfil.rol==='profesor';
   document.getElementById('rd-titulo').textContent=r.nombre;
+  if(plantillaPropiaEnEdicion){
+    document.getElementById('rd-body').innerHTML=`
+      <div class="card" style="background:var(--acl);border-color:var(--ac)"><p style="font-size:12px;color:var(--txt)">Armá los ejercicios de tu plantilla "${r.nombre}". Después vas a poder usarla o compartirla con tus alumnos.</p></div>
+      <p class="sec">Ejercicios</p>
+      ${rutinaActualLista.length?rutinaActualLista.map((e,i)=>`<div class="ex-card">${gifImg(e,'44px')}<div style="flex:1"><p style="font-weight:700;font-size:14px;color:var(--txt)">${e.nombre}</p><p style="font-size:12px;color:var(--txt2)">${e.esTiempo?e.series+'×'+e.segs+'s':e.series+'×'+e.reps+' reps'}</p></div><button onclick="quitarDePlantillaPropiaEnEdicion(${i})" style="background:none;border:none;color:var(--err);font-size:20px;cursor:pointer;padding:2px 6px">×</button></div>`).join('')
+        :'<div class="empty" style="padding:24px 20px"><div style="font-size:34px">📋</div><p style="font-size:12px;color:var(--txt2)">Todavía no agregaste ejercicios</p></div>'}
+      <button class="btn btn-s" onclick="abrirAgregarParaPlantillaPropia()">➕ Agregar ejercicio</button>
+      <button class="btn btn-ok" onclick="guardarPlantillaPropiaNueva()">💾 Guardar plantilla</button>
+      <button class="btn btn-s" onclick="cancelarPlantillaPropiaEnEdicion()">Cancelar</button>`;
+    return;
+  }
   document.getElementById('rd-body').innerHTML=`
     <div class="rutina-card tag-${r.objetivo}"><div class="row-b"><span class="tag">${OBJ_LABEL[r.objetivo]}</span><span style="font-size:11px;color:var(--txt3)">${NIV_LABEL[r.nivel]}</span></div></div>
     <p class="sec">Ejercicios</p>
     ${rutinaActualLista.map(e=>`<div class="ex-card">${gifImg(e,'48px')}<div style="flex:1"><p style="font-weight:700;font-size:14px;color:var(--txt)">${e.nombre}${e.esVariante?' <span style="color:var(--ac);font-size:10px;font-weight:700">· variante</span>':''}</p><p style="font-size:12px;color:var(--txt2)">${e.esTiempo?e.series+'×'+e.segs+'s':e.series+'×'+e.reps+' reps'}</p></div></div>`).join('')}
     <button class="btn btn-s" onclick="otraVariante()">🔀 Generar otra variante (IA)</button>
-    <button class="btn btn-ok" onclick="usarComoMiRutina()">📌 Usar como mi rutina</button>
-    <button class="btn btn-p" style="font-size:16px;padding:15px" onclick="empezarRutina()">▶ Empezar esta rutina</button>`;
+    <div class="field"><label>Asignar a</label><select id="rd-dia-destino">${Array.from({length:CANT_DIAS},(_,i)=>`<option value="${i}"${i===rutinaDiaActivo?' selected':''}>Día ${i+1}</option>`).join('')}</select></div>
+    <button class="btn btn-ok" onclick="usarComoMiRutina()">📌 Usar como ${rutinaTargetUid?'la rutina de '+(rutinaTargetNombre||'tu alumno'):'mi rutina'}</button>
+    ${esProfesor?'<button class="btn btn-p" onclick="abrirCompartirRutina()">📤 Compartir con mis alumnos</button>':''}
+    ${!esProfesor?'<button class="btn btn-p" style="font-size:16px;padding:15px" onclick="empezarRutina()">▶ Empezar esta rutina</button>':''}`;
+}
+// ═══ Compartir una rutina (plantilla o la que se está viendo) con varios alumnos a la vez ═══
+async function abrirCompartirRutina(){
+  try{
+    if(!alumnosDelProfesor)alumnosDelProfesor=await window.fbListarAlumnos(usuarioActual.uid);
+  }catch(e){console.error('No se pudo cargar la lista de alumnos:',e);alumnosDelProfesor=alumnosDelProfesor||[];}
+  const cont=document.getElementById('compartir-rutina-lista');
+  if(!alumnosDelProfesor.length){
+    cont.innerHTML='<p style="font-size:13px;color:var(--txt2)">Todavía no tenés alumnos vinculados.</p>';
+  } else {
+    cont.innerHTML=alumnosDelProfesor.map(a=>`<label class="toggle-row" style="cursor:pointer">
+      <span style="font-size:13px;font-weight:600;color:var(--txt)">${a.nombre||a.email||'Alumno'}</span>
+      <input type="checkbox" class="compartir-rutina-chk" value="${a.uid}" style="width:20px;height:20px">
+    </label>`).join('');
+  }
+  abrirModal('modal-compartir-rutina');
+}
+async function compartirRutinaConSeleccionados(){
+  const uids=Array.from(document.querySelectorAll('.compartir-rutina-chk:checked')).map(el=>el.value);
+  if(!uids.length){toast('Elegí al menos un alumno');return;}
+  const diaIdx=parseInt(document.getElementById('rd-dia-destino').value)||0;
+  const nuevosEj=rutinaActualLista.map(e=>({nombre:e.nombre,grupo:e.grupo,series:e.series,reps:e.reps||0,esTiempo:!!e.esTiempo,segs:e.segs||0}));
+  let ok=0,fail=0;
+  for(const uid of uids){
+    try{
+      let existente=null;
+      try{ existente=await window.fbLeerRutinaPropia(uid); }catch(e){}
+      const dias=diasDeRutina(existente);
+      dias[diaIdx]={id:dias[diaIdx].id,nombre:dias[diaIdx].nombre,ejercicios:nuevosEj};
+      const rutina={nombre:(existente&&existente.nombre)||'Mi rutina',origen:'plantilla',plantillaId:rutinaActualBase.id,dias,actualizadoEn:new Date().toISOString()};
+      await window.fbGuardarRutinaPropia(uid,rutina);
+      ok++;
+    }
+    catch(e){ console.error('No se pudo compartir la rutina con '+uid+':',e); fail++; }
+  }
+  cerrarModal('modal-compartir-rutina');
+  if(fail===0)toast('📤 Rutina compartida con '+ok+' alumno'+(ok!==1?'s':'')+' ✓');
+  else toast('Compartida con '+ok+', falló con '+fail+(fail?' (revisá permisos)':''));
 }
 function usarComoMiRutina(){
   const destinoNombre=rutinaTargetUid?(rutinaTargetNombre||'tu alumno'):'vos';
-  if(rutinaVista&&rutinaVista.ejercicios&&rutinaVista.ejercicios.length&&!confirm('Esto va a reemplazar la rutina propia de '+destinoNombre+'. ¿Continuar?'))return;
-  rutinaVista={nombre:rutinaActualBase.nombre,origen:'plantilla',plantillaId:rutinaActualBase.id,ejercicios:rutinaActualLista.map(e=>({nombre:e.nombre,grupo:e.grupo,series:e.series,reps:e.reps||0,esTiempo:!!e.esTiempo,segs:e.segs||0})),actualizadoEn:new Date().toISOString()};
+  const diaIdx=parseInt(document.getElementById('rd-dia-destino').value)||0;
+  const dias=diasDeRutina(rutinaVista);
+  if(dias[diaIdx].ejercicios.length&&!confirm('Esto va a reemplazar "'+dias[diaIdx].nombre+'" de '+destinoNombre+'. ¿Continuar?'))return;
+  dias[diaIdx]={id:dias[diaIdx].id,nombre:dias[diaIdx].nombre,ejercicios:rutinaActualLista.map(e=>({nombre:e.nombre,grupo:e.grupo,series:e.series,reps:e.reps||0,esTiempo:!!e.esTiempo,segs:e.segs||0}))};
+  rutinaVista={nombre:(rutinaVista&&rutinaVista.nombre)||rutinaActualBase.nombre,origen:'plantilla',plantillaId:rutinaActualBase.id,dias,actualizadoEn:new Date().toISOString()};
+  rutinaDiaActivo=diaIdx;
   guardarRutinaVista();
-  toast('📌 Copiada como '+(rutinaTargetUid?'la rutina de '+destinoNombre:'tu rutina')+' ✓');
+  toast('📌 Copiada a "'+dias[diaIdx].nombre+'" de '+(rutinaTargetUid?destinoNombre:'tu rutina')+' ✓');
   goTo('rutinas');setRutinasTab('mia');
 }
 function empezarRutina(){
@@ -2557,6 +2888,7 @@ function abrirEstacionConfig(){estPickerSel=[];estConfig={rondas:3,trabajo:40,de
   document.getElementById('est-descanso-val').textContent=estConfig.descanso+'s';
   document.getElementById('est-descansoRonda-val').textContent=estConfig.descansoRonda+'s';
   document.getElementById('est-buscador').value='';
+  document.getElementById('est-nombre').value='';
   renderEstacionPicker('');
   renderEstSeleccionados();
   goTo('estacion-config');
@@ -2611,6 +2943,12 @@ let circuitoActual=null,circuitoSteps=[],circuitoIdx=0,circuitoRestante=0,circui
 function generarEstacion(){
   if(!estPickerSel.length){toast('Elegí al menos un ejercicio');return;}
   circuitoActual={ejercicios:estPickerSel.slice(),rondas:estConfig.rondas,trabajo:estConfig.trabajo,descanso:estConfig.descanso,descansoRonda:estConfig.descansoRonda};
+  const nombreEst=(document.getElementById('est-nombre').value||'').trim();
+  if(nombreEst&&window.fbCrearMiEstacion&&usuarioActual){
+    window.fbCrearMiEstacion(usuarioActual.uid,{nombre:nombreEst,ejercicios:circuitoActual.ejercicios,rondas:circuitoActual.rondas,trabajo:circuitoActual.trabajo,descanso:circuitoActual.descanso,descansoRonda:circuitoActual.descansoRonda,creadoEn:new Date().toISOString()})
+      .then(()=>{misEstacionesPropias=null;})
+      .catch(e=>console.error('No se pudo guardar la estación:',e));
+  }
   circuitoSteps=[];
   for(let r=0;r<circuitoActual.rondas;r++){
     for(let i=0;i<circuitoActual.ejercicios.length;i++){
@@ -2767,7 +3105,7 @@ if(DB.historial.length === 0 && DB.pesoCorporal.length === 0){
   import {
     getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
     signOut, onAuthStateChanged, setPersistence, browserLocalPersistence,
-    GoogleAuthProvider, signInWithPopup
+    GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail
   } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
   import {
     getFirestore, doc, setDoc, getDoc, enableIndexedDbPersistence,
@@ -2796,7 +3134,7 @@ if(DB.historial.length === 0 && DB.pesoCorporal.length === 0){
   window.fbAuth = auth;
   window.fbDb = db;
 
-  function generarCodigoProfesor(uid){ return uid.slice(0,6).toUpperCase(); }
+  function generarCodigoProfesor(uid){ return uid.slice(0,4).toUpperCase(); }
   async function asegurarPerfilPublicoProfesor(uid, email, nombre){
     const codigo = generarCodigoProfesor(uid);
     await setDoc(doc(db, 'profesoresPublicos', uid), {
@@ -2819,6 +3157,9 @@ if(DB.historial.length === 0 && DB.pesoCorporal.length === 0){
     return cred.user;
   };
   window.fbLogout = function(){ return signOut(auth); };
+  window.fbRecuperarContrasena = async function(email){
+    await sendPasswordResetEmail(auth, email);
+  };
 
   // Google Sign-In: el popup no permite preguntar el rol antes de autenticar,
   // por eso el rol se completa después (ver sc-rol-pendiente en la app).
@@ -2879,6 +3220,33 @@ if(DB.historial.length === 0 && DB.pesoCorporal.length === 0){
   };
   window.fbEliminarGimnasio = async function(profesorUid, gimnasioId){
     await deleteDoc(doc(db, 'usuarios', profesorUid, 'gimnasios', gimnasioId));
+  };
+
+  // Plantillas de rutina propias (armadas por el dueño de la cuenta — normalmente
+  // el profesor) para reutilizar y compartir. Solo su dueño puede leer/escribir.
+  window.fbListarMisRutinas = async function(uid){
+    const snap = await getDocs(collection(db, 'usuarios', uid, 'misRutinas'));
+    return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  };
+  window.fbCrearMiRutina = async function(uid, datos){
+    const ref = await addDoc(collection(db, 'usuarios', uid, 'misRutinas'), datos);
+    return ref.id;
+  };
+  window.fbEliminarMiRutina = async function(uid, rutinaId){
+    await deleteDoc(doc(db, 'usuarios', uid, 'misRutinas', rutinaId));
+  };
+
+  // Estaciones/circuitos guardados con nombre, para repetirlos sin reconfigurar.
+  window.fbListarMisEstaciones = async function(uid){
+    const snap = await getDocs(collection(db, 'usuarios', uid, 'misEstaciones'));
+    return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  };
+  window.fbCrearMiEstacion = async function(uid, datos){
+    const ref = await addDoc(collection(db, 'usuarios', uid, 'misEstaciones'), datos);
+    return ref.id;
+  };
+  window.fbEliminarMiEstacion = async function(uid, estacionId){
+    await deleteDoc(doc(db, 'usuarios', uid, 'misEstaciones', estacionId));
   };
 
   // Descubrir profesores (para que un alumno se vincule).
