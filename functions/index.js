@@ -2,10 +2,17 @@ const { initializeApp } = require("firebase-admin/app");
 const { getAuth } = require("firebase-admin/auth");
 const { getFirestore, FieldValue } = require("firebase-admin/firestore");
 const { onDocumentCreated } = require("firebase-functions/v2/firestore");
+const { onRequest } = require("firebase-functions/v2/https");
+const { defineSecret } = require("firebase-functions/params");
 const { logger } = require("firebase-functions");
 
 initializeApp();
 const db = getFirestore();
+
+// La API key de Gemini se guarda como secret, nunca hardcodeada.
+// Configurarla una vez con:
+//   firebase functions:secrets:set GEMINI_API_KEY
+const GEMINI_API_KEY = defineSecret("GEMINI_API_KEY");
 
 /**
  * Fase 1 — Al crearse usuarios/{uid} (lo hace fbRegistrar en el cliente),
@@ -83,5 +90,84 @@ exports.recalcularStats = onDocumentCreated(
       },
       { merge: true }
     );
+  }
+);
+
+/**
+ * Reemplaza a la vieja función de Netlify (/.netlify/functions/ia).
+ * Recibe { system, messages } desde el cliente (preguntarIA en index.html)
+ * y hace de proxy hacia la API GRATUITA de Gemini (modelo Flash), para no
+ * exponer la API key en el frontend.
+ *
+ * Pensada para llamarse vía Firebase Hosting rewrite en /api/ia (mismo
+ * origen que el sitio, así no hace falta lidiar con CORS del lado cliente).
+ */
+exports.ia = onRequest(
+  { secrets: [GEMINI_API_KEY], cors: true },
+  async (req, res) => {
+    if (req.method === "OPTIONS") {
+      res.status(204).send("");
+      return;
+    }
+    if (req.method !== "POST") {
+      res.status(405).json({ error: "Método no permitido" });
+      return;
+    }
+
+    const { system, messages } = req.body || {};
+    if (!Array.isArray(messages) || !messages.length) {
+      res.status(400).json({ error: "Falta el array de messages" });
+      return;
+    }
+
+    // El cliente manda mensajes estilo Anthropic: {role:'user'|'assistant', content:'...'}
+    // Gemini usa {role:'user'|'model', parts:[{text:'...'}]}
+    const contents = messages.map((m) => ({
+      role: m.role === "assistant" ? "model" : "user",
+      parts: [{ text: String(m.content || "") }],
+    }));
+
+    const MODEL = "gemini-3.6-flash"; // modelo Flash: gratis en la capa free de Google AI Studio
+
+    try {
+      const geminiRes = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-goog-api-key": GEMINI_API_KEY.value(),
+          },
+          body: JSON.stringify({
+            system_instruction: system ? { parts: [{ text: system }] } : undefined,
+            contents,
+            generationConfig: { maxOutputTokens: 1000 },
+          }),
+        }
+      );
+
+      const raw = await geminiRes.text();
+
+      if (!geminiRes.ok) {
+        logger.error(`Gemini API respondió ${geminiRes.status}: ${raw.slice(0, 500)}`);
+        res.status(geminiRes.status).json({
+          error: `La API de Gemini respondió ${geminiRes.status}`,
+        });
+        return;
+      }
+
+      const data = JSON.parse(raw);
+      const texto = (data.candidates?.[0]?.content?.parts || [])
+        .map((p) => p.text || "")
+        .join("");
+
+      // Devolvemos la respuesta con el mismo formato que ya espera el
+      // cliente (el mismo shape que usaba Anthropic), así no hay que
+      // tocar nada en index.html.
+      res.status(200).json({ content: [{ type: "text", text: texto }] });
+    } catch (err) {
+      logger.error("Error llamando a la API de Gemini:", err);
+      res.status(500).json({ error: "Error interno llamando a la IA" });
+    }
   }
 );
