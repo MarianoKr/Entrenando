@@ -224,16 +224,7 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
     <div id="sec-rapido" style="display:none"><p class="sec">⚡ Recientes</p><div class="quick-scroll" id="quick-list"></div></div>
     <p class="sec">📋 Últimas sesiones</p>
     <div id="home-hist"></div>
-    <div style="display:flex;gap:8px;padding:4px 0">
-      <button onclick="exportarDatos()" style="flex:1;background:var(--bg3);border:1px solid var(--brd);color:var(--txt2);font-size:11px;padding:8px;border-radius:8px;cursor:pointer">💾 Exportar datos</button>
-      <button onclick="document.getElementById('import-file').click()" style="flex:1;background:var(--bg3);border:1px solid var(--brd);color:var(--txt2);font-size:11px;padding:8px;border-radius:8px;cursor:pointer">📂 Importar datos</button>
-    </div>
     <input type="file" id="import-file" accept=".json" style="display:none" onchange="importarDatos(this)">
-    <div style="text-align:center;padding:2px 0 4px;cursor:pointer" onclick="abrirModal('modal-changelog')">
-      <span class="version-badge" style="background:var(--bg3);border:1px solid var(--brd);border-radius:20px;padding:4px 12px;font-size:10px;font-weight:700;color:var(--txt3)">
-        FORJA v2.7 — ¿Qué hay de nuevo?
-      </span>
-    </div>
     </div>
     <div id="home-profesor-content" style="display:none;flex-direction:column;gap:13px"></div>
   </div>
@@ -281,7 +272,12 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
       <span class="chip" onclick="setGrupo(this,'core')">Core</span>
     </div>
     <div id="lista-exs"></div>
-    <div id="wrap-crear" style="display:none"><button class="btn btn-s" onclick="crearNuevo()">✦ Crear "<span id="nuevo-nombre"></span>"</button></div>
+    <div id="wrap-crear" style="display:none">
+      <div class="field" style="margin-bottom:8px"><label>¿Qué músculo trabaja?</label>
+        <select id="nuevo-ej-grupo"><option value="pecho">Pecho</option><option value="piernas">Piernas</option><option value="espalda">Espalda</option><option value="hombro">Hombro</option><option value="biceps">Bíceps</option><option value="triceps">Tríceps</option><option value="core">Core</option><option value="general">General</option></select>
+      </div>
+      <button class="btn btn-s" onclick="crearNuevo()">✦ Crear "<span id="nuevo-nombre"></span>"</button>
+    </div>
   </div>
 </div>
 
@@ -394,7 +390,7 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
 
 <!-- STATS -->
 <div class="screen" id="sc-stats">
-  <div class="topbar"><button class="back" onclick="goHome()">←</button><h2>Mi progreso</h2></div>
+  <div class="topbar"><button class="back" onclick="goHome()">←</button><h2>Mi perfil</h2></div>
   <div class="body" id="stats-body"></div>
   <div class="bottomnav">
     <button class="bnav" onclick="goHome()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Inicio</button>
@@ -433,6 +429,18 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
     <div style="display:flex;gap:10px;margin-top:16px"><button class="btn btn-s" style="flex:1" onclick="cerrarModal('modal-peso')">Cancelar</button><button class="btn btn-p" style="flex:1" onclick="guardarPeso()">Guardar</button></div>
   </div>
 </div>
+<div class="modal-overlay" id="modal-medidas" style="display:none" onclick="clickOverlay(event,'modal-medidas')">
+  <div class="modal"><h3>📏 Mis medidas</h3>
+    <p style="font-size:11px;color:var(--txt2);margin-bottom:10px">Todo en cm. Dejá en blanco lo que no quieras registrar hoy.</p>
+    <div class="field"><label>Cintura</label><input type="number" id="input-med-cintura" step="0.1" style="text-align:center"></div>
+    <div class="field"><label>Cadera</label><input type="number" id="input-med-cadera" step="0.1" style="text-align:center"></div>
+    <div class="field"><label>Pecho</label><input type="number" id="input-med-pecho" step="0.1" style="text-align:center"></div>
+    <div class="field"><label>Brazo</label><input type="number" id="input-med-brazo" step="0.1" style="text-align:center"></div>
+    <div class="field"><label>Muslo</label><input type="number" id="input-med-muslo" step="0.1" style="text-align:center"></div>
+    <div class="field"><label>Cuello</label><input type="number" id="input-med-cuello" step="0.1" style="text-align:center"></div>
+    <div style="display:flex;gap:10px;margin-top:16px"><button class="btn btn-s" style="flex:1" onclick="cerrarModal('modal-medidas')">Cancelar</button><button class="btn btn-p" style="flex:1" onclick="guardarMedidas()">Guardar</button></div>
+  </div>
+</div>
 <div class="modal-overlay" id="modal-edit-ex" style="display:none" onclick="clickOverlay(event,'modal-edit-ex')">
   <div class="modal"><h3>✏️ Editar ejercicio</h3>
     <div class="field" style="margin-bottom:12px"><label>Nombre</label><input type="text" id="edit-ex-nombre"></div>
@@ -460,10 +468,64 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
     <div style="display:flex;gap:10px;margin-top:16px"><button class="btn btn-s" style="flex:1" onclick="cerrarModal('modal-edit-dia-ej')">Cancelar</button><button class="btn btn-ok" style="flex:1" onclick="guardarEdicionEjDia()">Guardar</button></div>
   </div>
 </div>
+  <div class="modal-overlay" id="modal-compartir-rutina" style="display:none" onclick="clickOverlay(event,'modal-compartir-rutina')">
   <div class="modal"><h3>📤 Compartir rutina</h3>
     <p style="font-size:12px;color:var(--txt2);margin-bottom:12px">Elegí a qué alumnos les asignás esta rutina. Se reemplaza la rutina actual de cada uno.</p>
     <div id="compartir-rutina-lista" style="display:flex;flex-direction:column;gap:8px;max-height:280px;overflow-y:auto;margin-bottom:6px"></div>
     <div style="display:flex;gap:10px;margin-top:16px"><button class="btn btn-s" style="flex:1" onclick="cerrarModal('modal-compartir-rutina')">Cancelar</button><button class="btn btn-ok" style="flex:1" onclick="compartirRutinaConSeleccionados()">Compartir</button></div>
+  </div>
+</div>
+<div class="modal-overlay" id="modal-editar-tanda-ej" style="display:none" onclick="clickOverlay(event,'modal-editar-tanda-ej')">
+  <div class="modal"><h3 id="edit-tex-nombre">✏️ Editar ejercicio</h3>
+    <div id="edit-tex-warn" class="prev-hint" style="display:none;color:var(--warn);border-color:#78350f;margin-bottom:12px;width:100%;box-sizing:border-box">⚠️ Ya completaste series de este ejercicio. Si cambiás la cantidad de series o el tipo, esos datos se pueden perder.</div>
+    <div class="field" style="margin-bottom:14px">
+      <label>Series</label>
+      <div class="row">
+        <button onclick="adjSeriesEditTanda(-1)" style="width:46px;height:46px;border-radius:10px;border:1.5px solid var(--brd);background:var(--bg3);font-size:24px;cursor:pointer;flex-shrink:0;color:var(--txt)">−</button>
+        <input type="number" id="edit-tex-series" value="3" min="1" max="10" style="text-align:center;font-size:22px;font-weight:800">
+        <button onclick="adjSeriesEditTanda(1)" style="width:46px;height:46px;border-radius:10px;border:1.5px solid var(--brd);background:var(--bg3);font-size:24px;cursor:pointer;flex-shrink:0;color:var(--txt)">+</button>
+      </div>
+    </div>
+    <div class="toggle-row" style="margin-bottom:14px">
+      <div><p style="font-size:14px;font-weight:600;color:var(--txt)">Tipo de ejercicio</p>
+        <p style="font-size:12px;color:var(--txt2)" id="edit-tex-tipo-label">Por repeticiones</p></div>
+      <button class="toggle" id="edit-tex-toggle-tipo" onclick="toggleTipoEditTanda()"></button>
+    </div>
+    <div id="edit-tex-campo-reps" class="field" style="margin-bottom:14px">
+      <label>Repeticiones base</label>
+      <input type="number" id="edit-tex-reps" placeholder="Ej: 10" inputmode="numeric" style="text-align:center;font-size:22px;font-weight:800">
+    </div>
+    <div id="edit-tex-campo-tiempo" class="field" style="display:none;margin-bottom:14px">
+      <label>Segundos por serie</label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
+        <button onclick="setSegundosEditTanda(20)" class="seg-btn">20s</button>
+        <button onclick="setSegundosEditTanda(30)" class="seg-btn">30s</button>
+        <button onclick="setSegundosEditTanda(45)" class="seg-btn">45s</button>
+        <button onclick="setSegundosEditTanda(60)" class="seg-btn">60s</button>
+        <button onclick="setSegundosEditTanda(90)" class="seg-btn">90s</button>
+        <button onclick="setSegundosEditTanda(120)" class="seg-btn">2min</button>
+      </div>
+      <input type="number" id="edit-tex-segs" placeholder="Ej: 45" inputmode="numeric" style="text-align:center;font-size:22px;font-weight:800">
+    </div>
+    <div class="toggle-row" style="margin-bottom:14px">
+      <div><p style="font-size:14px;font-weight:600;color:var(--txt)">¿Usás barra?</p><p style="font-size:12px;color:var(--txt2)">Agregar peso de la barra</p></div>
+      <button class="toggle" id="edit-tex-toggle-barra" onclick="toggleBarraEditTanda()"></button>
+    </div>
+    <div id="edit-tex-campo-barra" style="display:none;margin-bottom:6px"><div class="field"><label>Peso de barra (kg)</label><input type="number" id="edit-tex-barra" placeholder="Ej: 20" step="0.5"></div></div>
+    <div style="display:flex;gap:10px;margin-top:10px">
+      <button class="btn btn-s" style="flex:1" onclick="cerrarModal('modal-editar-tanda-ej')">Cancelar</button>
+      <button class="btn btn-ok" style="flex:1" onclick="guardarEdicionTandaEj()">✓ Guardar</button>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" id="modal-tanda-completa" style="display:none" onclick="clickOverlay(event,'modal-tanda-completa')">
+  <div class="modal"><h3>💪 ¡Tanda completa!</h3>
+    <p style="font-size:13px;color:var(--txt2);margin-bottom:16px">Terminaste todos los ejercicios. ¿Qué querés hacer?</p>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <button class="btn btn-ok" onclick="elegirFinTanda('finalizar')">🏁 Finalizar el día</button>
+      <button class="btn btn-p" onclick="elegirFinTanda('aerobico')">🏃 Aeróbico (caminata, carrera o bici)</button>
+      <button class="btn btn-s" onclick="elegirFinTanda('seguir')">+ Agregar otra tanda</button>
+    </div>
   </div>
 </div>
 <div class="screen" id="sc-cerrar-dia">
@@ -482,24 +544,25 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
       <div style="display:flex;align-items:center;gap:10px;margin-top:6px">
         <input type="number" id="cerrar-min" placeholder="0" inputmode="numeric"
           style="flex:1;text-align:center;font-size:26px;font-weight:800;padding:12px"
-          oninput="actualizarCal()">
+          oninput="this.dataset.editado='1';actualizarCal()">
         <span style="color:var(--txt2);font-size:15px;font-weight:600">min</span>
       </div>
       <div id="cal-estimado" style="display:none;margin-top:10px"></div>
     </div>
-    <!-- Cinta -->
+    <!-- Cardio -->
     <div style="background:linear-gradient(135deg,#2c1f10,#221b15);border-radius:var(--r);border:1px solid var(--purple);padding:14px">
       <div class="row-b" style="margin-bottom:10px">
-        <div><p style="font-size:15px;font-weight:700;color:var(--txt)">🏃 Cinta</p><p style="font-size:12px;color:var(--txt2)">¿Hiciste cinta hoy?</p></div>
+        <div><p style="font-size:15px;font-weight:700;color:var(--txt)">🏃 Aeróbico</p><p style="font-size:12px;color:var(--txt2)">¿Hiciste caminata, carrera o bici hoy?</p></div>
         <button class="toggle" id="toggle-cinta" onclick="toggleCinta()"></button>
       </div>
       <div id="cinta-campos" style="display:none">
         <div style="display:flex;gap:8px;margin-bottom:12px">
           <button class="cardio-btn sel" id="btn-caminar" onclick="setCardio('caminar')">🚶 Caminata</button>
           <button class="cardio-btn" id="btn-correr" onclick="setCardio('correr')">🏃 Carrera</button>
+          <button class="cardio-btn" id="btn-bici" onclick="setCardio('bici')">🚴 Bici</button>
         </div>
         <div class="field">
-          <label>Minutos en cinta</label>
+          <label>Minutos</label>
           <input type="number" id="cinta-min" placeholder="Ej: 20" inputmode="numeric"
             style="text-align:center;font-size:24px;font-weight:800;padding:12px"
             oninput="actualizarCal()">
@@ -566,9 +629,7 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
 <!-- ONBOARDING -->
 <div class="screen" id="sc-onboarding" style="position:relative">
   <button class="onb-skip" onclick="onbFinish(true)">Saltar</button>
-  <div class="onb-wrap" id="onb-wrap" style="padding-bottom:50px"></div>
-  <button onclick="resetearEmergencia()" style="position:absolute;bottom:44px;left:0;right:0;margin:0 auto;width:fit-content;background:none;border:none;color:var(--txt3);font-size:11px;padding:4px;cursor:pointer">⚙️ ¿App trabada? Tocá aquí</button>
-  <button onclick="cerrarSesionApp()" style="position:absolute;bottom:14px;left:0;right:0;margin:0 auto;width:fit-content;background:none;border:none;color:var(--txt3);font-size:12px;padding:8px;cursor:pointer">🚪 Cerrar sesión</button>
+  <div class="onb-wrap" id="onb-wrap" style="padding-bottom:24px"></div>
 </div>
 
 <!-- RUTINAS / ESTACIONES -->
@@ -648,6 +709,12 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
   </div>
 </div>
 
+<!-- HISTORIAL DE UN ALUMNO (vista del profesor) -->
+<div class="screen" id="sc-historial-alumno">
+  <div class="topbar"><button class="back" onclick="goTo('mis-alumnos')">←</button><h2 id="ha-titulo">Historial</h2></div>
+  <div class="body" id="historial-alumno-body"></div>
+</div>
+
 <!-- MIS GIMNASIOS (profesor) -->
 <div class="screen" id="sc-mis-gimnasios">
   <div class="topbar"><h2>🏢 Mis gimnasios</h2></div>
@@ -671,8 +738,14 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
     <div style="display:flex;flex-direction:column;gap:10px">
       <div style="background:var(--bg3);border-radius:10px;padding:10px 13px;border:1px solid var(--ac)">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">
-          <span style="font-size:12px;font-weight:800;color:var(--ac)">v2.7</span>
+          <span style="font-size:12px;font-weight:800;color:var(--ac)">v2.8</span>
           <span style="background:var(--ac);color:var(--ink,#15110d);border-radius:10px;padding:1px 7px;font-size:9px;font-weight:700">ACTUAL</span>
+        </div>
+        <p style="font-size:12px;color:var(--txt2)">El profesor ahora ve el historial completo del alumno (se sube automáticamente lo que faltaba), acceso al video de técnica durante el entrenamiento, y al completar una tanda se pregunta si finalizás el día o hacés aeróbico (caminata, carrera o bici)</p>
+      </div>
+      <div style="background:var(--bg3);border-radius:10px;padding:10px 13px;border:1px solid var(--brd)">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">
+          <span style="font-size:12px;font-weight:800;color:var(--txt3)">v2.7</span>
         </div>
         <p style="font-size:12px;color:var(--txt2)">Se arregló que el cronómetro siguiera corriendo al cancelar una tanda, código de profesor más chico, y edición de series/reps y combinación de ejercicios (superseries) dentro de cada día</p>
       </div>
@@ -742,7 +815,6 @@ label{font-size:12px;color:var(--txt2);margin-bottom:5px;display:block;font-weig
 </div>
 
 <div class="toast" id="toast"></div>
-</div>
 <script>
 
 // ═══ MUSCLE DIAGRAM ═══
@@ -968,12 +1040,12 @@ function gifImg(ex,size,radius='10px'){
   const st=`width:${size};height:${size};border-radius:${radius};background:var(--bg3);flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid var(--brd)`;
   return `<div style="${st}"><span style="font-size:20px">${fb}</span></div>`;
 }
-function calcCal(pw,mf,mc,mr){return Math.round(3.5*pw*(mf/60)+3.5*pw*(mc/60)+8*pw*(mr/60));}
+function calcCal(pw,mf,mc,mr,mb){return Math.round(3.5*pw*(mf/60)+3.5*pw*(mc/60)+8*pw*(mr/60)+6*pw*((mb||0)/60));}
 function actualizarCal(){
   const pw=(DB.pesoCorporal&&DB.pesoCorporal.length)?DB.pesoCorporal[DB.pesoCorporal.length-1].peso:75;
   const mf=parseInt(document.getElementById('cerrar-min')?.value)||0;
   const mc=parseInt(document.getElementById('cinta-min')?.value)||0;
-  const cal=calcCal(pw,mf,cintaActiva&&cardioTipo==='caminar'?mc:0,cintaActiva&&cardioTipo==='correr'?mc:0);
+  const cal=calcCal(pw,mf,cintaActiva&&cardioTipo==='caminar'?mc:0,cintaActiva&&cardioTipo==='correr'?mc:0,cintaActiva&&cardioTipo==='bici'?mc:0);
   const div=document.getElementById('cal-estimado');
   if(!div)return;
   if(mf>0||mc>0){div.style.display='block';div.innerHTML=`<div class="cal-badge" style="width:100%;justify-content:center;font-size:14px;padding:10px">🔥 Estimado: <strong>${cal} kcal</strong> (peso: ${pw}kg)</div>`;}
@@ -1001,7 +1073,7 @@ function _dbDefault(){
     {id:15,nombre:'Remo barra',grupo:'espalda'},{id:16,nombre:'Fondos',grupo:'triceps'},
     {id:17,nombre:'Crunches',grupo:'core'},{id:18,nombre:'Plancha',grupo:'core'},
     {id:19,nombre:'Press militar',grupo:'hombro'},{id:20,nombre:'Zancadas',grupo:'piernas'},
-  ],historial:[],sesionHoy:null,pesoCorporal:[],fechaActual:new Date().toISOString().slice(0,10),nextId:21,perfil:null,rutinaPropia:null};
+  ],historial:[],sesionHoy:null,pesoCorporal:[],medidas:[],fechaActual:new Date().toISOString().slice(0,10),nextId:21,perfil:null,rutinaPropia:null};
 }
 function cargarDB(){
   if(_checkStorage()){
@@ -1023,9 +1095,45 @@ function guardarDB(){
 }
 
 let DB=cargarDB();
+if(!DB.medidas)DB.medidas=[];
 function cargarTanda(){try{const s=localStorage.getItem('gymwork_tanda');if(s)return JSON.parse(s);}catch(e){}return{ejercicios:[]};}
 function saveTanda(){try{localStorage.setItem('gymwork_tanda',JSON.stringify(tandaActual));}catch(e){}}
-function clearTanda(){tandaActual={ejercicios:[]};try{localStorage.removeItem('gymwork_tanda');}catch(e){}}
+function clearTanda(){tandaActual={ejercicios:[]};tandaCompletaAvisada=false;try{localStorage.removeItem('gymwork_tanda');}catch(e){}}
+// Sube a Firestore (mejor esfuerzo) la última entrada agregada a DB.historial,
+// para que el profesor pueda ver el historial de entrenamientos de su alumno.
+function sincronizarHistorialFirestore(){
+  try{
+    if(!usuarioActual||!window.fbGuardarHistorialEntry||!DB.historial.length)return;
+    window.fbGuardarHistorialEntry(usuarioActual.uid,DB.historial[0]).catch(e=>console.error('No se pudo sincronizar el historial:',e));
+  }catch(e){console.error('No se pudo sincronizar el historial:',e);}
+}
+// Sección profesor #1 (mejorado): la función de arriba solo sube la última
+// sesión guardada. Esta compara el historial local contra lo que ya hay en
+// Firestore y sube SOLO lo que falte — así es barata de llamar seguido (por
+// ejemplo cada vez que se cierra un día) y nunca deja sesiones viejas sin
+// subir, sin tener que resubir todo de cero cada vez.
+async function sincronizarHistorialCompletoFirestore(){
+  try{
+    if(!usuarioActual||!window.fbGuardarHistorialEntry||!window.fbListarHistorialAlumno||!DB.historial.length)return;
+    const remoto=await window.fbListarHistorialAlumno(usuarioActual.uid);
+    const idsRemotos=new Set(remoto.map(r=>String(r.id)));
+    const faltantes=DB.historial.filter(e=>e.id&&!idsRemotos.has(String(e.id)));
+    if(!faltantes.length)return;
+    for(const entry of faltantes){
+      try{ await window.fbGuardarHistorialEntry(usuarioActual.uid,entry); }
+      catch(e){ console.error('No se pudo subir una sesión del historial:',e); }
+    }
+  }catch(e){console.error('No se pudo sincronizar el historial completo:',e);}
+}
+async function forzarResincronizarHistorial(){
+  if(!usuarioActual)return;
+  if(!confirm('Esto revisa tu historial completo contra el servidor y sube lo que falte, para que tu profesor lo vea completo. ¿Continuar?'))return;
+  try{
+    toast('Sincronizando…');
+    await sincronizarHistorialCompletoFirestore();
+    toast('Historial sincronizado ✓');
+  }catch(e){console.error('No se pudo resincronizar el historial:',e);toast('No se pudo sincronizar. Probá de nuevo.');}
+}
 let tandaActual=cargarTanda();
 let exEnConfig=null,exEditId=null,filtroGrupo='todos',editMuscState={p:[],s:[]};
 const MUSC_OPTS=['pec','fdelt','rdelt','bi','tri','abs','obl','quad','ham','glute','lat','trap','lower_back'];
@@ -1048,6 +1156,10 @@ function toggleMuscChip(kind,id){
 function abrirEditEx(id){const ex=DB.ejercicios.find(e=>e.id===id);if(!ex)return;exEditId=id;document.getElementById('edit-ex-nombre').value=ex.nombre;document.getElementById('edit-ex-grupo').value=ex.grupo;editMuscState={p:(ex.musc&&ex.musc.p)?ex.musc.p.slice():[],s:(ex.musc&&ex.musc.s)?ex.musc.s.slice():[]};renderMuscChips();abrirModal('modal-edit-ex');}
 function guardarEditEx(){const ex=DB.ejercicios.find(e=>e.id===exEditId);if(!ex)return;const n=document.getElementById('edit-ex-nombre').value.trim();if(!n){toast('Ingresá nombre');return;}ex.nombre=n;ex.grupo=document.getElementById('edit-ex-grupo').value;ex.musc=(editMuscState.p.length||editMuscState.s.length)?{p:editMuscState.p.slice(),s:editMuscState.s.slice()}:undefined;guardarDB();cerrarModal('modal-edit-ex');toast('Actualizado ✓');renderLibreria();}
 let barraActiva=false,cintaActiva=false,cardioTipo='caminar';
+// Sección alumno #3: se pone en true cuando ya se preguntó "¿finalizar el día o
+// aeróbico?" para la tanda actual, así no se repite el aviso cada vez que se
+// destilda y vuelve a tildar la última serie.
+let tandaCompletaAvisada=false;
 let timerTIv=null,cronoIv=null;
 let iaConv=[];
 
@@ -1101,8 +1213,30 @@ function guardarPeso(){
     toast('Peso: '+p+'kg ✓');
   }catch(e){alert('Error al guardar peso: '+e.message);}
 }
+const CAMPOS_MEDIDAS=['cintura','cadera','pecho','brazo','muslo','cuello'];
+function abrirModalMedidas(){
+  const ultima=DB.medidas.length?DB.medidas[DB.medidas.length-1]:null;
+  CAMPOS_MEDIDAS.forEach(c=>{document.getElementById('input-med-'+c).value=ultima&&ultima[c]?ultima[c]:'';});
+  abrirModal('modal-medidas');
+}
+function guardarMedidas(){
+  try{
+    const entrada={fecha:DB.fechaActual};
+    let algo=false;
+    CAMPOS_MEDIDAS.forEach(c=>{
+      const v=parseFloat(document.getElementById('input-med-'+c).value);
+      if(v>0){entrada[c]=v;algo=true;}
+    });
+    if(!algo){toast('Ingresá al menos una medida');return;}
+    DB.medidas.push(entrada);
+    guardarDB();
+    cerrarModal('modal-medidas');
+    toast('Medidas guardadas ✓');
+    if(typeof renderStats==='function'&&document.getElementById('sc-stats')?.classList.contains('active'))renderStats();
+  }catch(e){alert('Error al guardar medidas: '+e.message);}
+}
 function toggleCinta(){cintaActiva=!cintaActiva;document.getElementById('toggle-cinta').classList.toggle('on',cintaActiva);document.getElementById('cinta-campos').style.display=cintaActiva?'block':'none';actualizarCal();}
-function setCardio(t){cardioTipo=t;document.getElementById('btn-caminar').classList.toggle('sel',t==='caminar');document.getElementById('btn-correr').classList.toggle('sel',t==='correr');actualizarCal();}
+function setCardio(t){cardioTipo=t;document.getElementById('btn-caminar').classList.toggle('sel',t==='caminar');document.getElementById('btn-correr').classList.toggle('sel',t==='correr');document.getElementById('btn-bici').classList.toggle('sel',t==='bici');actualizarCal();}
 
 // ═══ SESIÓN ═══
 function getSesionHoy(){
@@ -1209,12 +1343,13 @@ function abrirCerrarDia(){
     const cc=document.getElementById('cinta-campos');if(cc)cc.style.display='none';
     document.getElementById('btn-caminar')?.classList.add('sel');
     document.getElementById('btn-correr')?.classList.remove('sel');
+    document.getElementById('btn-bici')?.classList.remove('sel');
     const cm=document.getElementById('cinta-min');if(cm)cm.value='';
     const ck=document.getElementById('cinta-km');if(ck)ck.value='';
     const ce=document.getElementById('cal-estimado');if(ce)ce.style.display='none';
     // Set duration from cronómetro
     const mins=getCronoMin()||0;
-    const cerrarMinEl=document.getElementById('cerrar-min');if(cerrarMinEl)cerrarMinEl.value=mins||'';
+    const cerrarMinEl=document.getElementById('cerrar-min');if(cerrarMinEl){cerrarMinEl.value=mins||'';delete cerrarMinEl.dataset.editado;}
     actualizarCal();
     // Show exercise summary
     renderCerrarResumen(ses);
@@ -1248,6 +1383,24 @@ function renderCerrarResumen(ses){
 }
 // Guarda la sesión del día con los datos mínimos garantizados (sin depender de ningún campo del formulario).
 // Se usa como red de seguridad automática si el guardado "completo" falla por cualquier motivo.
+// Sección alumno #2: para el historial solo cuenta lo que realmente se hizo.
+// Por cada ejercicio se queda solo con las series tildadas como completadas;
+// si no se completó ninguna serie, el ejercicio entero se descarta.
+function soloCompletados(ejercicios){
+  return (ejercicios||[]).map(e=>{
+    // e.series acá ya viene en el formato "guardado" (no el formato en vivo con
+    // seriesData), así que una serie cuenta como hecha si tiene su marca de
+    // completada (ejercicios por tiempo) o si tiene reps/peso cargados (por reps).
+    const todas=e.series||[];
+    const hechas=todas.filter(function(s){
+      if(!s)return false;
+      if(e.esTiempo)return !!s.completada;
+      return (s.reps&&s.reps>0)||(s.peso&&s.peso>0);
+    });
+    if(!hechas.length)return null;
+    return Object.assign({},e,{series:hechas});
+  }).filter(Boolean);
+}
 function guardarSesionMinima(ses,extra){
   extra=extra||{};
   try{
@@ -1259,11 +1412,12 @@ function guardarSesionMinima(ses,extra){
       cinta:extra.cinta||null,
       tandas:ses.tandas.length,
       calorias:extra.calorias||null,
-      ejercicios:ses.tandas.reduce(function(acc,t){return acc.concat((t&&t.ejercicios)||[]);},[])
+      ejercicios:soloCompletados(ses.tandas.reduce(function(acc,t){return acc.concat((t&&t.ejercicios)||[]);},[]))
     });
     DB.sesionHoy=null;
     limpiarTimersActivos();
     guardarDB();clearTanda();pararCrono();
+    sincronizarHistorialFirestore();sincronizarHistorialCompletoFirestore();
     return true;
   }catch(err){
     console.error('guardarSesionMinima error:',err);
@@ -1288,11 +1442,12 @@ function cerrarDia(){
     const km=parseFloat(document.getElementById('cinta-km')?.value)||0;
     const cinta=cintaActiva?{tipo:cardioTipo,min:mc,km:km||null}:null;
     const pw=(DB.pesoCorporal&&DB.pesoCorporal.length)?DB.pesoCorporal[DB.pesoCorporal.length-1].peso:75;
-    const cals=mins>0?calcCal(pw,mins,cintaActiva&&cardioTipo==='caminar'?mc:0,cintaActiva&&cardioTipo==='correr'?mc:0):null;
-    DB.historial.unshift({id:'h'+Date.now(),fecha:DB.fechaActual,nombre:'Sesión del día',duracionMin:mins,cinta,tandas:ses.tandas.length,calorias:cals,ejercicios:ses.tandas.reduce(function(acc,t){return acc.concat((t&&t.ejercicios)||[]);},[])});
+    const cals=mins>0?calcCal(pw,mins,cintaActiva&&cardioTipo==='caminar'?mc:0,cintaActiva&&cardioTipo==='correr'?mc:0,cintaActiva&&cardioTipo==='bici'?mc:0):null;
+    DB.historial.unshift({id:'h'+Date.now(),fecha:DB.fechaActual,nombre:'Sesión del día',duracionMin:mins,cinta,tandas:ses.tandas.length,calorias:cals,ejercicios:soloCompletados(ses.tandas.reduce(function(acc,t){return acc.concat((t&&t.ejercicios)||[]);},[]))});
     DB.sesionHoy=null;
     limpiarTimersActivos();
     guardarDB();clearTanda();pararCrono();
+    sincronizarHistorialFirestore();sincronizarHistorialCompletoFirestore();
     goHome();toast('¡Día guardado!'+(cals?' 🔥 '+cals+' kcal':''));
   }catch(err){
     // Red de seguridad: si algo del formulario falló, igual guardamos la sesión con lo mínimo
@@ -1363,21 +1518,119 @@ function renderNueva(){
   document.getElementById('nueva-titulo').textContent=ses&&ses.tandas.length?`Tanda ${ses.tandas.length+1}`:'Nueva tanda';
   const c=document.getElementById('lista-rut');
   if(!tandaActual.ejercicios.length){c.innerHTML='<div class="empty" style="padding:14px"><div style="font-size:36px">🏋️</div><p>Agregá ejercicios</p></div>';return;}
-  c.innerHTML=tandaActual.ejercicios.map((e,i)=>`<div class="card" style="margin-bottom:10px"><div class="row-b"><div class="row" style="gap:10px">${gifImg(e,'44px')}<div><p style="font-weight:700;font-size:14px;color:var(--txt)">${e.nombre}</p><p style="font-size:12px;color:var(--txt2)">${e.esTiempo?e.series+'×'+e.segs+'seg':e.series+'×'+e.reps+' reps'}${e.barra?' · barra '+e.barra+'kg':''}</p></div></div><button onclick="quitarEx(${i})" style="background:none;border:none;cursor:pointer;color:var(--err);font-size:24px;padding:4px">×</button></div></div>`).join('');
+  c.innerHTML=tandaActual.ejercicios.map((e,i)=>`<div class="card" style="margin-bottom:10px"><div class="row-b"><div class="row" style="gap:10px">${gifImg(e,'44px')}<div><p style="font-weight:700;font-size:14px;color:var(--txt)">${e.nombre}</p><p style="font-size:12px;color:var(--txt2)">${e.esTiempo?e.series+'×'+e.segs+'seg':e.series+'×'+e.reps+' reps'}${e.barra?' · barra '+e.barra+'kg':''}</p></div></div><div class="row" style="gap:4px;flex-shrink:0"><button onclick="abrirEditarTandaEj(${i})" style="background:none;border:none;cursor:pointer;color:var(--txt2);font-size:18px;padding:4px">✏️</button><button onclick="quitarEx(${i})" style="background:none;border:none;cursor:pointer;color:var(--err);font-size:24px;padding:4px">×</button></div></div></div>`).join('');
 }
 function quitarEx(i){tandaActual.ejercicios.splice(i,1);saveTanda();renderNueva();}
+
+// ═══ EDITAR EJERCICIO DE LA TANDA (antes de empezar o ya en curso) ═══
+let editTandaEjIndex=null,editTandaEjTiempo=false,editTandaEjBarra=false;
+function abrirEditarTandaEj(i){
+  const e=tandaActual.ejercicios[i];
+  if(!e)return;
+  editTandaEjIndex=i;
+  editTandaEjTiempo=!!e.esTiempo;
+  editTandaEjBarra=!!e.barra;
+  document.getElementById('edit-tex-nombre').textContent='✏️ '+e.nombre;
+  const hayCompletadas=(e.seriesData||[]).some(s=>s.completada);
+  document.getElementById('edit-tex-warn').style.display=hayCompletadas?'flex':'none';
+  document.getElementById('edit-tex-series').value=e.series;
+  document.getElementById('edit-tex-reps').value=e.reps||'';
+  document.getElementById('edit-tex-segs').value=e.segs||'';
+  document.getElementById('edit-tex-toggle-tipo').classList.toggle('on',editTandaEjTiempo);
+  document.getElementById('edit-tex-tipo-label').textContent=editTandaEjTiempo?'Por tiempo':'Por repeticiones';
+  document.getElementById('edit-tex-campo-reps').style.display=editTandaEjTiempo?'none':'block';
+  document.getElementById('edit-tex-campo-tiempo').style.display=editTandaEjTiempo?'block':'none';
+  document.querySelectorAll('#edit-tex-campo-tiempo .seg-btn').forEach(function(b){b.classList.toggle('sel',parseInt(b.textContent)===e.segs||(e.segs===120&&b.textContent==='2min'));});
+  document.getElementById('edit-tex-toggle-barra').classList.toggle('on',editTandaEjBarra);
+  document.getElementById('edit-tex-campo-barra').style.display=editTandaEjBarra?'block':'none';
+  document.getElementById('edit-tex-barra').value=e.barra||'';
+  abrirModal('modal-editar-tanda-ej');
+}
+function adjSeriesEditTanda(d){const i=document.getElementById('edit-tex-series');i.value=Math.max(1,Math.min(10,(parseInt(i.value)||3)+d));}
+function toggleTipoEditTanda(){
+  editTandaEjTiempo=!editTandaEjTiempo;
+  document.getElementById('edit-tex-toggle-tipo').classList.toggle('on',editTandaEjTiempo);
+  document.getElementById('edit-tex-tipo-label').textContent=editTandaEjTiempo?'Por tiempo':'Por repeticiones';
+  document.getElementById('edit-tex-campo-reps').style.display=editTandaEjTiempo?'none':'block';
+  document.getElementById('edit-tex-campo-tiempo').style.display=editTandaEjTiempo?'block':'none';
+}
+function setSegundosEditTanda(s){
+  document.getElementById('edit-tex-segs').value=s;
+  document.querySelectorAll('#edit-tex-campo-tiempo .seg-btn').forEach(function(b){b.classList.remove('sel');});
+  event.target.classList.add('sel');
+}
+function toggleBarraEditTanda(){
+  editTandaEjBarra=!editTandaEjBarra;
+  document.getElementById('edit-tex-toggle-barra').classList.toggle('on',editTandaEjBarra);
+  document.getElementById('edit-tex-campo-barra').style.display=editTandaEjBarra?'block':'none';
+}
+function guardarEdicionTandaEj(){
+  const i=editTandaEjIndex;
+  const e=tandaActual.ejercicios[i];
+  if(!e)return;
+  const nuevaSeries=Math.max(1,parseInt(document.getElementById('edit-tex-series').value)||e.series);
+  const nuevoTipo=editTandaEjTiempo;
+  const nuevosSegs=nuevoTipo?(parseInt(document.getElementById('edit-tex-segs').value)||e.segs||30):0;
+  const nuevasReps=!nuevoTipo?(parseInt(document.getElementById('edit-tex-reps').value)||e.reps||10):0;
+  const nuevaBarra=editTandaEjBarra?(parseFloat(document.getElementById('edit-tex-barra').value)||0):0;
+
+  if(nuevoTipo&&!document.getElementById('edit-tex-segs').value&&!e.segs){toast('Seleccioná la duración');return;}
+  if(!nuevoTipo&&!document.getElementById('edit-tex-reps').value&&!e.reps){toast('Ingresá las repeticiones');return;}
+
+  const seriesCompletadasN=(e.seriesData||[]).filter(s=>s.completada).length;
+  const cambioTipo=nuevoTipo!==!!e.esTiempo;
+  const reduceDebajoCompletadas=nuevaSeries<seriesCompletadasN;
+  if(seriesCompletadasN>0&&(cambioTipo||reduceDebajoCompletadas)){
+    const msg=cambioTipo
+      ? 'Ya completaste series de "'+e.nombre+'" con el tipo anterior. Si cambiás el tipo se van a perder esos datos. ¿Confirmás?'
+      : 'Ibas a dejar '+nuevaSeries+' serie(s), pero ya completaste '+seriesCompletadasN+'. Las series completadas que sobren se van a perder. ¿Confirmás?';
+    if(!confirm(msg))return;
+  }
+
+  e.series=nuevaSeries;
+  e.esTiempo=nuevoTipo;
+  e.segs=nuevosSegs;
+  e.reps=nuevasReps;
+  e.barra=nuevaBarra;
+
+  if(cambioTipo){
+    // El tipo cambió: la forma de seriesData es distinta (reps/peso vs. solo tiempo),
+    // así que se reconstruye desde cero.
+    e.seriesData=Array.from({length:nuevaSeries},function(){
+      return nuevoTipo?{completada:false}:{peso:'',repsReal:'',completada:false};
+    });
+  } else {
+    // Mismo tipo: se ajusta el largo del array conservando el progreso ya cargado.
+    const actuales=e.seriesData||[];
+    const nuevoArr=[];
+    for(let k=0;k<nuevaSeries;k++){
+      nuevoArr.push(actuales[k]||(nuevoTipo?{completada:false}:{peso:'',repsReal:'',completada:false}));
+    }
+    e.seriesData=nuevoArr;
+  }
+
+  saveTanda();
+  cerrarModal('modal-editar-tanda-ej');
+  toast('Ejercicio actualizado ✓');
+  if(document.getElementById('sc-entrenar')&&document.getElementById('sc-entrenar').classList.contains('active')){
+    renderEntrenar();
+  } else {
+    renderNueva();
+  }
+}
 function iniciar(){
   if(!tandaActual.ejercicios.length){toast('Agregá al menos un ejercicio');return;}
   saveTanda();
   if(!getSesionHoy()){crearSesion();iniciarCrono();}
+  tandaCompletaAvisada=false;
   timerTStart=Date.now();iniciarTimerT();renderEntrenar();goTo('entrenar');
 }
 
 // ═══ EJERCICIOS ═══
 function getUltimoUso(nombre){
   const ses=getSesionHoy();
-  if(ses){for(let t of [...ses.tandas].reverse()){const ex=t.ejercicios.find(e=>e.nombre===nombre);if(ex&&ex.series&&ex.series.length){const ps=ex.series.map(s=>s.peso||0).filter(p=>p>0);return{texto:`Hoy: ${ex.series.length}×${ex.series[0].reps}·hasta ${ps.length?Math.max(...ps):'?'}kg`,pesos:ps,series:ex.series};}}}
-  for(let r of DB.historial){const ex=r.ejercicios.find(e=>e.nombre===nombre);if(ex&&ex.series&&ex.series.length){const ps=ex.series.map(s=>s.peso||0).filter(p=>p>0);return{texto:`${fechaCorta(r.fecha)}: ${ex.series.length}×${ex.series[0].reps}·hasta ${ps.length?Math.max(...ps):'?'}kg`,pesos:ps,series:ex.series};}}
+  if(ses){for(let t of [...ses.tandas].reverse()){const ex=t.ejercicios.find(e=>e.nombre===nombre);if(ex&&ex.series&&ex.series.length){const ps=ex.series.map(s=>s.peso||0).filter(p=>p>0);return{texto:`Hoy: ${ex.series.length}×${ex.esTiempo?ex.segs+'s':ex.series[0].reps}·hasta ${ps.length?Math.max(...ps):'?'}kg`,pesos:ps,series:ex.series,esTiempo:!!ex.esTiempo,segs:ex.segs||0,barra:ex.barra||0};}}}
+  for(let r of DB.historial){const ex=r.ejercicios.find(e=>e.nombre===nombre);if(ex&&ex.series&&ex.series.length){const ps=ex.series.map(s=>s.peso||0).filter(p=>p>0);return{texto:`${fechaCorta(r.fecha)}: ${ex.series.length}×${ex.esTiempo?ex.segs+'s':ex.series[0].reps}·hasta ${ps.length?Math.max(...ps):'?'}kg`,pesos:ps,series:ex.series,esTiempo:!!ex.esTiempo,segs:ex.segs||0,barra:ex.barra||0};}}
   return null;
 }
 function setGrupo(el,g){document.querySelectorAll('#chips-grupo .chip').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');filtroGrupo=g;filtrar(document.getElementById('buscador').value);}
@@ -1387,7 +1640,11 @@ function filtrar(q){
   renderExs(lista);
   const ya=DB.ejercicios.some(e=>e.nombre.toLowerCase()===v);
   const w=document.getElementById('wrap-crear');
-  if(v&&!ya){w.style.display='block';document.getElementById('nuevo-nombre').textContent=q.trim();}else w.style.display='none';
+  if(v&&!ya){
+    w.style.display='block';document.getElementById('nuevo-nombre').textContent=q.trim();
+    const gruposValidos=['pecho','piernas','espalda','hombro','biceps','triceps','core'];
+    document.getElementById('nuevo-ej-grupo').value=gruposValidos.includes(filtroGrupo)?filtroGrupo:'general';
+  }else w.style.display='none';
 }
 function renderExs(lista){
   const c=document.getElementById('lista-exs');
@@ -1400,6 +1657,14 @@ function renderExs(lista){
 }
 function selEx(id){
   const ex=DB.ejercicios.find(e=>e.id===id);if(!ex)return;
+  // Sección alumno: si ya se usó este ejercicio antes (hoy o en un día previo),
+  // se agrega directo a la tanda repitiendo series, tipo, barra y pesos/reps de
+  // la última vez, sin pasar por la pantalla de configuración. El alumno puede
+  // después ajustar cualquier cosa con el botón ✏️ si algo quedó mal.
+  if(destinoAgregar==='tanda'){
+    const prevTanda=getUltimoUso(ex.nombre);
+    if(prevTanda){agregarExDesdeUltimoUso(ex,prevTanda);return;}
+  }
   exEnConfig={...ex};
   document.getElementById('cfg-titulo').textContent=ex.nombre;
   const fb=FB[ex.grupo]||'⚡';
@@ -1439,8 +1704,28 @@ function selEx(id){
   goTo('config');
 }
 function toggleBarra(){barraActiva=!barraActiva;document.getElementById('toggle-barra').classList.toggle('on',barraActiva);document.getElementById('campo-barra').style.display=barraActiva?'block':'none';}
+// Arma y agrega el ejercicio a la tanda repitiendo exactamente lo de la última
+// vez (series, tipo, segundos/reps, barra y peso/reps de cada serie).
+function agregarExDesdeUltimoUso(ex,prev){
+  const s=prev.series.length;
+  let nuevoEj;
+  if(prev.esTiempo){
+    nuevoEj={id:ex.id,nombre:ex.nombre,grupo:ex.grupo,
+      series:s,reps:0,segs:prev.segs||30,esTiempo:true,barra:prev.barra||0,
+      seriesData:Array.from({length:s},function(){return {completada:false};})};
+  } else {
+    const repsBase=(prev.series[0]&&prev.series[0].reps)?prev.series[0].reps:10;
+    nuevoEj={id:ex.id,nombre:ex.nombre,grupo:ex.grupo,
+      series:s,reps:repsBase,segs:0,esTiempo:false,barra:prev.barra||0,
+      seriesData:prev.series.map(function(sr){return {peso:sr.peso?String(sr.peso):'',repsReal:sr.reps?String(sr.reps):'',completada:false};})};
+  }
+  tandaActual.ejercicios.push(nuevoEj);
+  saveTanda();
+  toast(ex.nombre+' agregado igual que la última vez ✓');
+  goTo('nueva');
+}
 function adjSeries(d){const i=document.getElementById('cfg-series');i.value=Math.max(1,Math.min(10,(parseInt(i.value)||3)+d));}
-function crearNuevo(){const n=document.getElementById('buscador').value.trim();if(!n)return;const ex={id:DB.nextId++,nombre:n,grupo:'general'};DB.ejercicios.push(ex);guardarDB();toast('"'+n+'" creado ✓');selEx(ex.id);}
+function crearNuevo(){const n=document.getElementById('buscador').value.trim();if(!n)return;const grupo=document.getElementById('nuevo-ej-grupo').value||'general';const ex={id:DB.nextId++,nombre:n,grupo};DB.ejercicios.push(ex);guardarDB();toast('"'+n+'" creado ✓');selEx(ex.id);}
 function confirmarConfig(){
   const s=parseInt(document.getElementById('cfg-series').value)||3;
   const b=barraActiva?(parseFloat(document.getElementById('cfg-barra').value)||0):0;
@@ -1497,7 +1782,7 @@ function confirmarConfig(){
     const prev=getUltimoUso(exEnConfig.nombre);
     tandaActual.ejercicios.push(Object.assign({},exEnConfig,{
       series:s,reps:parseInt(r),segs:0,esTiempo:false,barra:b,
-      seriesData:Array.from({length:s},function(_,i){return {peso:prev&&prev.pesos[i]?String(prev.pesos[i]):'',repsReal:'',completada:false};})
+      seriesData:Array.from({length:s},function(_,i){const pp=prev&&prev.series&&prev.series[i]&&prev.series[i].peso;return {peso:pp?String(pp):'',repsReal:'',completada:false};})
     }));
   }
   saveTanda();toast(exEnConfig.nombre+' ✓');goTo('nueva');
@@ -1509,11 +1794,13 @@ function renderEntrenar(){
   document.getElementById('ent-prog').textContent=done+'/'+total;
   const ses=getSesionHoy();document.getElementById('ent-titulo').textContent=`Tanda ${(ses?ses.tandas.length:0)+1}`;
   const body=document.getElementById('ent-body');
-  body.innerHTML=`<div class="card" style="text-align:center;padding:12px"><p style="font-size:10px;color:var(--txt3);font-weight:700;margin-bottom:4px">TIEMPO DE ESTA TANDA</p><div style="font-size:32px;font-weight:800;color:var(--ok);letter-spacing:2px" id="ent-timer">00:00</div></div>`
-  +tandaActual.ejercicios.map((e,ei)=>{
+  body.innerHTML=`<div class="card" style="text-align:center;padding:12px"><p style="font-size:10px;color:var(--txt3);font-weight:700;margin-bottom:4px">TIEMPO DE ESTA TANDA</p><div style="font-size:32px;font-weight:800;color:var(--ok);letter-spacing:2px" id="ent-timer">00:00</div></div>`;
+  let autocompletadoGlobal=false;
+  const tarjetaExHtml=(e,ei)=>{
     const prev=getUltimoUso(e.nombre),allDone=e.seriesData.every(s=>s.completada);
-    return`<div class="card" style="${allDone?'border-color:#166534;':''}">
-      <div class="row" style="gap:10px;margin-bottom:10px">${gifImg(e,'50px')}<div style="flex:1"><p style="font-weight:700;font-size:15px;color:var(--txt)">${e.nombre}</p>${e.barra?`<p style="font-size:12px;color:var(--txt2)">Barra: ${e.barra}kg</p>`:''}${prev?`<div class="prev-hint">⏱ ${prev.texto}</div>`:''}</div>${allDone?'<span style="font-size:22px">✅</span>':`<span class="tag">${e.reps} reps</span>`}</div>
+    let huboAutocompletado=false;
+    const html=`<div class="card" style="${allDone?'border-color:#166534;':''}">
+      <div class="row" style="gap:10px;margin-bottom:10px">${gifImg(e,'50px')}<div style="flex:1"><p style="font-weight:700;font-size:15px;color:var(--txt)">${e.nombre}</p>${e.barra?`<p style="font-size:12px;color:var(--txt2)">Barra: ${e.barra}kg</p>`:''}${prev?`<div class="prev-hint">⏱ ${prev.texto}</div>`:''}</div><a href="${videoSearchUrl(e.nombre)}" target="_blank" rel="noopener" title="Ver técnica" style="background:none;border:none;cursor:pointer;color:var(--ac);font-size:18px;text-decoration:none;padding:4px;flex-shrink:0">▶</a><button onclick="abrirEditarTandaEj(${ei})" style="background:none;border:none;cursor:pointer;color:var(--txt2);font-size:18px;padding:4px;flex-shrink:0">✏️</button>${allDone?'<span style="font-size:22px">✅</span>':''}</div>
       <div style="display:grid;grid-template-columns:28px 1fr 1fr 38px;gap:6px;padding-bottom:6px;border-bottom:1px solid var(--brd);margin-bottom:2px"><span></span><span style="font-size:11px;font-weight:700;color:var(--txt3);text-align:center">Reps</span><span style="font-size:11px;font-weight:700;color:var(--txt3);text-align:center">Peso kg</span><span></span></div>
       ${e.esTiempo
         ? e.seriesData.map((s,si)=>{
@@ -1532,34 +1819,131 @@ function renderEntrenar(){
               }
             </div>`;
           }).join('')
-        : e.seriesData.map((s,si)=>{const pp=prev&&prev.pesos&&prev.pesos[si]?prev.pesos[si]:null,pr=prev&&prev.series&&prev.series[si]?prev.series[si].reps:null;return`<div class="serie-row"><div class="snum${s.completada?' done':''}">${si+1}</div>
+        : e.seriesData.map((s,si)=>{
+            const pp=prev&&prev.series&&prev.series[si]&&prev.series[si].peso?prev.series[si].peso:null;
+            const pr=prev&&prev.series&&prev.series[si]?prev.series[si].reps:null;
+            // Autocompleta el peso con el de la última tanda hecha de este
+            // ejercicio (solo si el alumno todavía no cargó nada), pero sigue
+            // siendo un campo editable: se puede borrar o cambiar sin problema.
+            if(!s.peso&&pp){s.peso=String(pp);huboAutocompletado=true;}
+            return`<div class="serie-row"><div class="snum${s.completada?' done':''}">${si+1}</div>
         <input class="s-input" type="number" inputmode="numeric" placeholder="${pr||e.reps}" value="${s.repsReal||''}" onchange="updSerie(${ei},${si},'repsReal',this.value)" style="${s.completada?'border-color:#166534;background:var(--okl);':''}" ${s.completada?'disabled':''}>
-        <input class="s-input" type="number" inputmode="decimal" placeholder="${pp||'kg'}" value="${s.peso||''}" onchange="updSerie(${ei},${si},'peso',this.value)" style="${s.completada?'border-color:#166634;background:var(--okl);':pp&&!s.peso?'border-color:var(--warn);':''}" ${s.completada?'disabled':''}>
+        <input class="s-input" type="number" inputmode="decimal" placeholder="kg" value="${s.peso||''}" onchange="updSerie(${ei},${si},'peso',this.value)" style="${s.completada?'border-color:#166634;background:var(--okl);':''}" ${s.completada?'disabled':''}>
         <button class="check-btn${s.completada?' done':''}" onclick="completarSerie(${ei},${si})">✓</button>
       </div>`;}).join('')
       }
     </div>`;
-  }).join('');
+    if(huboAutocompletado)autocompletadoGlobal=true;
+    return html;
+  };
+  // Sección alumno: cuando dos o tres ejercicios están combinados (superserie),
+  // se ejecutan ronda por ronda — serie 1 de cada uno, después serie 2 de cada
+  // uno, etc. — en vez de terminar todo un ejercicio y recién ahí pasar al otro.
+  const filaSerieCombinada=(e,ei,r)=>{
+    if(e.esTiempo){
+      const key=ei+'-'+r,s=e.seriesData[r];
+      const rem=serieTimers[key]?serieTimers[key].remaining:e.segs;
+      return `<div class="serie-row">
+        <span style="font-size:12px;font-weight:700;color:var(--txt);width:76px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${e.nombre}</span>
+        <div class="timer-serie" style="flex:1"><div class="timer-count" id="tc-${key}" style="${s.completada?'color:var(--ok)':''}">${s.completada?'✓':rem+'s'}</div></div>
+        ${s.completada?`<button class="timer-btn done" onclick="completarSerie(${ei},${r})">↩</button>`
+          :serieTimers[key]&&serieTimers[key].running?`<button class="timer-btn run" id="btn-tc-${key}" onclick="pausarTimerSerie('${key}')">⏸</button>`
+          :`<button class="timer-btn" id="btn-tc-${key}" onclick="iniciarTimerSerie('${key}',${e.segs})">▶</button>`}
+      </div>`;
+    }
+    const s=e.seriesData[r];
+    const prev=getUltimoUso(e.nombre);
+    const pp=prev&&prev.series&&prev.series[r]&&prev.series[r].peso?prev.series[r].peso:null;
+    if(!s.peso&&pp){s.peso=String(pp);autocompletadoGlobal=true;}
+    return `<div class="serie-row">
+      <span style="font-size:12px;font-weight:700;color:var(--txt);width:76px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${e.nombre}</span>
+      <input class="s-input" type="number" inputmode="numeric" placeholder="${e.reps}" value="${s.repsReal||''}" onchange="updSerie(${ei},${r},'repsReal',this.value)" style="${s.completada?'border-color:#166534;background:var(--okl);':''}" ${s.completada?'disabled':''}>
+      <input class="s-input" type="number" inputmode="decimal" placeholder="kg" value="${s.peso||''}" onchange="updSerie(${ei},${r},'peso',this.value)" style="${s.completada?'border-color:#166634;background:var(--okl);':''}" ${s.completada?'disabled':''}>
+      <button class="check-btn${s.completada?' done':''}" onclick="completarSerie(${ei},${r})">✓</button>
+    </div>`;
+  };
+  const bloqueSuperserieHtml=(idxs)=>{
+    const ejs=idxs.map(ei=>({ei,e:tandaActual.ejercicios[ei]}));
+    const maxSeries=Math.max(...ejs.map(x=>x.e.seriesData.length));
+    const header=ejs.map(({e,ei})=>`<div class="row" style="gap:8px;align-items:center;margin-bottom:6px">${gifImg(e,'32px')}<p style="font-size:13px;font-weight:700;color:var(--txt);flex:1">${e.nombre}</p><button onclick="abrirEditarTandaEj(${ei})" style="background:none;border:none;cursor:pointer;color:var(--txt2);font-size:15px;padding:2px 4px">✏️</button><a href="${videoSearchUrl(e.nombre)}" target="_blank" rel="noopener" style="font-size:11px;color:var(--ac);text-decoration:none;white-space:nowrap">▶ técnica</a></div>`).join('');
+    let rondas='';
+    for(let r=0;r<maxSeries;r++){
+      const filas=ejs.filter(({e})=>e.seriesData[r]).map(({ei,e})=>filaSerieCombinada(e,ei,r)).join('');
+      const rondaCompleta=ejs.every(({e})=>!e.seriesData[r]||e.seriesData[r].completada);
+      rondas+=`<div class="card" style="margin-bottom:8px;padding:10px 12px;${rondaCompleta?'border-color:#166534;':''}">
+        <p style="font-size:10px;font-weight:700;color:var(--txt3);margin-bottom:2px">RONDA ${r+1}${rondaCompleta?' ✅':''}</p>
+        ${filas}
+      </div>`;
+    }
+    return `<div style="border:1.5px dashed var(--ac);border-radius:12px;padding:10px 8px;margin-bottom:10px">
+      <p style="font-size:10px;font-weight:800;color:var(--ac);text-align:center;margin-bottom:8px">🔗 SUPERSERIE — una serie de cada uno, por ronda</p>
+      ${header}${rondas}
+    </div>`;
+  };
+  const bloquesEnt=[];
+  tandaActual.ejercicios.forEach((e,ei)=>{
+    if(bloquesEnt.length&&bloquesEnt[bloquesEnt.length-1].abierto){bloquesEnt[bloquesEnt.length-1].idxs.push(ei);bloquesEnt[bloquesEnt.length-1].abierto=!!e.combinadoConSiguiente;}
+    else bloquesEnt.push({idxs:[ei],abierto:!!e.combinadoConSiguiente});
+  });
+  body.innerHTML+=bloquesEnt.map(bl=>bl.idxs.length>1?bloqueSuperserieHtml(bl.idxs):tarjetaExHtml(tandaActual.ejercicios[bl.idxs[0]],bl.idxs[0])).join('');
   body.innerHTML+=`<button class="btn btn-ok" onclick="guardarTandaFin()" style="margin-top:4px">💾 Guardar tanda</button><button class="btn btn-s" onclick="salirEntrenar()" style="margin-top:8px">← Volver sin guardar</button>`;
+  if(autocompletadoGlobal)saveTanda();
 }
 function updSerie(ei,si,k,v){tandaActual.ejercicios[ei].seriesData[si][k]=v;saveTanda();let t=0,d=0;tandaActual.ejercicios.forEach(e=>{t+=e.series;e.seriesData.forEach(s=>{if(s.completada)d++;});});document.getElementById('ent-prog').textContent=d+'/'+t;}
-function completarSerie(ei,si){const s=tandaActual.ejercicios[ei].seriesData[si];s.completada=!s.completada;saveTanda();if(s.completada)toast('Serie '+(si+1)+' ✓');renderEntrenar();}
+function completarSerie(ei,si){
+  const s=tandaActual.ejercicios[ei].seriesData[si];s.completada=!s.completada;saveTanda();
+  if(s.completada)toast('Serie '+(si+1)+' ✓');
+  renderEntrenar();
+  chequearTandaCompleta();
+}
+// Sección alumno #3: cuando se tilda la última serie que faltaba de la tanda,
+// se pregunta si el alumno va a finalizar el día o va a hacer aeróbico, en vez
+// de dejarlo solo con el botón "Guardar tanda".
+function chequearTandaCompleta(){
+  if(tandaCompletaAvisada)return;
+  let total=0,done=0;
+  tandaActual.ejercicios.forEach(e=>{total+=e.series;e.seriesData.forEach(s=>{if(s.completada)done++;});});
+  if(total>0&&done===total){
+    tandaCompletaAvisada=true;
+    abrirModal('modal-tanda-completa');
+  }
+}
+function elegirFinTanda(tipo){
+  cerrarModal('modal-tanda-completa');
+  if(tipo==='seguir'){guardarTandaFin({irANueva:true});return;}
+  guardarTandaFin({irACerrar:true,activarCardio:tipo==='aerobico'});
+}
 function limpiarTimersActivos(){
   Object.keys(serieTimers).forEach(function(k){
     if(serieTimers[k]&&serieTimers[k].iv)clearInterval(serieTimers[k].iv);
   });
   serieTimers={};
 }
-function guardarTandaFin(){
+function guardarTandaFin(opts){
+  opts=opts||{};
   pararTimerT();if(!getSesionHoy()){crearSesion();iniciarCrono();}
   DB.sesionHoy.tandas.push({ejercicios:tandaActual.ejercicios.map(e=>{
     if(e.esTiempo){
-      return {nombre:e.nombre,grupo:e.grupo,esTiempo:true,segs:e.segs,series:e.seriesData.map(s=>({segs:e.segs,completada:s.completada?1:0}))};
+      return {nombre:e.nombre,grupo:e.grupo,esTiempo:true,segs:e.segs,barra:e.barra||0,series:e.seriesData.map(s=>({segs:e.segs,completada:s.completada?1:0}))};
     }
-    return {nombre:e.nombre,grupo:e.grupo,series:e.seriesData.map(s=>({reps:parseInt(s.repsReal||e.reps)||e.reps,peso:parseFloat(s.peso)||0}))};
+    return {nombre:e.nombre,grupo:e.grupo,esTiempo:false,barra:e.barra||0,series:e.seriesData.map(s=>({reps:parseInt(s.repsReal||e.reps)||e.reps,peso:parseFloat(s.peso)||0}))};
   })});
   limpiarTimersActivos();
-  guardarDB();clearTanda();timerTStart=null;toast('¡Tanda guardada! 💪');setTimeout(()=>goHome(),800);
+  guardarDB();clearTanda();timerTStart=null;
+  if(opts.irACerrar){
+    // Viene de "Finalizar el día" o "Aeróbico" en el aviso de tanda completa:
+    // va directo a la pantalla de cierre para cargar duración/cardio, en vez
+    // de volver a Inicio.
+    goTo('cerrar-dia');
+    if(opts.activarCardio&&!cintaActiva)toggleCinta();
+  } else if(opts.irANueva){
+    // Viene de "Agregar otra tanda" en el aviso de tanda completa: guarda esta
+    // tanda y va directo a armar la siguiente, sin pasar por Inicio.
+    toast('¡Tanda guardada! 💪');
+    goTo('nueva');
+  } else {
+    toast('¡Tanda guardada! 💪');setTimeout(()=>goHome(),800);
+  }
 }
 function pararTodosLosTimers(){
   pararTimerT();
@@ -1590,7 +1974,9 @@ function buildCtxIA(){
   const prog={};[...DB.historial].reverse().forEach(r=>r.ejercicios.forEach(e=>{if(!prog[e.nombre])prog[e.nombre]=[];const m=Math.max(...(e.series||[]).map(s=>s.peso||0));if(m>0)prog[e.nombre].push(m);}));
   const prStr=Object.entries(prog).filter(([n,h])=>h.length>=2).map(([n,h])=>`  - ${n}: ${h[0]}kg→${h[h.length-1]}kg`).join('\n');
   const hoy=getSesionHoy(),hoyStr=hoy?`\nHoy:\n${hoy.tandas.map((t,i)=>`  Tanda ${i+1}: ${t.ejercicios.map(e=>e.nombre).join(', ')}`).join('\n')}`:'' ;
-  return `Sos el entrenador de Mariano. Respondé en español, concreto y amigable. Máx 250 palabras.\n\nDatos:\n- Peso: ${pw?pw+'kg':'no registrado'}\n- Sesiones: ${DB.historial.length} totales, ${esteMes} este mes\n- Top ejercicios: ${top||'sin datos'}\n- Últimas sesiones:\n${ult||'  sin datos'}\n- Progresión:\n${prStr||'  sin datos'}${hoyStr}`;
+  const um=DB.medidas&&DB.medidas.length?DB.medidas[DB.medidas.length-1]:null;
+  const medStr=um?`\n- Medidas (${fechaCorta(um.fecha)}): `+CAMPOS_MEDIDAS.filter(c=>um[c]!=null).map(c=>MED_LABEL[c]+' '+um[c]+'cm').join(', '):'';
+  return `Sos el entrenador de Mariano. Respondé en español, concreto y amigable. Máx 250 palabras. Basá tus respuestas en los datos reales de abajo, no inventes números que no estén ahí. Si Mariano pregunta algo de nutrición, dietas, suplementos o lesiones/dolores, dale una orientación general pero aclarale explícitamente que para un plan de alimentación o un diagnóstico médico tiene que consultar a un nutricionista o profesional de la salud — vos solo tenés datos de entrenamiento, no historia clínica ni composición corporal completa.\n\nDatos:\n- Peso: ${pw?pw+'kg':'no registrado'}${medStr}\n- Sesiones: ${DB.historial.length} totales, ${esteMes} este mes\n- Top ejercicios: ${top||'sin datos'}\n- Últimas sesiones:\n${ult||'  sin datos'}\n- Progresión:\n${prStr||'  sin datos'}${hoyStr}`;
 }
 
 function renderIA(){
@@ -1638,7 +2024,7 @@ async function preguntarIA(q){
   try { localStorage.setItem('gymwork_chat_history', JSON.stringify(iaConv)); } catch(e){}
 
   try{
-    const r=await fetch('/.netlify/functions/ia',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:buildCtxIA(),messages:iaConv})});
+    const r=await fetch('/api/ia',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:buildCtxIA(),messages:iaConv})});
     const raw=await r.text();
     let data;
     try{data=JSON.parse(raw);}
@@ -1684,14 +2070,40 @@ function renderHistorial(){
     const[yr,mo]=mes.split('-');const mn=new Date(yr,mo-1,1).toLocaleDateString('es-AR',{month:'long',year:'numeric'});
     const cm=rs.reduce((a,r)=>a+(r.calorias||0),0);
     return`<div><div class="row-b" style="margin-bottom:10px"><p class="sec" style="color:var(--ac)">${mn.toUpperCase()} · ${rs.length} sesión${rs.length!==1?'es':''}</p>${cm?`<span class="cal-badge">🔥 ${cm.toLocaleString()} kcal</span>`:''}</div>
-    ${rs.map(r=>`<div class="card" style="margin-bottom:10px"><div class="row-b" style="margin-bottom:8px"><div><p style="font-weight:700;font-size:14px;color:var(--txt)">${fechaStr(r.fecha)}</p><p style="font-size:11px;color:var(--txt2);margin-top:2px">${r.tandas||1} tanda${(r.tandas||1)!==1?'s':''} · ${r.ejercicios.length} ejercicios</p></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">${r.duracionMin?`<span style="font-size:11px;color:var(--txt3)">⏱ ${r.duracionMin}min</span>`:''} ${r.calorias?`<span class="cal-badge">🔥 ${r.calorias} kcal</span>`:''}</div></div>${r.ejercicios.map(e=>{const mp=e.series?Math.max(...e.series.map(s=>s.peso||0)):0;const detalle=e.esTiempo?`${e.series?e.series.length:0}×${e.segs||(e.series&&e.series[0]?e.series[0].segs:0)||0}s`:`${e.series?e.series.length:0}×${e.series&&e.series[0]?e.series[0].reps:0}`;return`<div class="row" style="gap:10px;padding:6px 0;border-bottom:1px solid var(--brd)">${gifImg(e,'36px','8px')}<div style="flex:1"><p style="font-size:13px;font-weight:700;color:var(--txt)">${e.nombre}</p><p style="font-size:11px;color:var(--txt2)">${detalle}${mp?' · hasta '+mp+'kg':''}</p></div></div>`;}).join('')}${r.cinta?`<div style="margin-top:8px;background:var(--acl);border-radius:8px;padding:8px 10px;display:flex;align-items:center;gap:8px"><span>${r.cinta.tipo==='correr'?'🏃':'🚶'}</span><p style="font-size:12px;color:var(--txt2)">Cinta: ${r.cinta.min}min de ${r.cinta.tipo}${r.cinta.km?' · '+r.cinta.km+'km':''}</p></div>`:''}</div>`).join('')}</div>`;
+    ${rs.map(r=>`<div class="card" style="margin-bottom:10px"><div class="row-b" style="margin-bottom:8px"><div><p style="font-weight:700;font-size:14px;color:var(--txt)">${fechaStr(r.fecha)}</p><p style="font-size:11px;color:var(--txt2);margin-top:2px">${r.tandas||1} tanda${(r.tandas||1)!==1?'s':''} · ${r.ejercicios.length} ejercicios</p></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">${r.duracionMin?`<span style="font-size:11px;color:var(--txt3)">⏱ ${r.duracionMin}min</span>`:''} ${r.calorias?`<span class="cal-badge">🔥 ${r.calorias} kcal</span>`:''}</div></div>${r.ejercicios.map(e=>{const mp=e.series?Math.max(...e.series.map(s=>s.peso||0)):0;const detalle=e.esTiempo?`${e.series?e.series.length:0}×${e.segs||(e.series&&e.series[0]?e.series[0].segs:0)||0}s`:`${e.series?e.series.length:0}×${e.series&&e.series[0]?e.series[0].reps:0}`;return`<div class="row" style="gap:10px;padding:6px 0;border-bottom:1px solid var(--brd)">${gifImg(e,'36px','8px')}<div style="flex:1"><p style="font-size:13px;font-weight:700;color:var(--txt)">${e.nombre}</p><p style="font-size:11px;color:var(--txt2)">${detalle}${mp?' · hasta '+mp+'kg':''}</p></div></div>`;}).join('')}${r.cinta?`<div style="margin-top:8px;background:var(--acl);border-radius:8px;padding:8px 10px;display:flex;align-items:center;gap:8px"><span>${r.cinta.tipo==='correr'?'🏃':r.cinta.tipo==='bici'?'🚴':'🚶'}</span><p style="font-size:12px;color:var(--txt2)">${r.cinta.min}min de ${r.cinta.tipo}${r.cinta.km?' · '+r.cinta.km+'km':''}</p></div>`:''}</div>`).join('')}</div>`;
   }).join('');
 }
 
 // ═══ STATS ═══
+function renderPerfilCard(){
+  const p=DB.perfil||{};
+  const objTxt=OBJ_LABEL[p.objetivo]||'Sin definir',nivTxt=NIV_LABEL[p.nivel]||'Sin definir';
+  return `<div class="card" style="margin-bottom:14px">
+    <div class="row-b">
+      <div><p style="font-size:17px;font-weight:800;color:var(--txt)">${p.nombre||'Vos'}</p><p style="font-size:12px;color:var(--txt2)">${objTxt} · ${nivTxt}</p></div>
+      <button class="btn btn-s" style="width:auto;padding:8px 12px;font-size:12px" onclick="abrirOnboarding()">✎ Editar</button>
+    </div>
+    <div class="row-b" style="margin-top:12px;padding-top:12px;border-top:1px solid var(--brd)">
+      <p style="font-size:13px;color:var(--txt2)">👨‍🏫 ${p.profesorId?'Tenés profesor asignado':'Sin profesor asignado'}</p>
+      <button class="btn btn-s" style="width:auto;padding:8px 12px;font-size:12px" onclick="goTo('vincular-profesor')">${p.profesorId?'Cambiar':'Vincular'}</button>
+    </div>
+  </div>`;
+}
+function renderCuentaFooter(){
+  return `<div style="display:flex;gap:8px;padding:4px 0">
+      <button onclick="exportarDatos()" style="flex:1;background:var(--bg3);border:1px solid var(--brd);color:var(--txt2);font-size:11px;padding:8px;border-radius:8px;cursor:pointer">💾 Exportar datos</button>
+      <button onclick="document.getElementById('import-file').click()" style="flex:1;background:var(--bg3);border:1px solid var(--brd);color:var(--txt2);font-size:11px;padding:8px;border-radius:8px;cursor:pointer">📂 Importar datos</button>
+    </div>
+    <div style="text-align:center;padding:2px 0 4px;cursor:pointer" onclick="abrirModal('modal-changelog')">
+      <span class="version-badge" style="background:var(--bg3);border:1px solid var(--brd);border-radius:20px;padding:4px 12px;font-size:10px;font-weight:700;color:var(--txt3)">FORJA v2.8 — ¿Qué hay de nuevo?</span>
+    </div>
+    <button onclick="cerrarSesionApp()" style="background:var(--bg3);border:1px solid var(--brd);color:var(--txt2);font-size:13px;font-weight:600;text-align:center;padding:12px;border-radius:10px;cursor:pointer;width:100%">🚪 Cerrar sesión</button>
+    <button onclick="forzarResincronizarHistorial()" style="background:none;border:none;color:var(--txt3);font-size:11px;text-align:center;padding:6px;cursor:pointer;width:100%">🔄 Resincronizar historial con mi profesor</button>
+    <button onclick="resetearEmergencia()" style="background:none;border:none;color:var(--txt3);font-size:11px;text-align:center;padding:6px;cursor:pointer;width:100%">⚙️ ¿App trabada? Tocá aquí</button>`;
+}
 function renderStats(){
   const b=document.getElementById('stats-body');
-  if(!DB.historial.length){b.innerHTML='<div class="empty"><div style="font-size:48px">📊</div><p style="font-weight:700;color:var(--txt)">Completá entrenamientos para ver tu progreso</p></div>';return;}
+  if(!DB.historial.length){b.innerHTML=renderPerfilCard()+'<div class="empty"><div style="font-size:48px">📊</div><p style="font-weight:700;color:var(--txt)">Completá entrenamientos para ver tu progreso</p></div>'+renderCuentaFooter();return;}
   const tot=DB.historial.length,totMin=DB.historial.reduce((a,r)=>a+(r.duracionMin||0),0),totCal=DB.historial.reduce((a,r)=>a+(r.calorias||0),0),totC=DB.historial.reduce((a,r)=>a+(r.cinta?r.cinta.min:0),0);
   const racha=calcRacha();
   const mes=new Date().toISOString().slice(0,7),esteMes=DB.historial.filter(r=>r.fecha.startsWith(mes)).length,calMes=DB.historial.filter(r=>r.fecha.startsWith(mes)).reduce((a,r)=>a+(r.calorias||0),0);
@@ -1701,6 +2113,7 @@ function renderStats(){
   const pr={};[...DB.historial].reverse().forEach(r=>r.ejercicios.forEach(e=>{if(!pr[e.nombre])pr[e.nombre]={grupo:e.grupo,h:[]};const m=Math.max(...(e.series||[]).map(s=>s.peso||0));if(m>0)pr[e.nombre].h.push(m);}));
   const pH=DB.pesoCorporal.slice(-10);
   b.innerHTML=`
+    ${renderPerfilCard()}
     ${racha>0?`<div class="card" style="background:linear-gradient(135deg,#3d2010,#2d1a0e);border-color:var(--warn);display:flex;align-items:center;gap:12px"><span style="font-size:30px">🔥</span><div><p style="font-size:20px;font-weight:800;color:var(--txt)">${racha} día${racha!==1?'s':''} seguidos</p><p style="font-size:11px;color:var(--txt2)">¡Seguí así para no cortar la racha!</p></div></div>`:''}
     <p class="sec">Resumen</p>
     <div class="stat-grid"><div class="stat-card"><div class="stat-num">${tot}</div><div class="stat-label">Días en el gym</div></div><div class="stat-card"><div class="stat-num">${esteMes}</div><div class="stat-label">Este mes</div></div><div class="stat-card"><div class="stat-num">${(totMin/60).toFixed(1)}h</div><div class="stat-label">Horas totales</div></div><div class="stat-card"><div class="stat-num">${totC}min</div><div class="stat-label">Min en cinta</div></div></div>
@@ -1710,10 +2123,35 @@ function renderStats(){
     <div class="card">${['Esta semana','Semana pasada','Hace 2 sem.','Hace 3 sem.'].map((l,i)=>`<div style="margin-bottom:10px"><div class="row-b" style="margin-bottom:4px"><span style="font-size:13px;color:var(--txt)">${l}</span><span style="font-size:13px;font-weight:800;color:var(--ac)">${sems[i]} día${sems[i]!==1?'s':''}</span></div><div class="prog-bar-bg"><div class="prog-bar" style="width:${Math.round(sems[i]/maxS*100)}%"></div></div></div>`).join('')}</div>
     <p class="sec">⚖️ Peso corporal</p>
     ${pH.length?`<div class="card"><div class="row-b" style="margin-bottom:12px"><div><div style="font-size:28px;font-weight:800;color:var(--txt)">${pH[pH.length-1].peso} kg</div><div style="font-size:11px;color:var(--txt2)">Último registro</div></div>${pH.length>=2?`<div style="text-align:right"><div style="font-size:18px;font-weight:800;color:${pH[pH.length-1].peso<=pH[0].peso?'var(--ok)':'var(--warn)'}">${pH[pH.length-1].peso>pH[0].peso?'+':''}${(pH[pH.length-1].peso-pH[0].peso).toFixed(1)} kg</div><div style="font-size:11px;color:var(--txt2)">desde el inicio</div></div>`:''}</div><div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px">${pH.map((p,i)=>{const mx=Math.max(...pH.map(x=>x.peso)),mn=Math.min(...pH.map(x=>x.peso)),pct=Math.round((p.peso-mn)/(mx-mn||1)*60)+20;return`<div style="flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:4px;width:46px"><div style="width:34px;height:${pct}px;background:var(--ac);border-radius:4px 4px 0 0;opacity:${0.3+i/pH.length*0.7}"></div><span style="font-size:10px;font-weight:700;color:var(--txt)">${p.peso}</span><span style="font-size:9px;color:var(--txt3)">${new Date(p.fecha+'T12:00:00').toLocaleDateString('es-AR',{day:'numeric',month:'short'})}</span></div>`;}).join('')}</div></div>`:`<div class="card" style="text-align:center;padding:18px"><p style="font-size:13px;color:var(--txt2)">No registraste tu peso todavía</p><button class="btn btn-s" style="margin-top:10px" onclick="abrirModalPeso()">⚖️ Registrar ahora</button></div>`}
+    <p class="sec">📏 Medidas corporales</p>
+    ${renderMedidasStats()}
     ${top.length?`<p class="sec">Top ejercicios</p><div class="card">${top.map(([n,f],i)=>{const ex=DB.ejercicios.find(e=>e.nombre===n)||{nombre:n,grupo:'general'};const p=pr[n];const mej=p&&p.h.length>=2?p.h[p.h.length-1]-p.h[0]:null;return`<div class="row" style="gap:10px;padding:8px 0;border-bottom:1px solid var(--brd)"><span style="font-size:15px;font-weight:800;color:var(--txt3);width:20px">${i+1}</span>${gifImg(ex,'38px','8px')}<div style="flex:1"><p style="font-size:13px;font-weight:700;color:var(--txt)">${n}</p><p style="font-size:11px;color:var(--txt2)">${f} sesión${f!==1?'es':''}</p></div>${mej!==null?`<span style="font-size:13px;font-weight:800;color:${mej>0?'var(--ok)':mej<0?'var(--err)':'var(--txt2)'}">${mej>0?'+':''}${mej.toFixed(1)}kg</span>`:''}</div>`;}).join('')}</div>`:''}
-    <div class="suggest-card"><p style="font-size:14px;font-weight:700;color:var(--ac);margin-bottom:8px">🤖 Recomendaciones personalizadas</p><p style="font-size:13px;color:var(--txt2);margin-bottom:12px">El Entrenador IA analiza tu historial completo.</p><button class="btn btn-p" onclick="goTo('ia')">Abrir Entrenador IA →</button></div>`;
+    <div class="suggest-card"><p style="font-size:14px;font-weight:700;color:var(--ac);margin-bottom:8px">🤖 Recomendaciones personalizadas</p><p style="font-size:13px;color:var(--txt2);margin-bottom:12px">El Entrenador IA analiza tu historial completo.</p><button class="btn btn-p" onclick="goTo('ia')">Abrir Entrenador IA →</button></div>
+    ${renderCuentaFooter()}`;
 }
 
+const MED_LABEL={cintura:'Cintura',cadera:'Cadera',pecho:'Pecho',brazo:'Brazo',muslo:'Muslo',cuello:'Cuello'};
+function renderMedidasStats(){
+  if(!DB.medidas||!DB.medidas.length){
+    return `<div class="card" style="text-align:center;padding:18px"><p style="font-size:13px;color:var(--txt2)">Todavía no registraste tus medidas</p><button class="btn btn-s" style="margin-top:10px" onclick="abrirModalMedidas()">📏 Registrar ahora</button></div>`;
+  }
+  const ultima=DB.medidas[DB.medidas.length-1],primera=DB.medidas[0];
+  const filas=CAMPOS_MEDIDAS.filter(c=>ultima[c]!=null).map(c=>{
+    const actual=ultima[c],inicial=primera[c];
+    const delta=(inicial!=null&&DB.medidas.length>=2)?(actual-inicial):null;
+    return `<div class="row-b" style="padding:7px 0;border-bottom:1px solid var(--brd)">
+      <span style="font-size:13px;color:var(--txt2)">${MED_LABEL[c]}</span>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:15px;font-weight:800;color:var(--txt)">${actual} cm</span>
+        ${delta!==null&&delta!==0?`<span style="font-size:11px;font-weight:700;color:${delta<0?'var(--ok)':'var(--warn)'}">${delta>0?'+':''}${delta.toFixed(1)}</span>`:''}
+      </div>
+    </div>`;
+  }).join('');
+  return `<div class="card">
+    <div class="row-b" style="margin-bottom:8px"><p style="font-size:11px;color:var(--txt2)">Último registro: ${fechaCorta(ultima.fecha)}</p><button class="btn btn-s" style="padding:6px 12px;font-size:11px" onclick="abrirModalMedidas()">✎ Actualizar</button></div>
+    ${filas}
+  </div>`;
+}
 function calcRacha(){
   if(!DB.historial.length)return 0;
   const fechas=[...new Set(DB.historial.map(r=>r.fecha))].sort().reverse();
@@ -1746,7 +2184,7 @@ function eliminarEx(){const ex=DB.ejercicios.find(e=>e.id===exEditId);if(!ex||!c
 function resetearEmergencia(){
   const r=prompt('¿Qué querés hacer?\n1 - Descartar tanda\n2 - Guardar y cerrar el día\n3 - Cancelar');
   if(r==='1'){clearTanda();toast('Tanda descartada');goHome();}
-  else if(r==='2'){const ses=getSesionHoy();if(ses&&ses.tandas.length){DB.historial.unshift({id:'h'+Date.now(),fecha:DB.fechaActual,nombre:'Sesión del día',duracionMin:getCronoMin(),cinta:null,tandas:ses.tandas.length,calorias:null,ejercicios:ses.tandas.reduce(function(acc,t){return acc.concat(t.ejercicios||[]);},[])});}DB.sesionHoy=null;clearTanda();pararCrono();guardarDB();toast('Guardado');goHome();}
+  else if(r==='2'){const ses=getSesionHoy();if(ses&&ses.tandas.length){DB.historial.unshift({id:'h'+Date.now(),fecha:DB.fechaActual,nombre:'Sesión del día',duracionMin:getCronoMin(),cinta:null,tandas:ses.tandas.length,calorias:null,ejercicios:soloCompletados(ses.tandas.reduce(function(acc,t){return acc.concat(t.ejercicios||[]);},[]))});sincronizarHistorialFirestore();sincronizarHistorialCompletoFirestore();}DB.sesionHoy=null;clearTanda();pararCrono();guardarDB();toast('Guardado');goHome();}
 }
 
 // ═══ BACKUP / RESTORE ═══
@@ -2096,6 +2534,23 @@ async function confirmarRolPendiente(){
   }
 }
 // Llamada por el módulo Firebase cada vez que cambia el estado de sesión.
+// Sección alumno #3: si entrás desde un navegador/dispositivo nuevo, el
+// historial local está vacío (vive en localStorage). Esto lo trae de
+// Firestore para que la IA y la pantalla de Historial tengan todo, no
+// solo lo hecho en este aparato.
+async function sincronizarHistorialLocal(){
+  try{
+    if(!usuarioActual||!window.fbListarHistorialAlumno)return;
+    const remoto=await window.fbListarHistorialAlumno(usuarioActual.uid);
+    const idsLocales=new Set(DB.historial.map(r=>r.id));
+    let agregados=0;
+    remoto.forEach(r=>{if(r.id&&!idsLocales.has(r.id)){DB.historial.push(r);agregados++;}});
+    if(agregados){
+      DB.historial.sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||'')||String(b.id||'').localeCompare(String(a.id||'')));
+      guardarDB();
+    }
+  }catch(e){console.error('No se pudo traer el historial de Firestore:',e);}
+}
 async function manejarEstadoAuth(user){
   usuarioActual=user;
   if(!user){
@@ -2126,6 +2581,7 @@ async function manejarEstadoAuth(user){
   if(perfilRemoto.objetivo){
     // Tiene rol Y ya completó el wizard de onboarding.
     DB.perfil=perfilRemoto;guardarDB();
+    if(perfilRemoto.rol==='alumno')sincronizarHistorialLocal().then(()=>sincronizarHistorialCompletoFirestore());
     aplicarNavSegunRol();
     goHome();
   } else {
@@ -2398,11 +2854,9 @@ function renderMiRutinaEditor(){
     else bloques.push({idxs:[i],abierto:!!dia.ejercicios[i].combinadoConSiguiente});
   }
   function tarjetaEj(e,i){
-    return `<div class="ex-card">${gifImg(e,'40px')}<div style="flex:1"><p style="font-weight:700;font-size:14px;color:var(--txt)">${e.nombre}</p><p style="font-size:12px;color:var(--txt2)">${e.esTiempo?e.series+'×'+e.segs+'s':e.series+'×'+e.reps+' reps'}</p></div>
-      <div style="display:flex;flex-direction:column;gap:2px">
-        <button onclick="moverEjDia(${i},-1)" ${i===0?'disabled style="opacity:.25;background:none;border:none;color:var(--txt2);font-size:13px;padding:1px 5px"':'style="background:none;border:none;color:var(--txt2);font-size:13px;cursor:pointer;padding:1px 5px"'}>▲</button>
-        <button onclick="moverEjDia(${i},1)" ${i===dia.ejercicios.length-1?'disabled style="opacity:.25;background:none;border:none;color:var(--txt2);font-size:13px;padding:1px 5px"':'style="background:none;border:none;color:var(--txt2);font-size:13px;cursor:pointer;padding:1px 5px"'}>▼</button>
-      </div>
+    return `<div class="ex-card" data-idx="${i}">
+      <span onpointerdown="iniciarDragEj(event,${i})" title="Mantené presionado y arrastrá" style="cursor:grab;color:var(--txt3);font-size:18px;padding:2px 6px;touch-action:none;user-select:none;line-height:1">⠿</span>
+      ${gifImg(e,'40px')}<div style="flex:1"><p style="font-weight:700;font-size:14px;color:var(--txt)">${e.nombre}</p><p style="font-size:12px;color:var(--txt2)">${e.esTiempo?e.series+'×'+e.segs+'s':e.series+'×'+e.reps+' reps'}</p></div>
       <button onclick="abrirEditarEjDia(${i})" style="background:none;border:none;color:var(--ac);font-size:15px;cursor:pointer;padding:2px 6px">✎</button>
       <button onclick="quitarDeMiRutina(${i})" style="background:none;border:none;color:var(--err);font-size:20px;cursor:pointer;padding:2px 6px">×</button>
     </div>`;
@@ -2433,13 +2887,52 @@ function quitarDeMiRutina(i){
   guardarRutinaVista();
   renderMiRutinaEditor();
 }
-function moverEjDia(i,dir){
+let dragEj=null;
+function iniciarDragEj(ev,i){
+  ev.preventDefault();ev.stopPropagation();
+  // Al empezar a arrastrar se desarman las superseries del día: las
+  // posiciones van a cambiar, así que "combinado con el siguiente" ya no
+  // tendría sentido — el usuario las vuelve a combinar con 🔗 si quiere.
+  const dias0=diasDeRutina(rutinaVista);
+  dias0[rutinaDiaActivo].ejercicios.forEach(e=>{e.combinadoConSiguiente=false;});
+  rutinaVista={nombre:(rutinaVista&&rutinaVista.nombre)||'Mi rutina',dias:dias0,actualizadoEn:new Date().toISOString()};
+  dragEj={idx:i,startY:ev.clientY};
+  renderMiRutinaEditor();
+  const card=document.querySelector('.ex-card[data-idx="'+i+'"]');
+  if(card){card.style.position='relative';card.style.zIndex='50';card.style.boxShadow='0 8px 20px rgba(0,0,0,.45)';card.style.opacity='0.95';}
+  document.addEventListener('pointermove',moverDragEj);
+  document.addEventListener('pointerup',soltarDragEj);
+  document.addEventListener('pointercancel',soltarDragEj);
+}
+function moverDragEj(ev){
+  if(!dragEj)return;
+  ev.preventDefault();
+  const card=document.querySelector('.ex-card[data-idx="'+dragEj.idx+'"]');
+  if(!card)return;
+  card.style.transform='translateY('+(ev.clientY-dragEj.startY)+'px)';
   const dias=diasDeRutina(rutinaVista);
   const arr=dias[rutinaDiaActivo].ejercicios;
-  const j=i+dir;
-  if(j<0||j>=arr.length)return;
-  [arr[i],arr[j]]=[arr[j],arr[i]];
-  rutinaVista={nombre:(rutinaVista&&rutinaVista.nombre)||'Mi rutina',dias,actualizadoEn:new Date().toISOString()};
+  const otras=Array.from(document.querySelectorAll('#rutinas-body .ex-card')).filter(c=>c!==card);
+  let destino=0;
+  otras.forEach(c=>{const r=c.getBoundingClientRect();if(ev.clientY>r.top+r.height/2)destino++;});
+  destino=Math.max(0,Math.min(arr.length-1,destino));
+  if(destino!==dragEj.idx){
+    const item=arr[dragEj.idx];
+    arr.splice(dragEj.idx,1);
+    arr.splice(destino,0,item);
+    rutinaVista={nombre:(rutinaVista&&rutinaVista.nombre)||'Mi rutina',dias,actualizadoEn:new Date().toISOString()};
+    dragEj.idx=destino;
+    renderMiRutinaEditor();
+    const nueva=document.querySelector('.ex-card[data-idx="'+destino+'"]');
+    if(nueva){nueva.style.position='relative';nueva.style.zIndex='50';nueva.style.boxShadow='0 8px 20px rgba(0,0,0,.45)';nueva.style.opacity='0.95';nueva.style.transform='translateY('+(ev.clientY-dragEj.startY)+'px)';}
+  }
+}
+function soltarDragEj(){
+  if(!dragEj)return;
+  document.removeEventListener('pointermove',moverDragEj);
+  document.removeEventListener('pointerup',soltarDragEj);
+  document.removeEventListener('pointercancel',soltarDragEj);
+  dragEj=null;
   guardarRutinaVista();
   renderMiRutinaEditor();
 }
@@ -2513,7 +3006,7 @@ function aplicarNavSegunRol(){
       btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2v20M18 2v20M2 7h4M2 12h4M2 17h4M18 7h4M18 12h4M18 17h4M6 12h12"/></svg>Gimnasios';
     } else {
       btn.setAttribute('onclick',"goTo('stats')");
-      btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Progreso';
+      btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Perfil';
     }
   });
   // "Historial" es el registro de entrenamientos propios: no tiene sentido para
@@ -2555,7 +3048,7 @@ async function renderHomeProfesor(){
     <div class="card" style="cursor:pointer" onclick="goTo('mis-alumnos')"><div class="row-b"><p style="font-weight:700;color:var(--txt);font-size:14px">👥 Ver mis alumnos</p><span style="color:var(--txt3)">›</span></div></div>
     <div class="card" style="cursor:pointer" onclick="goTo('mis-gimnasios')"><div class="row-b"><p style="font-weight:700;color:var(--txt);font-size:14px">🏢 Administrar gimnasios</p><span style="color:var(--txt3)">›</span></div></div>
     <div class="card" style="cursor:pointer" onclick="goTo('rutinas')"><div class="row-b"><p style="font-weight:700;color:var(--txt);font-size:14px">📋 Plantillas de rutina</p><span style="color:var(--txt3)">›</span></div></div>
-    <button onclick="cerrarSesionApp()" style="background:none;border:none;color:var(--txt3);font-size:12px;text-align:center;padding:8px;cursor:pointer;width:100%">🚪 Cerrar sesión</button>`;
+    <button onclick="cerrarSesionApp()" style="background:var(--bg3);border:1px solid var(--brd);color:var(--txt2);font-size:13px;font-weight:600;text-align:center;padding:12px;border-radius:10px;cursor:pointer;width:100%">🚪 Cerrar sesión</button>`;
 }
 function copiarCodigoProfesor(codigo){
   if(navigator.clipboard)navigator.clipboard.writeText(codigo).then(()=>toast('Código copiado ✓')).catch(()=>toast('Código: '+codigo));
@@ -2585,8 +3078,67 @@ async function renderMisAlumnos(){
         ${misGimnasios.map(g=>`<option value="${g.id}" ${a.gimnasioId===g.id?'selected':''}>${g.nombre}</option>`).join('')}
       </select>
     </div>
-    <button class="btn btn-p" style="padding:10px;font-size:13px" onclick="abrirRutinaDeAlumno('${a.uid}','${(a.nombre||a.email||'Alumno').replace(/'/g,"\\'")}');goTo('rutinas');setRutinasTab('mia')">📋 Ver / editar su rutina</button>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-p" style="flex:1;padding:10px;font-size:13px" onclick="abrirRutinaDeAlumno('${a.uid}','${(a.nombre||a.email||'Alumno').replace(/'/g,"\\'")}');goTo('rutinas');setRutinasTab('mia')">📋 Rutina</button>
+      <button class="btn btn-s" style="flex:1;padding:10px;font-size:13px" onclick="abrirHistorialAlumno('${a.uid}','${(a.nombre||a.email||'Alumno').replace(/'/g,"\\'")}')">📈 Historial</button>
+    </div>
   </div>`).join('');
+}
+let historialAlumnoUid=null,historialAlumnoNombre=null,historialAlumnoData=null;
+let historialAlumnoFiltro='todo';
+async function abrirHistorialAlumno(uid,nombre){
+  historialAlumnoUid=uid;historialAlumnoNombre=nombre;historialAlumnoData=null;historialAlumnoFiltro='todo';
+  document.getElementById('ha-titulo').textContent='Historial de '+nombre;
+  const b=document.getElementById('historial-alumno-body');
+  b.innerHTML='<div class="empty"><div style="font-size:36px">📈</div><p style="color:var(--txt2);font-size:13px">Cargando…</p></div>';
+  goTo('historial-alumno');
+  try{
+    historialAlumnoData=await window.fbListarHistorialAlumno(uid);
+  }catch(e){
+    console.error('No se pudo cargar el historial del alumno:',e);
+    b.innerHTML=`<div class="empty"><div style="font-size:36px">⚠️</div><p style="color:var(--txt2);font-size:13px">No se pudo cargar el historial${e&&e.code?' ('+e.code+')':''}.</p></div>`;
+    return;
+  }
+  renderHistorialAlumnoBody();
+}
+function setHistorialAlumnoFiltro(f){historialAlumnoFiltro=f;renderHistorialAlumnoBody();}
+function renderHistorialAlumnoBody(){
+  const b=document.getElementById('historial-alumno-body');
+  const data=historialAlumnoData||[];
+  if(!data.length){
+    b.innerHTML=`<div class="empty"><div style="font-size:36px">📈</div><p style="font-weight:700;color:var(--txt)">${historialAlumnoNombre} todavía no registró entrenamientos</p></div>`;
+    return;
+  }
+  const hoy=Date.now();
+  const haceUnMes=hoy-30*86400000, haceUnAno=hoy-365*86400000;
+  const tFecha=r=>new Date((r.fecha||'')+'T12:00:00').getTime();
+  const totalMes=data.filter(r=>tFecha(r)>=haceUnMes).length;
+  const totalAno=data.filter(r=>tFecha(r)>=haceUnAno).length;
+  const fechas=data.map(r=>r.fecha).filter(Boolean).sort();
+  const desde=fechas.length?fechaCorta(fechas[0]):'—';
+  const filtrada=historialAlumnoFiltro==='mes'?data.filter(r=>tFecha(r)>=haceUnMes)
+    :historialAlumnoFiltro==='ano'?data.filter(r=>tFecha(r)>=haceUnAno)
+    :data;
+  b.innerHTML=`
+    <div class="card" style="margin-bottom:10px">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center">
+        <div><p style="font-size:20px;font-weight:800;color:var(--txt)">${data.length}</p><p style="font-size:10px;color:var(--txt3)">TOTAL</p></div>
+        <div><p style="font-size:20px;font-weight:800;color:var(--txt)">${totalAno}</p><p style="font-size:10px;color:var(--txt3)">ÚLTIMO AÑO</p></div>
+        <div><p style="font-size:20px;font-weight:800;color:var(--txt)">${totalMes}</p><p style="font-size:10px;color:var(--txt3)">ÚLTIMO MES</p></div>
+      </div>
+      <p style="font-size:11px;color:var(--txt3);text-align:center;margin-top:10px;border-top:1px solid var(--brd);padding-top:8px">Entrena desde el ${desde}</p>
+    </div>
+    <div class="chips" style="margin-bottom:10px">
+      <button class="chip${historialAlumnoFiltro==='todo'?' sel':''}" onclick="setHistorialAlumnoFiltro('todo')">Todo</button>
+      <button class="chip${historialAlumnoFiltro==='ano'?' sel':''}" onclick="setHistorialAlumnoFiltro('ano')">Último año</button>
+      <button class="chip${historialAlumnoFiltro==='mes'?' sel':''}" onclick="setHistorialAlumnoFiltro('mes')">Último mes</button>
+    </div>
+    ${filtrada.length?filtrada.map(r=>`<div class="card" style="margin-bottom:10px">
+      <div class="row-b"><p style="font-weight:700;font-size:14px;color:var(--txt)">${r.nombre||'Sesión'}${r.tipo==='circuito'?' ⏱':''}</p><span class="badge-ok">${fechaCorta(r.fecha)}</span></div>
+      <p style="font-size:12px;color:var(--txt2);margin-top:4px">${(r.ejercicios||[]).map(e=>e.nombre).join(' · ')}</p>
+      <p style="font-size:11px;color:var(--txt3);margin-top:4px">${r.duracionMin?'⏱ '+r.duracionMin+'min':''}${r.calorias?' · 🔥 '+r.calorias+' kcal':''}${r.tandas?' · '+r.tandas+' tanda'+(r.tandas!==1?'s':''):''}</p>
+    </div>`).join('')
+    :'<div class="empty" style="padding:24px 20px"><p style="font-size:12px;color:var(--txt2)">Sin sesiones en este período</p></div>'}`;
 }
 async function asignarGimnasioAlumno(alumnoUid,gimnasioId){
   try{
@@ -2648,37 +3200,35 @@ async function eliminarGimnasio(id){
   }catch(e){console.error('No se pudo eliminar el gimnasio:',e);toast('No se pudo eliminar'+(e&&e.code?' ('+e.code+')':'')+'. Probá de nuevo.');}
 }
 
-// ═══ VINCULAR CON UN PROFESOR (alumno) ═══
+// ═══ VINCULAR / CAMBIAR DE PROFESOR (alumno) ═══
 async function renderVincularProfesor(){
   const b=document.getElementById('vincular-profesor-body');
-  if(DB.perfil&&DB.perfil.profesorId){
-    b.innerHTML=`<div class="card" style="text-align:center">
-      <p style="font-size:14px;color:var(--txt2);margin-bottom:10px">Ya estás vinculado con un profesor.</p>
-      <button class="btn btn-err" onclick="desvincularProfesor()">Desvincular</button>
-    </div>`;
-    return;
-  }
-  b.innerHTML='<div class="empty"><div style="font-size:40px">👥</div><p style="color:var(--txt2);font-size:13px">Cargando profesores…</p></div>';
-  b.innerHTML=`
+  b.innerHTML='<div class="empty"><div style="font-size:40px">👥</div><p style="color:var(--txt2);font-size:13px">Cargando…</p></div>';
+  let profesores=[];
+  try{ profesores=await window.fbListarProfesores(); }
+  catch(e){ console.error('No se pudo cargar la lista de profesores:',e); }
+  const profesorIdActual=DB.perfil&&DB.perfil.profesorId;
+  const actual=profesorIdActual?profesores.find(p=>p.uid===profesorIdActual):null;
+  const cardActual=profesorIdActual?`<div class="card" style="margin-bottom:14px">
+      <p class="sec" style="margin-top:0">Tu profesor actual</p>
+      <p style="font-weight:800;font-size:16px;color:var(--txt)">${actual?(actual.nombre||'Profesor'):'Profesor'}</p>
+      <button class="btn btn-err" style="margin-top:10px" onclick="desvincularProfesor()">Desvincular</button>
+    </div>
+    <p class="sec">Cambiar de profesor</p>`:'';
+  const disponibles=profesores.filter(p=>p.uid!==profesorIdActual);
+  b.innerHTML=`${cardActual}
     <div class="card">
       <p class="sec" style="margin-top:0">Tengo un código</p>
       <div style="display:flex;gap:8px">
-        <input type="text" id="codigo-profesor" placeholder="Ej: AB12CD" style="flex:1;text-transform:uppercase">
+        <input type="text" id="codigo-profesor" placeholder="Ej: AB12" style="flex:1;text-transform:uppercase">
         <button class="btn btn-p" style="width:auto;padding:10px 16px" onclick="vincularConCodigo()">Vincular</button>
       </div>
     </div>
     <p class="sec">O elegí de la lista</p>
-    <div id="lista-profesores"><div class="empty"><div style="font-size:30px">⏳</div></div></div>`;
-  try{
-    const profes=await window.fbListarProfesores();
-    document.getElementById('lista-profesores').innerHTML=profes.length?profes.map(p=>`<div class="rutina-card tag-fuerza" style="cursor:pointer;margin-bottom:10px" onclick="vincularConProfesor('${p.uid}')">
+    <div id="lista-profesores">${disponibles.length?disponibles.map(p=>`<div class="rutina-card tag-fuerza" style="cursor:pointer;margin-bottom:10px" onclick="vincularConProfesor('${p.uid}')">
       <p style="font-weight:800;font-size:15px;color:var(--txt)">${p.nombre||'Profesor'}</p>
       <p style="font-size:11px;color:var(--txt3)">Código: ${p.codigo}</p>
-    </div>`).join(''):'<div class="empty"><p style="font-size:12px;color:var(--txt2)">Todavía no hay profesores disponibles.</p></div>';
-  }catch(e){
-    console.error('No se pudo cargar la lista de profesores:',e);
-    document.getElementById('lista-profesores').innerHTML='<div class="empty"><p style="font-size:12px;color:var(--txt2)">No se pudo cargar la lista. Probá con el código.</p></div>';
-  }
+    </div>`).join(''):'<div class="empty"><p style="font-size:12px;color:var(--txt2)">No hay otros profesores disponibles. Probá con el código.</p></div>'}</div>`;
 }
 async function vincularConCodigo(){
   const cod=document.getElementById('codigo-profesor').value.trim().toUpperCase();
@@ -2690,10 +3240,12 @@ async function vincularConCodigo(){
   }catch(e){console.error('Error al buscar el código:',e);toast('No se pudo vincular. Probá de nuevo.');}
 }
 async function vincularConProfesor(profesorUid){
+  const yaTenia=DB.perfil&&DB.perfil.profesorId;
+  if(yaTenia&&yaTenia!==profesorUid&&!confirm('Esto va a reemplazar a tu profesor actual por el nuevo. ¿Continuar?'))return;
   try{
     await window.fbGuardarPerfil(usuarioActual.uid,{profesorId:profesorUid});
     DB.perfil.profesorId=profesorUid;guardarDB();
-    toast('¡Vinculado con tu profesor! 💪');
+    toast(yaTenia?'Profesor actualizado 💪':'¡Vinculado con tu profesor! 💪');
     goHome();
   }catch(e){console.error('No se pudo vincular:',e);toast('No se pudo vincular. Probá de nuevo.');}
 }
@@ -2861,10 +3413,10 @@ function empezarRutina(){
     let ex=DB.ejercicios.find(x=>x.nombre===e.nombre);
     if(!ex){ex={id:DB.nextId++,nombre:e.nombre,grupo:e.grupo};DB.ejercicios.push(ex);}
     if(e.esTiempo){
-      tandaActual.ejercicios.push({id:ex.id,nombre:ex.nombre,grupo:ex.grupo,series:e.series,reps:0,segs:e.segs,esTiempo:true,barra:0,
+      tandaActual.ejercicios.push({id:ex.id,nombre:ex.nombre,grupo:ex.grupo,series:e.series,reps:0,segs:e.segs,esTiempo:true,barra:0,combinadoConSiguiente:!!e.combinadoConSiguiente,
         seriesData:Array.from({length:e.series},()=>({completada:false}))});
     } else {
-      tandaActual.ejercicios.push({id:ex.id,nombre:ex.nombre,grupo:ex.grupo,series:e.series,reps:e.reps,segs:0,esTiempo:false,barra:0,
+      tandaActual.ejercicios.push({id:ex.id,nombre:ex.nombre,grupo:ex.grupo,series:e.series,reps:e.reps,segs:0,esTiempo:false,barra:0,combinadoConSiguiente:!!e.combinadoConSiguiente,
         seriesData:Array.from({length:e.series},()=>({peso:'',repsReal:'',completada:false}))});
     }
   });
@@ -3052,6 +3604,7 @@ function finalizarEstacion(){
   DB.historial.unshift({id:'h'+Date.now(),fecha:DB.fechaActual,nombre:'Estación funcional',tipo:'circuito',duracionMin:Math.round(totalSeg/60),tandas:1,calorias:null,cinta:null,
     ejercicios:c.ejercicios.map(e=>({nombre:e.nombre,grupo:e.grupo,esTiempo:true,segs:c.trabajo,series:Array.from({length:c.rondas},()=>({segs:c.trabajo,completada:1}))}))});
   guardarDB();
+  sincronizarHistorialFirestore();sincronizarHistorialCompletoFirestore();
   const cont=document.getElementById('est-run-body');
   cont.className='station-run fase-trabajo';
   cont.innerHTML=`<span style="font-size:56px">🏆</span>
@@ -3249,6 +3802,25 @@ if(DB.historial.length === 0 && DB.pesoCorporal.length === 0){
     await deleteDoc(doc(db, 'usuarios', uid, 'misEstaciones', estacionId));
   };
 
+  // Historial del alumno espejado en Firestore (además del localStorage local)
+  // para que su profesor pueda verlo. Se sube en "mejor esfuerzo": si falla,
+  // el entrenamiento igual queda guardado localmente sin ningún problema.
+  window.fbGuardarHistorialEntry = async function(uid, datos){
+    // Usamos el id propio de la sesión (datos.id) como id del documento en vez de
+    // dejar que Firestore invente uno con addDoc: así subir la misma entrada dos
+    // veces (por ejemplo al reintentar el historial completo) no genera duplicados
+    // en la pantalla del profesor.
+    if(datos && datos.id){
+      await setDoc(doc(db, 'usuarios', uid, 'historial', String(datos.id)), datos, { merge: true });
+    } else {
+      await addDoc(collection(db, 'usuarios', uid, 'historial'), datos);
+    }
+  };
+  window.fbListarHistorialAlumno = async function(uid){
+    const snap = await getDocs(collection(db, 'usuarios', uid, 'historial'));
+    return snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a,b) => (b.fecha||'').localeCompare(a.fecha||''));
+  };
+
   // Descubrir profesores (para que un alumno se vincule).
   window.fbListarProfesores = async function(){
     const snap = await getDocs(collection(db, 'profesoresPublicos'));
@@ -3264,5 +3836,6 @@ if(DB.historial.length === 0 && DB.pesoCorporal.length === 0){
     if (window.manejarEstadoAuth) window.manejarEstadoAuth(user);
   });
 </script>
+</div>
 </body>
 </html>
