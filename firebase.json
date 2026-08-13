@@ -1,24 +1,17 @@
 {
   "hosting": {
-<<<<<<< HEAD
     "target": "entrenando2026",
     "public": "public",
-=======
-    "public": ".",
->>>>>>> a1684fc1c1b7880a8bc39d96eaa955ac23f49e8d
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       { "source": "/api/ia", "function": "ia" },
       { "source": "**", "destination": "/index.html" }
-<<<<<<< HEAD
     ],
     "headers": [
       {
         "source": "**/*.@(js|css)",
         "headers": [{ "key": "Cache-Control", "value": "max-age=3600" }]
       }
-=======
->>>>>>> a1684fc1c1b7880a8bc39d96eaa955ac23f49e8d
     ]
   },
   "firestore": {
