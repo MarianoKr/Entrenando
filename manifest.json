@@ -1,0 +1,31 @@
+{
+  "background_color": "#ffffff",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "FORJA",
+  "orientation": "portrait",
+  "scope": "/",
+  "short_name": "FORJA",
+  "start_url": "/https://entrenando2026.web.app/",
+  "theme_color": "#efcd42",
+  "icons": [
+    {
+      "src": "https://entrenando2026.web.app/favicon.ico",
+      "type": "image/x-icon",
+      "isSquare": false,
+      "isPng": false,
+      "isWebp": false,
+      "isJpg": false,
+      "width": 0,
+      "is512x512": false,
+      "is256x256": false,
+      "is192x192": false
+    }
+  ],
+  "lang": "es",
+  "categories": [
+    "fitness"
+  ],
+  "id": "entrenando2026",
+  "description": "Aplicación de entrenamiento y rutina."
+}

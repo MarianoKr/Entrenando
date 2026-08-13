@@ -1,0 +1,52 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function rol()        { return request.auth.token.rol; }
+    function estaLogueado(){ return request.auth != null; }
+    function esDueno(uid)  { return estaLogueado() && request.auth.uid == uid; }
+    function esAdmin()     { return estaLogueado() && rol() == 'admin'; }
+    function esSuProfesor(uid) {
+      return estaLogueado() && rol() == 'profesor'
+        && get(/databases/$(database)/documents/usuarios/$(uid)).data.profesorId == request.auth.uid;
+    }
+
+    match /usuarios/{uid} {
+      allow read:  if esDueno(uid) || esSuProfesor(uid) || esAdmin();
+      // El campo "rol" no se puede auto-modificar desde el cliente una vez creado:
+      // eso lo controla la Cloud Function asignarRol (custom claims).
+      allow create: if esDueno(uid);
+      allow update: if esDueno(uid) && request.resource.data.rol == resource.data.rol;
+      allow delete: if esAdmin();
+
+      match /historial/{doc} {
+        allow read:  if esDueno(uid) || esSuProfesor(uid) || esAdmin();
+        allow write: if esDueno(uid) || esAdmin();
+      }
+      match /ejerciciosPersonalizados/{doc} {
+        allow read, write: if esDueno(uid) || esAdmin();
+      }
+      match /pesoCorporal/{doc} {
+        allow read, write: if esDueno(uid) || esAdmin();
+      }
+      match /fcmTokens/{doc} {
+        allow read, write: if esDueno(uid) || esAdmin();
+      }
+      // "Mi rutina": un único documento vivo (usuarios/{uid}/rutina/actual),
+      // editable tanto por el alumno dueño como por su profesor asignado —
+      // ambos ven y modifican la MISMA rutina, no hay copias separadas.
+      match /rutina/{doc} {
+        allow read, write: if esDueno(uid) || esSuProfesor(uid) || esAdmin();
+      }
+    }
+
+    match /ejerciciosGlobales/{doc} {
+      allow read: if estaLogueado();
+      allow write: if esAdmin();
+    }
+    match /rutinasPlantilla/{doc} {
+      allow read: if estaLogueado();
+      allow write: if esAdmin();
+    }
+  }
+}

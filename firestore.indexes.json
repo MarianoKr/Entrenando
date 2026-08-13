@@ -1,0 +1,20 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "usuarios",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "profesorId", "order": "ASCENDING" },
+        { "fieldPath": "rol", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "historial",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "fecha", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

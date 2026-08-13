@@ -1,0 +1,19 @@
+{
+  "projects": {
+    "default": "entrenando-8a141"
+  },
+<<<<<<< HEAD
+  "targets": {
+    "entrenando-8a141": {
+      "hosting": {
+        "entrenando2026": [
+          "entrenando2026"
+        ]
+      }
+    }
+  },
+=======
+  "targets": {},
+>>>>>>> a1684fc1c1b7880a8bc39d96eaa955ac23f49e8d
+  "etags": {}
+}
