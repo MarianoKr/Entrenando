@@ -63,4 +63,32 @@ exports.recalcularStats = onDocumentCreated(
       racha = 1;
       for (let i = 0; i < fechas.length - 1; i++) {
         const d1 = new Date(fechas[i] + "T12:00:00");
-        const d2 = new Date(fechas[i + 1] + "T12:0
+        const d2 = new Date(fechas[i + 1] + "T12:00:00");
+        if (Math.round((d1 - d2) / 86400000) === 1) racha++;
+        else break;
+      }
+    }
+
+    // Balance muscular de los últimos 30 días
+    const desde = Date.now() - 30 * 86400000;
+    const freq = {};
+    sesiones
+      .filter((s) => new Date(s.fecha + "T12:00:00").getTime() >= desde)
+      .forEach((s) => (s.ejercicios || []).forEach((e) => {
+        freq[e.grupo] = (freq[e.grupo] || 0) + 1;
+      }));
+
+    await db.collection("usuarios").doc(uid).set(
+      {
+        statsAgregadas: {
+          racha,
+          totalSesiones: FieldValue.increment(1),
+          ultimaFecha: sesiones[0]?.fecha || null,
+          balanceMuscular: freq,
+          actualizadoEn: new Date().toISOString(),
+        },
+      },
+      { merge: true }
+    );
+  }
+);
